@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) UIWindow *window;
 @property NSString *lastTimeToken;
+@property NSString *lastClientIdentifier;
 
 #pragma mark -
 

@@ -186,6 +186,7 @@
     if ([[PubNub subscribedChannels] count] > 0) {
 
         lastTimeToken = [[[PubNub subscribedChannels] lastObject] updateTimeToken];
+		self.lastClientIdentifier = [PubNub clientIdentifier];
     }
 
     PNLog(PNLogGeneralLevel, self, @"PubNub client should restore subscription from last time token? %@ (last time token: %@)",
