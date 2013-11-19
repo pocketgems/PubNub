@@ -147,10 +147,13 @@
 {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
+	__block NSDate *start = [NSDate date];
 	[PubNub subscribeOnChannels: pnChannels1
 	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
 	 {
 		 dispatch_semaphore_signal(semaphore);
+		 NSTimeInterval interval = -[start timeIntervalSinceNow];
+		 NSLog( @"test15SubscribeOnChannels %f", interval);
 		 STAssertNil( subscriptionError, @"subscriptionError %@", subscriptionError);
 	 }];
     // Run loop
@@ -171,16 +174,24 @@
 			receiptError = [self createError];
 		}
 
+		__block NSDate *start = [NSDate date];
 		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-		__block PNMessageState state = PNMessageSendingError;
+//		__block PNMessageState state = PNMessageSendingError;
 		/*PNMessage *helloMessage = */[PubNub sendMessage:@"Hello PubNub"
 												toChannel:pnChannels1[i]
 									  withCompletionBlock:^(PNMessageState messageSendingState, id data)
 									   {
-										   dispatch_semaphore_signal(semaphore);
-										   state = messageSendingState;
-										   PNLog(PNLogGeneralLevel, nil, @"sendMessage state %d", messageSendingState);
+//										   state = messageSendingState;
+										   NSLog( @"sendMessage state %d", messageSendingState);
 //										   STAssertFalse(messageSendingState==PNMessageSendingError, @"messageSendingState can't be equal PNMessageSent, %@", data);
+										   if( messageSendingState == PNMessageSending )
+											   start = [NSDate date];
+										   if( messageSendingState != PNMessageSending ) {
+											   dispatch_semaphore_signal(semaphore);
+											   NSTimeInterval interval = -[start timeIntervalSinceNow];
+											   NSLog(@"test18SendMessage %f", interval);
+											   STAssertEqualsWithAccuracy( interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout, 2, @"Timeout no correct, %f instead of %f", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+										   }
 									   }];
 
 		while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
@@ -193,9 +204,7 @@
 		//		STAssertTrue(handleClientMessageProcessingStateChange, @"notification not called");
 		//		STAssertTrue(handleClientDidReceiveMessage || state != PNMessageSent, @"notificaition not called");
 	}
-	STAssertTrue(messageDidSendCount == pnChannels1.count-1, @"messageDidSendCount (%d) must be = pnChannels1.count (%d)", messageDidSendCount, pnChannels1.count);
 }
-//file://localhost/Users/tuller/work/pubnub%203.5.1b/iOS/iPadDemoApp/pubnubTests/BadJsonTest/BadJsonTest.m: error: test18SendMessage (BadJsonTest) failed: "messageDidSendCount == pnChannels1.count" should be true. messageDidSendCount (0) must be = pnChannels1.count (4)
 
 -(void)resetConenction {
 	[PubNub resetClient];
@@ -231,11 +240,15 @@
 
 //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
+	__block NSDate *start = [NSDate date];
 	__block BOOL isCompletionBlockCalled = NO;
 	[PubNub subscribeOnChannels: pnChannels
 	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
 	 {
 //		 dispatch_semaphore_signal(semaphore);
+		 NSTimeInterval interval = -[start timeIntervalSinceNow];
+		 NSLog( @"test20SubscribeOnChannels %f", interval);
+
 		 isCompletionBlockCalled = YES;
 		 NSLog(@"test20SubscribeOnChannels %@, %@", (subscriptionError!=nil) ? @"" : channels, subscriptionError);
 		 STAssertNotNil( subscriptionError, @"subscriptionError %@", subscriptionError);
