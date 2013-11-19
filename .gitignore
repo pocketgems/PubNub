@@ -5,11 +5,14 @@ DerivedData
 
 # Xcode user bound files and folders #
 ######################################
-allwomenstalk/libs/SDWebImage/*.xcodeproj/xcuserdata
 *.xcodeproj/project.xcworkspace/xcuserdata
 *.xcodeproj/xcuserdata
 *.xcodeproj/*.pbxuser
 *.xcodeproj/*.perspectivev3
+*.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+*.xcuserdatad
+*xcshareddata
 
 # OS generated files #
 ######################
