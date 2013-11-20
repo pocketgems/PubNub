@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>8B1B01DC-660F-4EE6-AE51-43969EA44D91</string>
+	<string>78E8365B-9104-44F0-BB9E-EBBC9FC68065</string>
 	<key>IDESourceControlProjectName</key>
 	<string>pubnub</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>CCD2013C-C586-4E83-8854-A62FB34765EC</key>
-		<string>https://github.com/pubnub/objective-c/</string>
+		<key>81D03616-A5DD-4270-A6D8-31B38AF1AE77</key>
+		<string>https://github.com/pubnub/objective-c</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>iOS/iPadDemoApp/pubnub.xcodeproj/project.xcworkspace</string>
+	<string>iOS/HOWTO/BackgroundAudio/pubnub.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>CCD2013C-C586-4E83-8854-A62FB34765EC</key>
-		<string>../../../..</string>
+		<key>81D03616-A5DD-4270-A6D8-31B38AF1AE77</key>
+		<string>../../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/pubnub/objective-c/</string>
+	<string>https://github.com/pubnub/objective-c</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>CCD2013C-C586-4E83-8854-A62FB34765EC</string>
+	<string>81D03616-A5DD-4270-A6D8-31B38AF1AE77</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>CCD2013C-C586-4E83-8854-A62FB34765EC</string>
+			<string>81D03616-A5DD-4270-A6D8-31B38AF1AE77</string>
 			<key>IDESourceControlWCCName</key>
 			<string>pubnub 3.5</string>
 		</dict>

@@ -41,9 +41,6 @@
                   Identifier = "ChangingChannels">
                </Test>
                <Test
-                  Identifier = "BadJsonTest">
-               </Test>
-               <Test
                   Identifier = "CatchupTest">
                </Test>
                <Test
@@ -132,6 +129,12 @@
                </Test>
                <Test
                   Identifier = "SendBigMessage">
+               </Test>
+               <Test
+                  Identifier = "PNCryptoHelperTest">
+               </Test>
+               <Test
+                  Identifier = "PNCryptoTest">
                </Test>
             </SkippedTests>
          </TestableReference>

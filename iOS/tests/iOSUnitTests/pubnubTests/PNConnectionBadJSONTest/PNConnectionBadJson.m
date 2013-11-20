@@ -168,8 +168,8 @@ void PNCFRelease(CF_RELEASES_ARGUMENT void *CFObject) {
 		if( [self isNeedUpdateBuffer1] == YES ) {
 			[self updateBuffer1: buffer+readedBytesCount];
 			readedBytesCount += 164;
-			NSString *read = [[NSString alloc] initWithBytes: buffer length: readedBytesCount encoding: NSUTF8StringEncoding];
-			NSLog(@"read \n%@", read);
+//			NSString *read = [[NSString alloc] initWithBytes: buffer length: readedBytesCount encoding: NSUTF8StringEncoding];
+//			NSLog(@"read \n%@", read);
 		}
 
         // Checking whether client was able to read out some data from stream or not

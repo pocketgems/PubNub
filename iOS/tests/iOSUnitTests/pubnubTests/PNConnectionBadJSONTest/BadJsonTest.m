@@ -108,6 +108,35 @@
 	STAssertTrue( isConnected, @"connect fail");
 }
 
+-(NSArray*)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory
+{
+	__block NSArray *history;
+	__block BOOL isCompletionBlockCalled = NO;
+	NSDate *start = [NSDate date];
+	NSLog(@"requestHistoryForChannel start %@, end %@", startDate, endDate);
+	[PubNub requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:NO
+				 withCompletionBlock:^(NSArray *messages, PNChannel *channel, PNDate *fromDate, PNDate *toDate, PNError *error)
+	 {
+		 isCompletionBlockCalled = YES;
+		 history = messages;
+
+		 NSTimeInterval interval = -[start timeIntervalSinceNow];
+		 NSLog(@"requestHistoryForChannel interval %f", interval);
+		 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %f instead of %f", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+
+//		 if( startDate == nil || endDate == nil || endDate.timeToken.intValue > startDate.timeToken.intValue ) {
+//			 if( error != nil )
+//				 NSLog(@"requestHistoryForChannel error %@\n, start %@\n, end %@", error, startDate, endDate);
+//			 STAssertNil( error, @"requestHistoryForChannel error %@", error);
+//		 }
+	 }];
+	for( int j=0; /*j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 && */
+		isCompletionBlockCalled == NO; j++ )
+		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
+	return history;
+}
+
 
 - (void)test10Connect
 {
@@ -176,7 +205,6 @@
 
 		__block NSDate *start = [NSDate date];
 		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-//		__block PNMessageState state = PNMessageSendingError;
 		/*PNMessage *helloMessage = */[PubNub sendMessage:@"Hello PubNub"
 												toChannel:pnChannels1[i]
 									  withCompletionBlock:^(PNMessageState messageSendingState, id data)
@@ -201,51 +229,20 @@
 			[Swizzler unswizzleFromReceipt:receiptError];
 			[Swizzler unswizzleFromReceipt:receipt];
 		}
-		//		STAssertTrue(handleClientMessageProcessingStateChange, @"notification not called");
-		//		STAssertTrue(handleClientDidReceiveMessage || state != PNMessageSent, @"notificaition not called");
 	}
 }
 
--(void)resetConenction {
-	[PubNub resetClient];
-	int64_t delayInSeconds = 2;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-
-		[PubNub setDelegate:self];
-		[PubNub setConfiguration: [PNConfiguration defaultConfiguration]];
-
-		handleClientConnectionStateChange = NO;
-		[PubNub connectWithSuccessBlock:^(NSString *origin) {
-
-			PNLog(PNLogGeneralLevel, nil, @"\n\n\n\n\n\n\n{BLOCK} PubNub client connected to: %@", origin);
-			dispatch_semaphore_signal(semaphore);
-		}
-							 errorBlock:^(PNError *connectionError) {
-								 PNLog(PNLogGeneralLevel, nil, @"connectionError %@", connectionError);
-								 dispatch_semaphore_signal(semaphore);
-								 STFail(@"connectionError %@", connectionError);
-							 }];
-	});
-	while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-								 beforeDate:[NSDate dateWithTimeIntervalSinceNow:10]];
-}
 
 - (void)test20SubscribeOnChannels
 {
-	[self resetConenction];
+	[self resetConnection];
 	SwizzleReceipt *receipt = [self setNewDataForBuffer];
 
-//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
 	__block NSDate *start = [NSDate date];
 	__block BOOL isCompletionBlockCalled = NO;
 	[PubNub subscribeOnChannels: pnChannels
-	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
-	 {
-//		 dispatch_semaphore_signal(semaphore);
+	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError) {
 		 NSTimeInterval interval = -[start timeIntervalSinceNow];
 		 NSLog( @"test20SubscribeOnChannels %f", interval);
 
@@ -253,34 +250,24 @@
 		 NSLog(@"test20SubscribeOnChannels %@, %@", (subscriptionError!=nil) ? @"" : channels, subscriptionError);
 		 STAssertNotNil( subscriptionError, @"subscriptionError %@", subscriptionError);
 	 }];
-    // Run loop
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
 		isCompletionBlockCalled == NO /*&& notificationParticipantsListCalled == NO*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 
 	STAssertTrue(isCompletionBlockCalled, @"Completion block not called");
 	[Swizzler unswizzleFromReceipt:receipt];
-//	STAssertTrue( handleClientSubscriptionProcess, @"notification not caleld");
 }
 
--(void)test40SendMessage
-{
+-(void)test40SendMessage {
 	messageSendingDidFailCount = 0;
-	for( int i=0; i<pnChannels.count; i++ )
-	{
+	for( int i=0; i<pnChannels.count; i++ ) {
 		SwizzleReceipt *receipt = [self setNewDataForBuffer];
-
-		//		handleClientMessageProcessingStateChange = NO;
-		//		handleClientDidReceiveMessage = NO;
-//		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 		__block BOOL isCompletionBlockCalled = NO;
 		__block PNMessageState state = PNMessageSendingError;
-		/*PNMessage *helloMessage = */[PubNub sendMessage:@"Hello PubNub"
-												toChannel:pnChannels[i]
-									  withCompletionBlock:^(PNMessageState messageSendingState, id data)
-									   {
-										   isCompletionBlockCalled = YES;
-//										   dispatch_semaphore_signal(semaphore);
+		[PubNub sendMessage:@"Hello PubNub" toChannel:pnChannels[i]
+									  withCompletionBlock:^(PNMessageState messageSendingState, id data) {
+										  if( messageSendingState != PNMessageSending )
+											   isCompletionBlockCalled = YES;
 										   state = messageSendingState;
 										   NSLog(@"sendMessage state %@ %@ %@",
 												 (messageSendingState==PNMessageSending) ? @"PNMessageSending" : @"",
@@ -294,22 +281,34 @@
 			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 		[Swizzler unswizzleFromReceipt: receipt];
 		STAssertTrue(isCompletionBlockCalled, @"completion block not called");
-		//		STAssertTrue(handleClientDidReceiveMessage || state != PNMessageSent, @"notificaition not called");
 	}
-//	STAssertTrue(messageSendingDidFailCount >= pnChannels.count, @"messageSendingDidFailCount (%d) must be >= pnChannels.count (%d)", messageSendingDidFailCount, pnChannels.count);
+}
+
+-(void)test45RequestHistoryForChannel {
+	SwizzleReceipt *receipt = [self setNewDataForBuffer];
+	for( int i=0; i<pnChannels.count && i<2; i++ ) {
+		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
+		PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
+		int limit = 34;
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO];
+	}
+	[Swizzler unswizzleFromReceipt: receipt];
 }
 
 - (void)test50SubscribeOnChannels1 {
-	[self resetConenction];
+	[self resetConnection];
 	SwizzleReceipt *receipt = [self setNewDataForBuffer1];
 
-	//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
 	__block BOOL isCompletionBlockCalled = NO;
 	[PubNub subscribeOnChannels: pnChannels
-	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
-	 {
-		 //		 dispatch_semaphore_signal(semaphore);
+	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError) {
 		 isCompletionBlockCalled = YES;
 		 NSLog(@"test50SubscribeOnChannels1 %@, %@", (subscriptionError!=nil) ? @"" : channels, subscriptionError);
 		 STAssertNil( subscriptionError, @"subscriptionError %@", subscriptionError);
@@ -321,7 +320,6 @@
 
 	STAssertTrue(isCompletionBlockCalled, @"Completion block not called");
 	[Swizzler unswizzleFromReceipt: receipt];
-	//	STAssertTrue( handleClientSubscriptionProcess, @"notification not caleld");
 }
 
 -(void)test60SendMessage1
@@ -330,15 +328,9 @@
 	for( int i=0; i<pnChannels.count; i++ )
 	{
 		SwizzleReceipt *receipt = [self setNewDataForBuffer1];
-
-		//		handleClientMessageProcessingStateChange = NO;
-		//		handleClientDidReceiveMessage = NO;
-		//		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 		__block BOOL isCompletionBlockCalled = NO;
 		__block PNMessageState state = PNMessageSendingError;
-		/*PNMessage *helloMessage = */[PubNub sendMessage:@"Hello PubNub"
-												toChannel:pnChannels[i]
-									  withCompletionBlock:^(PNMessageState messageSendingState, id data)
+		[PubNub sendMessage:@"Hello PubNub" toChannel:pnChannels[i] withCompletionBlock:^(PNMessageState messageSendingState, id data)
 									   {
 										   if( messageSendingState == PNMessageSending )
 											   return;
@@ -356,9 +348,27 @@
 			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 		[Swizzler unswizzleFromReceipt: receipt];
 		STAssertTrue(isCompletionBlockCalled, @"completion block not called");
-		//		STAssertTrue(handleClientDidReceiveMessage || state != PNMessageSent, @"notificaition not called");
 	}
-	//	STAssertTrue(messageSendingDidFailCount >= pnChannels.count, @"messageSendingDidFailCount (%d) must be >= pnChannels.count (%d)", messageSendingDidFailCount, pnChannels.count);
+}
+
+-(void)test70RequestHistoryForChannel1
+{
+	SwizzleReceipt *receipt = [self setNewDataForBuffer1];
+	for( int i=0; i<pnChannels.count && i<2; i++ )
+	{
+		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
+		PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
+		int limit = 34;
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO];
+	}
+	[Swizzler unswizzleFromReceipt: receipt];
+	NSLog(@"test finish");
 }
 ///////////////////////////////////////////////////////
 
