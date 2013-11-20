@@ -108,7 +108,7 @@
 	STAssertTrue( isConnected, @"connect fail");
 }
 
--(NSArray*)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory
+-(NSArray*)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory isExpectationError:(BOOL)isExpectationError
 {
 	__block NSArray *history;
 	__block BOOL isCompletionBlockCalled = NO;
@@ -124,11 +124,13 @@
 		 NSLog(@"requestHistoryForChannel interval %f", interval);
 		 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %f instead of %f", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
 
-//		 if( startDate == nil || endDate == nil || endDate.timeToken.intValue > startDate.timeToken.intValue ) {
-//			 if( error != nil )
-//				 NSLog(@"requestHistoryForChannel error %@\n, start %@\n, end %@", error, startDate, endDate);
-//			 STAssertNil( error, @"requestHistoryForChannel error %@", error);
-//		 }
+		 if( isExpectationError == YES
+//			&& (startDate == nil || endDate == nil || endDate.timeToken.intValue > startDate.timeToken.intValue)
+			) {
+			 if( error != nil )
+				 NSLog(@"requestHistoryForChannel error %@\n, start %@\n, end %@", error, startDate, endDate);
+			 STAssertNotNil( error, @"requestHistoryForChannel error %@", error);
+		 }
 	 }];
 	for( int j=0; /*j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 && */
 		isCompletionBlockCalled == NO; j++ )
@@ -290,16 +292,17 @@
 		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
 		PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
 		int limit = 34;
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO isExpectationError: YES];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO isExpectationError: YES];
 	}
 	[Swizzler unswizzleFromReceipt: receipt];
 }
+
 
 - (void)test50SubscribeOnChannels1 {
 	[self resetConnection];
@@ -359,13 +362,13 @@
 		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
 		PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
 		int limit = 34;
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES];
-		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO];
-		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: YES isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: startDate limit: limit reverseHistory: YES isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: startDate limit: limit reverseHistory: YES isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: endDate to: endDate limit: limit reverseHistory: NO isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: limit reverseHistory: NO isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO isExpectationError: NO];
+		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO isExpectationError: NO];
 	}
 	[Swizzler unswizzleFromReceipt: receipt];
 	NSLog(@"test finish");
