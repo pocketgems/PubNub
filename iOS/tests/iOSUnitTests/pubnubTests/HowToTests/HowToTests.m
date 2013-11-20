@@ -603,13 +603,13 @@
 			pNClientMessageSendingDidFailNotification = NO;
 			__block PNMessageState state = PNMessageSendingError;
 			[message appendFormat: @"message block <big text: asd aslkjdfh asdasljdhf fsdgdjagslkjdfh asdasljdhf fsdgdjagafdakflslkjdfh asdasljdhf fsdgdjagafdakflslkjdfh asdasljdhf fsdgdjagafdakflslkjdfh asdasljdhf fsdgdjagafdakflslkjdfh asdasljdhf fsdgdjagafdakflafdakfl> %d_%d", i, j];
-			NSLog(@"send message %d_%d with size %d", i, j, message.length);
+			NSLog(@"send message %d_%d with size %lu", i, j, (unsigned long)message.length);
 			state = PNMessageSending;
 			[PubNub sendMessage: message toChannel:pnChannels[i]
 			withCompletionBlock:^(PNMessageState messageSendingState, id data)
 			 {
 				 state = messageSendingState;
-				 NSLog(@"withCompletionBlock %d, message size %d", messageSendingState, message.length);
+				 NSLog(@"withCompletionBlock %d, message size %lu", messageSendingState, (unsigned long)message.length);
 			 }];
 
 			for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
@@ -619,7 +619,7 @@
 			if( message.length < 1300 )
 				STAssertTrue( pNClientDidSendMessageNotification == YES && state == PNMessageSent, @"message not sent, size %d", message.length);
 			if( message.length >= 1600 ) {
-				NSLog(@"sended message %d_%d with size %d", i, j, message.length);
+				NSLog(@"sended message %d_%d with size %lu", i, j, (unsigned long)message.length);
 
 				STAssertTrue( pNClientMessageSendingDidFailNotification == YES && state == PNMessageSendingError, @"message's methods not called, size %d", message.length);
 			}
