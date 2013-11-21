@@ -83,21 +83,53 @@
 		[arr addObject: channelName];
 	}
 
-	NSDate *start = [NSDate date];
+	__block NSDate *start = [NSDate date];
 	[PubNub subscribeOnChannels: [PNChannel channelsWithNames: arr]
 		withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
 		 {
 			 [[TestSemaphor sharedInstance] lift:@"arr"];
 			 NSTimeInterval interval = -[start timeIntervalSinceNow];
-			 NSLog(@"subscribed arr %f, %@", interval, subscriptionError);
+			 NSLog(@"subscribed arr %f, error %@", interval, subscriptionError);
 			 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
 
 			 STAssertNil( subscriptionError, @"arr subscriptionError %@", subscriptionError);
 		 }];
 	STAssertTrue([[TestSemaphor sharedInstance] waitForKey: @"arr" timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, arr");
 
-	for( ; i<110; i++ )
-	{
+
+	__block int requestFinishedCount = 0;
+	start = [NSDate date];
+	NSString *message = [NSString stringWithFormat: @"%@", arr];
+	message = [arr description];
+	message = [message substringToIndex: 500];
+//	int lenght = message.length;
+	message = [message stringByReplacingOccurrencesOfString:@"\"" withString: @"\\\""];
+	NSLog(@"message:\n| %@ |", message);
+
+	for( int i=0; i<arr.count; i++ ) {
+		__block BOOL isCompletionBlockCalled = NO;
+
+		[PubNub sendMessage: message toChannel: [PNChannel channelWithName: arr[i]]
+		withCompletionBlock:^(PNMessageState messageSendingState, id data) {
+			if( messageSendingState == PNMessageSending) {
+				start = [NSDate date];
+				return;
+			}
+			requestFinishedCount++;
+			isCompletionBlockCalled = YES;
+			NSTimeInterval interval = -[start timeIntervalSinceNow];
+			NSLog( @"test50SendMessageTimeout, index %d, time %f, %@", i, interval, (messageSendingState==PNMessageSendingError) ? data : @"" );
+//			STAssertTrue( interval < [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout, @"Timeout [PubNub sharedInstance].configuration.subscriptionRequestTimeout no correct, %f instead of %f", interval, [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout);
+//			STAssertTrue(messageSendingState==PNMessageSent, @"messageSendingState==PNMessageSent %@", data);
+		}];
+	}
+	for( int j=0; requestFinishedCount < arr.count; j++ )
+		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+//	STAssertTrue(isCompletionBlockCalled, @"Completion block not called");
+//	STAssertTrue(delegateFailMessageSendCalled, @"delegate not called");
+
+	return;
+	for( ; i<110; i++ ) {
 		NSString *channelName = [NSString stringWithFormat: @"%@ %d", [NSDate date], i];
 		NSArray *arr = [PNChannel channelsWithNames: @[channelName]];
 		NSDate *start = [NSDate date];

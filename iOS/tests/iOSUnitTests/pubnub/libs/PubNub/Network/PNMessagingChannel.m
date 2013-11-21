@@ -257,7 +257,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
 }
 
 - (void)processResponse:(PNResponse *)response forRequest:(PNBaseRequest *)request {
-
+//	NSLog(@"processResponse: forRequest");
     // Check whether 'Leave' request has been processed or not
     if ([request isKindOfClass:[PNLeaveRequest class]] ||
         [response.callbackMethod isEqualToString:PNServiceResponseCallbacks.leaveChannelCallback]) {
@@ -1196,7 +1196,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
 }
 
 - (void)handleEventOnChannelsForRequest:(PNSubscribeRequest *)request withResponse:(PNResponse *)response {
-
+//	NSLog(@"handleEventOnChannelsForRequest: withResponse");
     PNLog(PNLogCommunicationChannelLayerInfoLevel, self, @"[CHANNEL::%@] HANDLE EVENT IN RESPONSE ON: %@\nCHANNELS: %@\nRESPONSE: %@\n(STATE: %d)",
           self, request, request.channels, response, self.messagingState);
 
@@ -1826,7 +1826,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
 }
 
 - (void)connection:(PNConnection *)connection didReceiveResponse:(PNResponse *)response {
-
+//	NSLog(@"PNMessagingChannel connection didReceiveResponse");
     PNBitOff(&_messagingState, PNMessagingChannelSubscriptionWaitingForEvents);
 
     [self startChannelIdleTimer];

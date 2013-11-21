@@ -74,6 +74,7 @@
     if (isValidMessage && channel != nil) {
 
         messageObject = [[[self class] alloc] initWithObject:object forChannel:channel];
+//		NSLog(@"object:\n%@", object);
     }
     // Looks like some conditions not met
     else {

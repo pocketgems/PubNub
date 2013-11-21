@@ -4129,7 +4129,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 - (void)sendNotification:(NSString *)notificationName withObject:(id)object {
-    
+//    NSLog(@"sendNotification %@", notificationName);
     // Send notification to all who is interested in it
     // (observation center will track it as well)
     [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:self userInfo:object];
@@ -4490,7 +4490,7 @@ didFailPresenceDisablingOnChannels:(NSArray *)channels
 }
 
 - (void)messagingChannel:(PNMessagingChannel *)messagingChannel didReceiveMessage:(PNMessage *)message {
-
+//	NSLog(@"messagingChannel: didReceiveMessage");
     PNLog(PNLogGeneralLevel, self, @"RECEIVED MESSAGE (STATE: %@)", [self humanReadableStateFrom:self.state]);
     
     if ([self shouldChannelNotifyAboutEvent:messagingChannel]) {

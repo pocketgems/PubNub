@@ -1723,7 +1723,7 @@ void writeStreamCallback(CFWriteStreamRef stream, CFStreamEventType type, void *
 }
 
 - (void)processResponse {
-
+//	NSLog(@"processResponse");
     // Retrieve response objects from server response
     NSArray *responses = [self.deserializer parseResponseData:self.retrievedData];
 

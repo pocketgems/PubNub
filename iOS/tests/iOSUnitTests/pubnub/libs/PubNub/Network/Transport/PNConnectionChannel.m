@@ -1304,7 +1304,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing
 }
 
 - (void)connection:(PNConnection *)connection didReceiveResponse:(PNResponse *)response {
-
+//	NSLog(@"PNConnectionChannel connection didReceiveResponse");
     // Retrieve reference on request for which this response was received
     PNBaseRequest *request = [self observedRequestWithIdentifier:response.requestIdentifier];
     BOOL shouldObserveExecution = request != nil;

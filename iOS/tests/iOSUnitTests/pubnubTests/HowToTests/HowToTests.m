@@ -573,8 +573,9 @@
 			pNClientDidSendMessageNotification = NO;
 			dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 			__block PNMessageState state = PNMessageSendingError;
-			/*PNMessage *helloMessage = */[PubNub sendMessage: [NSString stringWithFormat: @"Hello PubNub %d", j]
-													toChannel:pnChannels[i]
+			NSString *message = [NSString stringWithFormat: @"Hello PubNub %d", j];
+			message = [message stringByAppendingString: @" sdfфвып !№%,,%;%,.(№.(@#$^@$%&%(^)@"];
+			[PubNub sendMessage: message toChannel:pnChannels[i]
 										  withCompletionBlock:^(PNMessageState messageSendingState, id data)
 										   {
 											   if( messageSendingState != PNMessageSending )

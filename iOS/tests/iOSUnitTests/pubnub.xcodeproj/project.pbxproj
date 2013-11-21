@@ -20,6 +20,7 @@
 		5A198E98181593EC00D20005 /* ChangingChannels.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A198E97181593EC00D20005 /* ChangingChannels.m */; };
 		5A2B9596183CF5C300F8AB02 /* ChannelLimitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B9595183CF5C300F8AB02 /* ChannelLimitTest.m */; };
 		5A3A05801823EE18009CF68B /* PNChannelConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3A057F1823EE18009CF68B /* PNChannelConstructor.m */; };
+		5A9410EA183E1AFC00C2BA58 /* SendMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9410E9183E1AFC00C2BA58 /* SendMessage.m */; };
 		5A955F7D18350CAA00AB2156 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A955F7C18350CAA00AB2156 /* Configuration.m */; };
 		5A955F801835154C00AB2156 /* SendBigMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A955F7F1835154C00AB2156 /* SendBigMessage.m */; };
 		5ABE6C42182B9F1800204DC6 /* gistfile1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE6C3F182B9F1800204DC6 /* gistfile1.txt */; };
@@ -201,6 +202,7 @@
 		5A198E97181593EC00D20005 /* ChangingChannels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangingChannels.m; sourceTree = "<group>"; };
 		5A2B9595183CF5C300F8AB02 /* ChannelLimitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelLimitTest.m; path = pubnubTests/ChannelLimitTest.m; sourceTree = SOURCE_ROOT; };
 		5A3A057F1823EE18009CF68B /* PNChannelConstructor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNChannelConstructor.m; sourceTree = "<group>"; };
+		5A9410E9183E1AFC00C2BA58 /* SendMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessage.m; sourceTree = "<group>"; };
 		5A955F7C18350CAA00AB2156 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Configuration.m; path = "../../../../../pubnub 3.5.2 XCTest/iOS/tests/iOSUnitTests/pubnubTests/Configuration.m"; sourceTree = "<group>"; };
 		5A955F7F1835154C00AB2156 /* SendBigMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendBigMessage.m; sourceTree = "<group>"; };
 		5ABE6C3F182B9F1800204DC6 /* gistfile1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gistfile1.txt; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				5ACCA97F17F3202400FE90CF /* HowToTests.h */,
 				5ACCA98017F3202400FE90CF /* HowToTests.m */,
 				5A955F7F1835154C00AB2156 /* SendBigMessage.m */,
+				5A9410E9183E1AFC00C2BA58 /* SendMessage.m */,
 			);
 			path = HowToTests;
 			sourceTree = "<group>";
@@ -1318,6 +1321,7 @@
 				DD71B8C3033F2A75539ABCF8 /* PNMessageHistoryRequest.m in Sources */,
 				5A198E931815884500D20005 /* CatchupTest.m in Sources */,
 				DD71B80C09EF3ECF46330376 /* PNChannelHistoryParser.m in Sources */,
+				5A9410EA183E1AFC00C2BA58 /* SendMessage.m in Sources */,
 				DD71B5E4F9EA91F76ABD842D /* PNHereNowRequest.m in Sources */,
 				799A5AE016DD55F8007025AF /* NSString+PNAddition.m in Sources */,
 				79C9D72A16F28F9500E91D74 /* PNCryptoHelper.m in Sources */,

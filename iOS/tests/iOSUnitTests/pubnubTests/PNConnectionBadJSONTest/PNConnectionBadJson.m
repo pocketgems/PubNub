@@ -138,7 +138,7 @@ void PNCFRelease(CF_RELEASES_ARGUMENT void *CFObject) {
 }
 
 - (void)readStreamContent {
-
+//	NSLog(@"readStreamContent");
     PNLog(PNLogConnectionLayerInfoLevel, self, @"[CONNECTION::%@::READ] READING ARRIVED DATA... (STATE: %d)",
           [(id)self name] ? [(id)self name] : self, [(id)self state]);
 
