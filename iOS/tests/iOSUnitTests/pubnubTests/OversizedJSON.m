@@ -95,7 +95,7 @@
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	[Swizzler unswizzleFromReceipt:receiptReconnect];
 
-	STAssertTrue(_reconnectCount == 0, @"excess reconnect");
+	STAssertTrue(_reconnectCount == 0, @"excess reconnect, %d", _reconnectCount);
 }
 
 -(SwizzleReceipt*)setReconnect {

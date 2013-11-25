@@ -254,4 +254,9 @@ void fakeReadStreamCallback(CFReadStreamRef stream, CFStreamEventType type, void
     CFReadStreamSetClient(readStream, options, fakeReadStreamCallback, /*&client*/ NULL);
 }
 
+- (void)myReconnect {
+	[self reconnect];
+}
+
+
 @end

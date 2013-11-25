@@ -23,6 +23,7 @@
 		5A9410EA183E1AFC00C2BA58 /* SendMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9410E9183E1AFC00C2BA58 /* SendMessage.m */; };
 		5A955F7D18350CAA00AB2156 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A955F7C18350CAA00AB2156 /* Configuration.m */; };
 		5A955F801835154C00AB2156 /* SendBigMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A955F7F1835154C00AB2156 /* SendBigMessage.m */; };
+		5A96274018437E8A00258236 /* OversizedJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A96273F18437E8A00258236 /* OversizedJSON.m */; };
 		5ABE6C42182B9F1800204DC6 /* gistfile1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE6C3F182B9F1800204DC6 /* gistfile1.txt */; };
 		5ABE6C43182B9F1800204DC6 /* TestSemaphor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE6C41182B9F1800204DC6 /* TestSemaphor.m */; };
 		5ABFBCC5182A8CA8008A0DDF /* TimeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABFBCC4182A8CA8008A0DDF /* TimeCommand.m */; };
@@ -205,6 +206,7 @@
 		5A9410E9183E1AFC00C2BA58 /* SendMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessage.m; sourceTree = "<group>"; };
 		5A955F7C18350CAA00AB2156 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Configuration.m; path = "../../../../../pubnub 3.5.2 XCTest/iOS/tests/iOSUnitTests/pubnubTests/Configuration.m"; sourceTree = "<group>"; };
 		5A955F7F1835154C00AB2156 /* SendBigMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendBigMessage.m; sourceTree = "<group>"; };
+		5A96273F18437E8A00258236 /* OversizedJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OversizedJSON.m; sourceTree = "<group>"; };
 		5ABE6C3F182B9F1800204DC6 /* gistfile1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gistfile1.txt; sourceTree = "<group>"; };
 		5ABE6C40182B9F1800204DC6 /* TestSemaphor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSemaphor.h; sourceTree = "<group>"; };
 		5ABE6C41182B9F1800204DC6 /* TestSemaphor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSemaphor.m; sourceTree = "<group>"; };
@@ -515,6 +517,14 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
+		5A96274118437E9200258236 /* OversizedJSON */ = {
+			isa = PBXGroup;
+			children = (
+				5A96273F18437E8A00258236 /* OversizedJSON.m */,
+			);
+			name = OversizedJSON;
+			sourceTree = "<group>";
+		};
 		5ABE6C3E182B9F1000204DC6 /* TestSemaphor */ = {
 			isa = PBXGroup;
 			children = (
@@ -768,6 +778,7 @@
 		79C32256166DF848006DB535 /* pubnubTests */ = {
 			isa = PBXGroup;
 			children = (
+				5A96274118437E9200258236 /* OversizedJSON */,
 				5ABE6C3E182B9F1000204DC6 /* TestSemaphor */,
 				5A955F7E18350CB100AB2156 /* Configuration */,
 				5ABFBCC3182A8C88008A0DDF /* TimeCommand */,
@@ -1355,6 +1366,7 @@
 				5ACF73CC17F41FD20058E029 /* PNSubscribeUnsubscribeTest.m in Sources */,
 				963A849217FCA9B100D8DD4E /* FakeStub.m in Sources */,
 				963A849317FCA9B100D8DD4E /* PNConnectionBadJson.m in Sources */,
+				5A96274018437E8A00258236 /* OversizedJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -80,22 +80,10 @@
                   Identifier = "PNLatencyMeasureRequestTest">
                </Test>
                <Test
-                  Identifier = "HowToTests/test50RequestHistoryForChannel">
-               </Test>
-               <Test
                   Identifier = "TimeCommand/testHandleOriginLookup20">
                </Test>
                <Test
                   Identifier = "TimeCommand">
-               </Test>
-               <Test
-                  Identifier = "HowToTests/test30RequestParticipantsListForChannel">
-               </Test>
-               <Test
-                  Identifier = "HowToTests/test35RequestServerTimeTokenWithCompletionBlock">
-               </Test>
-               <Test
-                  Identifier = "HowToTests/test55RequestHistoryReverse">
                </Test>
                <Test
                   Identifier = "W_ChaosTest">
@@ -134,10 +122,19 @@
                   Identifier = "ChannelLimitTest">
                </Test>
                <Test
-                  Identifier = "HowToTests/test45SendMessageBig">
+                  Identifier = "SendMessage">
                </Test>
                <Test
-                  Identifier = "HowToTests">
+                  Identifier = "HowToTests/test55RequestHistoryReverse">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test60SubscribeOnChannelsByTurns">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test40SendMessage">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test35RequestServerTimeTokenWithCompletionBlock">
                </Test>
             </SkippedTests>
          </TestableReference>
