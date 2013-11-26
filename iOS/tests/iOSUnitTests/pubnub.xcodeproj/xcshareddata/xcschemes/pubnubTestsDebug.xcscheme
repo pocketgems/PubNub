@@ -23,9 +23,6 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "PNTimeTokenRequestTest">
-               </Test>
-               <Test
                   Identifier = "PNSubscribeUnsubscribeTest">
                </Test>
                <Test
@@ -104,9 +101,6 @@
                   Identifier = "PNMessagePostRequestTest">
                </Test>
                <Test
-                  Identifier = "SendBigMessage">
-               </Test>
-               <Test
                   Identifier = "PNCryptoHelperTest">
                </Test>
                <Test
@@ -135,6 +129,15 @@
                </Test>
                <Test
                   Identifier = "HowToTests/test35RequestServerTimeTokenWithCompletionBlock">
+               </Test>
+               <Test
+                  Identifier = "HowToTests">
+               </Test>
+               <Test
+                  Identifier = "OversizedJSON">
+               </Test>
+               <Test
+                  Identifier = "PNTimeTokenRequestTest">
                </Test>
             </SkippedTests>
          </TestableReference>

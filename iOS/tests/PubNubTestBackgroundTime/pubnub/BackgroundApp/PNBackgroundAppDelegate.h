@@ -13,6 +13,7 @@
 
 @interface PNBackgroundAppDelegate : UIResponder <UIApplicationDelegate, PNDelegate, CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
+	int currentInterval;
 }
 
 

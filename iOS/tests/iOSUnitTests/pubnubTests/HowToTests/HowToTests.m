@@ -267,6 +267,16 @@
 							 object:nil];
 
 	[self t05AddClientConnectionStateObserver];
+	[self t10Connect];
+	[self t20SubscribeOnChannels];
+	[self t30RequestParticipantsListForChannel];
+	[self t35RequestServerTimeTokenWithCompletionBlock];
+	[self t40SendMessage];
+	[self t45SendMessageBig];
+	[self t50RequestHistoryForChannel];
+	[self t55RequestHistoryReverse];
+	[self t60SubscribeOnChannelsByTurns];
+	[self t900UnsubscribeFromChannels];
 }
 
 #pragma mark - Handler methods
@@ -434,7 +444,6 @@
                                                             PNLog(PNLogGeneralLevel, weakSelf, @"{BLOCK-P} PubNubc client received new event: %@",
 																  presenceEvent);
                                                         }];
-	[self t10Connect];
 }
 
 
@@ -479,15 +488,11 @@
 	STAssertTrue( handleClientConnectionStateChange, @"notification not called");
 
 //	[Swizzler swizzleSelector:@selector(reconnect) forClass:[PNConnection class] withSelector:@selector(myReconnect)];
-
-	receiptReconnect = [self setReconnect];
+//	receiptReconnect = [self setReconnect];
 	_reconnectCount = 0;
-
-	[self t20SubscribeOnChannels];
 }
 
-- (void)t20SubscribeOnChannels
-{
+- (void)t20SubscribeOnChannels {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
 	[PubNub subscribeOnChannels: pnChannels
@@ -502,8 +507,6 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 	STAssertTrue( handleClientSubscriptionProcess, @"notification not caleld");
-
-	[self t30RequestParticipantsListForChannel];
 }
 
 -(void)t30RequestParticipantsListForChannel {
@@ -525,8 +528,6 @@
 									 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 		STAssertTrue(handleClientHereNowProcess, @"notification not called");
 	}
-
-	[self t35RequestServerTimeTokenWithCompletionBlock];
 }
 
 -(void)t35RequestServerTimeTokenWithCompletionBlock {
@@ -541,8 +542,6 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 	STAssertTrue(handleClientCompletedTimeTokenProcessing, @"notification not called");
-
-	[self t40SendMessage];
 }
 
 -(void)t40SendMessage {
@@ -571,8 +570,6 @@
 			STAssertTrue(pNClientDidSendMessageNotification || state != PNMessageSent, @"notificaition not called");
 		}
 	}
-
-	[self t45SendMessageBig];
 }
 
 -(void)t45SendMessageBig {
@@ -612,31 +609,16 @@
 			}
 		}
 	}
-
-	[self t50RequestHistoryForChannel];
 }
 
--(NSArray*)requestHistoryForChannel:(PNChannel *)channel
-                            from:(PNDate *)startDate
-                              to:(PNDate *)endDate
-                           limit:(NSUInteger)limit
-                  reverseHistory:(BOOL)shouldReverseMessageHistory {
+-(NSArray*)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory {
 //	dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	__block NSArray *history;
 	handleClientMessageHistoryProcess = NO;
 	__block BOOL isCompletionBlockCalled = NO;
 	NSDate *start = [NSDate date];
 	NSLog(@"requestHistoryForChannel start %@, end %@", startDate, endDate);
-	[PubNub requestHistoryForChannel:channel
-								from:startDate
-								  to:endDate
-							   limit:limit
-					  reverseHistory:NO
-				 withCompletionBlock:^(NSArray *messages,
-									   PNChannel *channel,
-									   PNDate *fromDate,
-									   PNDate *toDate,
-									   PNError *error) {
+	[PubNub requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:NO withCompletionBlock:^(NSArray *messages, PNChannel *channel, PNDate *fromDate, PNDate *toDate, PNError *error) {
 //		 dispatch_semaphore_signal(semaphore);
 		 isCompletionBlockCalled = YES;
 		 history = messages;
@@ -675,8 +657,6 @@
 		[self requestHistoryForChannel: pnChannels[i] from: startDate to: endDate limit: 0 reverseHistory: NO];
 		[self requestHistoryForChannel: pnChannels[i] from: startDate to: nil limit: 0 reverseHistory: NO];
 	}
-
-	[self t55RequestHistoryReverse];
 }
 
 -(void)t55RequestHistoryReverse {
@@ -735,8 +715,6 @@
 			STAssertTrue( [messageReverse.message compare: messageReverse1.message] == NSOrderedAscending, @"invalid message order, %@ %@\n %@ %@", messageReverse, messageReverse1, messageReverse.receiveDate, messageReverse1.receiveDate);
 		}
 	}
-
-	[self t60SubscribeOnChannelsByTurns];
 }
 
 
@@ -775,8 +753,6 @@
 //		STAssertTrue( isCompletionBlockCalled, @"completion block not called, %@", channelName);
 		STAssertTrue([[TestSemaphor sharedInstance] waitForKey: channelName timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, %@", channelName);
 	}
-
-	[self t900UnsubscribeFromChannels];
 }
 
 
@@ -809,7 +785,7 @@
 	STAssertTrue(handleClientUnsubscriptionProcess, @"notification not called");
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 
-	[self t950ReconnectCount];
+//	[self t950ReconnectCount];
 }
 //-(void)test910UnsubscribeFromChannelsBad
 //{
@@ -828,11 +804,11 @@
 //        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
 //                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 //}
--(void)t950ReconnectCount {
-	[Swizzler unswizzleFromReceipt:receiptReconnect];
-
-	STAssertTrue(_reconnectCount == 0, @"excess reconnect");
-}
+//-(void)t950ReconnectCount {
+//	[Swizzler unswizzleFromReceipt:receiptReconnect];
+//
+//	STAssertTrue(_reconnectCount == 0, @"excess reconnect");
+//}
 
 -(SwizzleReceipt*)setReconnect {
 	return [Swizzler swizzleSelector:@selector(reconnect)
