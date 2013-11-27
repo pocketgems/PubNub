@@ -70,7 +70,7 @@
 }
 
 - (void)kPNClientPushNotificationEnableDidFailNotification:(NSNotification *)__unused notification {
-	NSLog(@"kPNClientPushNotificationEnableDidFailNotification");
+	NSLog(@"kPNClientPushNotificationEnableDidFailNotification %@", notification);
 	pNClientPushNotificationEnableDidFailNotification = YES;
 }
 //////////////////////
@@ -96,7 +96,7 @@
 
 		[PubNub setDelegate:self];
 		//		[PubNub setConfiguration: [PNConfiguration defaultConfiguration]];
-		PNConfiguration *configuration = [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com" publishKey:@"pub-c-bb4a4d9b-21b1-40e8-a30b-04a22f5ef154" subscribeKey:@"sub-c-6b43405c-3694-11e3-a5ee-02ee2ddab7fe" secretKey: nil cipherKey: nil];
+		PNConfiguration *configuration = [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com" publishKey:@"pub-c-bb4a4d9b-21b1-40e8-a30b-04a22f5ef154" subscribeKey:@"sub-c-6b43405c-3694-11e3-a5ee-02ee2ddab7fe" secretKey: @"sec-c-ZmNlNzczNTEtOGUwNS00MmRjLWFkMjQtMjJiOTA2MjY2YjI5" cipherKey: nil authorizationKey: @"authorizationKey"];
 		[PubNub setConfiguration: configuration];
 
 		[PubNub connectWithSuccessBlock:^(NSString *origin) {
@@ -113,9 +113,13 @@
 	while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
 		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
 								 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+
+	[self t20SubscribeOnChannels];
+	[self t30EnablePushNotificationsOnChannels];
+	[self t40DisablePushNotificationsOnChannels];
 }
 
-- (void)test20SubscribeOnChannels
+- (void)t20SubscribeOnChannels
 {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	[PubNub subscribeOnChannels: pnChannels
@@ -129,7 +133,7 @@
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 }
 
--(void)test30EnablePushNotificationsOnChannels {
+-(void)t30EnablePushNotificationsOnChannels {
 	__block BOOL isCompletionBlockCalled = NO;
 	NSData *pushToken = nil;
 
@@ -142,7 +146,7 @@
 		 STAssertNotNil( error, @"enablePushNotificationsOnChannels must return error");
 	 }];
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 /*||
-		(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidFailNotification == NO)*/; j++ )
+																						(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidFailNotification == NO)*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationEnableDidFailNotification, @"notification not called");
@@ -156,7 +160,7 @@
 		 STAssertNotNil( error, @"enablePushNotificationsOnChannels must return error");
 	 }];
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 /*||
-		(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidFailNotification == NO)*/; j++ )
+																						(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidFailNotification == NO)*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationEnableDidFailNotification, @"notification not called");
@@ -171,13 +175,14 @@
 		 STAssertNil( error, @"enablePushNotificationsOnChannels error %@", error);
 	 }];
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 /*||
-		(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidCompleteNotification == NO)*/; j++ )
+																						(isCompletionBlockCalled == NO || pNClientPushNotificationEnableDidCompleteNotification == NO)*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationEnableDidCompleteNotification, @"notification not called");
 }
+//file:///Users/tuller/work/pubnub%20hotfix-t221/iOS/tests/iOSUnitTests/pubnubTests/HowToTests/ApnsToken.m: test failure: -[ApnsToken test10Connect] failed: "((error) == nil)" should be true. enablePushNotificationsOnChannels error Domain=com.pubnub.pubnub; Code=117; Description="PubNub API access denied"; Reason="An 'auth' key was provided for this request because PAM is enabled, but access was denied because the 'auth' key supplied does not posess the adequate permissions for this resource"; Fix suggestion="Ensure that you specified a valid 'authorizationKey'. If the key is correct, then access is currently denied for this key."; Associated object=(
 
--(void)test40DisablePushNotificationsOnChannels {
+-(void)t40DisablePushNotificationsOnChannels {
 	__block BOOL isCompletionBlockCalled = NO;
 	NSData *pushToken = nil;
 
@@ -190,7 +195,7 @@
 		 STAssertNotNil( error, @"disablePushNotificationsOnChannels must return error");
 	 }];
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 /*||
-		(isCompletionBlockCalled == NO || pNClientPushNotificationDisableDidFailNotification == NO)*/; j++ )
+																						(isCompletionBlockCalled == NO || pNClientPushNotificationDisableDidFailNotification == NO)*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationDisableDidFailNotification, @"notification not called");
@@ -205,7 +210,7 @@
 		 STAssertNil( error, @"disablePushNotificationsOnChannels error %@", error);
 	 }];
 	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 /*||
-		(isCompletionBlockCalled == NO || pNClientPushNotificationDisableDidCompleteNotification == NO)*/; j++ )
+																						(isCompletionBlockCalled == NO || pNClientPushNotificationDisableDidCompleteNotification == NO)*/; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationDisableDidCompleteNotification, @"notification not called");

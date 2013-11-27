@@ -110,9 +110,6 @@
                   Identifier = "BadJsonTest">
                </Test>
                <Test
-                  Identifier = "Configuration">
-               </Test>
-               <Test
                   Identifier = "ChannelLimitTest">
                </Test>
                <Test
@@ -138,6 +135,9 @@
                </Test>
                <Test
                   Identifier = "PNTimeTokenRequestTest">
+               </Test>
+               <Test
+                  Identifier = "SendBigMessage">
                </Test>
             </SkippedTests>
          </TestableReference>
