@@ -19,11 +19,13 @@
 #import "PNConstants.h"
 #import "TestSemaphor.h"
 
-@interface ChannelLimitTest : SenTestCase <PNDelegate>
+@interface ChannelLimitTest : SenTestCase <PNDelegate> {
+	int clientUnsubscriptionDidCompleteNotificationCount;
+}
 
 @end
 
-@implementation ChannelLimitTest 
+@implementation ChannelLimitTest
 
 
 -(void)resetConnection {
@@ -58,16 +60,16 @@
 	NSDate *start = [NSDate date];
 	__block BOOL isCompletionBlockCalled = NO;
 	[PubNub sendMessage: message toChannel: channel withCompletionBlock:^(PNMessageState messageSendingState, id data)
-	   {
-		   if( messageSendingState == PNMessageSending )
-			   return;
-		   NSTimeInterval interval = -[start timeIntervalSinceNow];
-		   NSLog(@"sendMessage interval %f", interval);
-		   isCompletionBlockCalled = YES;
-		   STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+	 {
+		 if( messageSendingState == PNMessageSending )
+			 return;
+		 NSTimeInterval interval = -[start timeIntervalSinceNow];
+		 NSLog(@"sendMessage interval %f", interval);
+		 isCompletionBlockCalled = YES;
+		 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
 
-		   STAssertFalse(messageSendingState==PNMessageSendingError, @"messageSendingState==PNMessageSendingError %@", data);
-	   }];
+		 STAssertFalse(messageSendingState==PNMessageSendingError, @"messageSendingState==PNMessageSendingError %@", data);
+	 }];
 
 	for( int j=0; /*j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1*/ isCompletionBlockCalled == NO; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
@@ -76,24 +78,30 @@
 - (void)test60SubscribeOnChannelsByTurns {
 	[self resetConnection];
 
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+	[notificationCenter addObserver:self
+						   selector:@selector(kPNClientUnsubscriptionDidCompleteNotification:)
+							   name:kPNClientUnsubscriptionDidCompleteNotification
+							 object:nil];
+
 	NSMutableArray *arr = [NSMutableArray array];
 	int i=0;
-	for( ; i<90; i++ ) {
+	for( ; i<20; i++ ) {
 		NSString *channelName = [NSString stringWithFormat: @"%@ %d", [NSDate date], i];
 		[arr addObject: channelName];
 	}
 
 	__block NSDate *start = [NSDate date];
 	[PubNub subscribeOnChannels: [PNChannel channelsWithNames: arr]
-		withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
-		 {
-			 [[TestSemaphor sharedInstance] lift:@"arr"];
-			 NSTimeInterval interval = -[start timeIntervalSinceNow];
-			 NSLog(@"subscribed arr %f, error %@", interval, subscriptionError);
-			 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+	withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
+	 {
+		 [[TestSemaphor sharedInstance] lift:@"arr"];
+		 NSTimeInterval interval = -[start timeIntervalSinceNow];
+		 NSLog(@"subscribed arr %f, error %@", interval, subscriptionError);
+		 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
 
-			 STAssertNil( subscriptionError, @"arr subscriptionError %@", subscriptionError);
-		 }];
+		 STAssertNil( subscriptionError, @"arr subscriptionError %@", subscriptionError);
+	 }];
 	STAssertTrue([[TestSemaphor sharedInstance] waitForKey: @"arr" timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, arr");
 
 
@@ -102,7 +110,7 @@
 	NSString *message = [NSString stringWithFormat: @"%@", arr];
 	message = [arr description];
 	message = [message substringToIndex: 500];
-//	int lenght = message.length;
+	//	int lenght = message.length;
 	message = [message stringByReplacingOccurrencesOfString:@"\"" withString: @"\\\""];
 	NSLog(@"message:\n| %@ |", message);
 
@@ -119,17 +127,17 @@
 			isCompletionBlockCalled = YES;
 			NSTimeInterval interval = -[start timeIntervalSinceNow];
 			NSLog( @"test50SendMessageTimeout, index %d, time %f, %@", i, interval, (messageSendingState==PNMessageSendingError) ? data : @"" );
-//			STAssertTrue( interval < [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout, @"Timeout [PubNub sharedInstance].configuration.subscriptionRequestTimeout no correct, %f instead of %f", interval, [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout);
-//			STAssertTrue(messageSendingState==PNMessageSent, @"messageSendingState==PNMessageSent %@", data);
+			//			STAssertTrue( interval < [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout, @"Timeout [PubNub sharedInstance].configuration.subscriptionRequestTimeout no correct, %f instead of %f", interval, [PubNub sharedInstance].configuration.nonSubscriptionRequestTimeout);
+			//			STAssertTrue(messageSendingState==PNMessageSent, @"messageSendingState==PNMessageSent %@", data);
 		}];
 	}
 	for( int j=0; requestFinishedCount < arr.count; j++ )
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
-//	STAssertTrue(isCompletionBlockCalled, @"Completion block not called");
-//	STAssertTrue(delegateFailMessageSendCalled, @"delegate not called");
+	//	STAssertTrue(isCompletionBlockCalled, @"Completion block not called");
+	//	STAssertTrue(delegateFailMessageSendCalled, @"delegate not called");
 
-	return;
-	for( ; i<110; i++ ) {
+	//	return;
+	for( ; i<10; i++ ) {
 		NSString *channelName = [NSString stringWithFormat: @"%@ %d", [NSDate date], i];
 		NSArray *arr = [PNChannel channelsWithNames: @[channelName]];
 		NSDate *start = [NSDate date];
@@ -138,13 +146,13 @@
 		[PubNub subscribeOnChannels: arr
 		withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
 		 {
-			[[TestSemaphor sharedInstance] lift:channelName];
-			subscribedChannels = channels;
-			NSTimeInterval interval = -[start timeIntervalSinceNow];
-			NSLog(@"subscribed %f, %@", interval, subscriptionError);
-			STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+			 [[TestSemaphor sharedInstance] lift:channelName];
+			 subscribedChannels = channels;
+			 NSTimeInterval interval = -[start timeIntervalSinceNow];
+			 NSLog(@"subscribed %f, %@", interval, subscriptionError);
+			 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
 
-			STAssertNil( subscriptionError, @"channel %@, \nsubscriptionError %@", channelName, subscriptionError);
+			 STAssertNil( subscriptionError, @"channel %@, \nsubscriptionError %@", channelName, subscriptionError);
 		 }];
 		STAssertTrue([[TestSemaphor sharedInstance] waitForKey: channelName timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, %@", channelName);
 
@@ -155,6 +163,32 @@
 			}
 		}
 	}
+
+	NSMutableArray *arrChannel = [NSMutableArray arrayWithArray: [PubNub subscribedChannels]];
+	NSLog(@"[PubNub subscribedChannels] %@", [PubNub subscribedChannels]);
+	for( int i=0; /*[PubNub subscribedChannels].count > 0*/ i < arrChannel.count; i++) {
+		__block PNChannel *channel = arrChannel[i];
+		__block BOOL isBlockCalled = NO;
+		NSLog(@"start unsubscribeFromChannels %@", channel);
+		clientUnsubscriptionDidCompleteNotificationCount = 0;
+		[PubNub unsubscribeFromChannels: @[channel] withPresenceEvent:YES andCompletionHandlingBlock:^(NSArray *channels, PNError *unsubscribeError) {
+			NSLog(@"unsubscribeFromChannels %@", channel);
+			NSLog(@"isSubscribedOnChannel %d", [PubNub isSubscribedOnChannel: channel]);
+			STAssertNil( unsubscribeError, @"unsubscribeError %@", unsubscribeError);
+			isBlockCalled = YES;
+		}];
+		for( int j=0; j<5 /*isBlockCalled == 0 || clientUnsubscriptionDidCompleteNotificationCount == 0*/; j++ )
+			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+		STAssertTrue(clientUnsubscriptionDidCompleteNotificationCount>0, @"notification not called");
+		STAssertFalse(clientUnsubscriptionDidCompleteNotificationCount>1, @"notification called repeatedly, %d", clientUnsubscriptionDidCompleteNotificationCount);
+		STAssertTrue(isBlockCalled==YES, @"block not called");
+	}
+}
+
+-(void)kPNClientUnsubscriptionDidCompleteNotification:(NSNotification*)notification {
+	NSLog(@"kPNClientUnsubscriptionDidCompleteNotification %@", notification.userInfo);
+	NSLog(@"isSubscribedOnChannel %d", [PubNub isSubscribedOnChannel: (PNChannel*)notification.userInfo]);
+	clientUnsubscriptionDidCompleteNotificationCount++;
 }
 
 @end

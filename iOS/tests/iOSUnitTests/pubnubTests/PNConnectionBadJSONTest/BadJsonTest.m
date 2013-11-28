@@ -140,8 +140,7 @@
 }
 
 
-- (void)test10Connect
-{
+- (void)test10Connect {
 	[PubNub resetClient];
 	NSLog(@"end reset");
 	for( int j=0; j<5; j++ )
@@ -172,10 +171,18 @@
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:10]];
+
+	[self t15SubscribeOnChannels];
+	[self t18SendMessage];
+	[self t20SubscribeOnChannels];
+	[self t40SendMessage];
+	[self t45RequestHistoryForChannel];
+	[self t50SubscribeOnChannels1];
+	[self t60SendMessage1];
+	[self t70RequestHistoryForChannel1];
 }
 
-- (void)test15SubscribeOnChannels
-{
+- (void)t15SubscribeOnChannels {
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 	handleClientSubscriptionProcess = NO;
 	__block NSDate *start = [NSDate date];
@@ -193,8 +200,7 @@
                                  beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 }
 
--(void)test18SendMessage
-{
+-(void)t18SendMessage {
 	messageDidSendCount = 0;
 	SwizzleReceipt *receipt = nil;
 	SwizzleReceipt *receiptError = nil;
@@ -235,8 +241,7 @@
 }
 
 
-- (void)test20SubscribeOnChannels
-{
+- (void)t20SubscribeOnChannels {
 	[self resetConnection];
 	SwizzleReceipt *receipt = [self setNewDataForBuffer];
 
@@ -260,7 +265,7 @@
 	[Swizzler unswizzleFromReceipt:receipt];
 }
 
--(void)test40SendMessage {
+-(void)t40SendMessage {
 	messageSendingDidFailCount = 0;
 	for( int i=0; i<pnChannels.count; i++ ) {
 		SwizzleReceipt *receipt = [self setNewDataForBuffer];
@@ -286,7 +291,7 @@
 	}
 }
 
--(void)test45RequestHistoryForChannel {
+-(void)t45RequestHistoryForChannel {
 	SwizzleReceipt *receipt = [self setNewDataForBuffer];
 	for( int i=0; i<pnChannels.count && i<2; i++ ) {
 		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
@@ -304,7 +309,7 @@
 }
 
 
-- (void)test50SubscribeOnChannels1 {
+- (void)t50SubscribeOnChannels1 {
 	[self resetConnection];
 	SwizzleReceipt *receipt = [self setNewDataForBuffer1];
 
@@ -325,8 +330,7 @@
 	[Swizzler unswizzleFromReceipt: receipt];
 }
 
--(void)test60SendMessage1
-{
+-(void)t60SendMessage1 {
 	messageSendingDidFailCount = 0;
 	for( int i=0; i<pnChannels.count; i++ )
 	{
@@ -354,7 +358,7 @@
 	}
 }
 
--(void)test70RequestHistoryForChannel1
+-(void)t70RequestHistoryForChannel1
 {
 	SwizzleReceipt *receipt = [self setNewDataForBuffer1];
 	for( int i=0; i<pnChannels.count && i<2; i++ )

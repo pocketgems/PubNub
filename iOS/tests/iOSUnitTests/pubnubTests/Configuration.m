@@ -35,6 +35,7 @@
 
 	PNConfiguration *configuration = nil;
 	configurations = [NSMutableArray array];
+
 	configuration = [PNConfiguration configurationForOrigin:@"punsub123.pubnub.com"
 												 publishKey:@"sdfga"
 											   subscribeKey:@"sadasfsad"
@@ -90,7 +91,9 @@
 												  secretKey:nil
 												  cipherKey:@"chaos.pubnub.com"];
 	[configurations addObject: configuration];
-	//	////
+
+	[configurations addObject: [PNConfiguration defaultConfiguration]];
+//	////
 //	configuration = [PNConfiguration configurationForOrigin:@"adgads a dfa fasdfasdfaasfadsf"
 //												 publishKey:@"asdf sadhd dhajasdh"
 //											   subscribeKey:@"enigma"
@@ -130,9 +133,7 @@
 								 STFail(@"connectionError %@", connectionError);
 							 }];
 	});
-	while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-								 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+	while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 
 	[self t20Cofiguration];
 }
@@ -141,6 +142,10 @@
 	for( int i=0; i<configurations.count; i++ ) {
 		_isDidConnectToOrigin = NO;
 		_isConnectionDidFailWithError = NO;
+
+		if( [configurations[i] isEqual:[PubNub sharedInstance].configuration] == YES )
+			continue;
+
 		[self connectWithConfiguration: configurations[i]];
 		STAssertTrue( _isDidConnectToOrigin == YES || _isConnectionDidFailWithError == YES, @"not connect");
 		STAssertTrue( [configurations[i] isEqual: [PubNub sharedInstance].configuration ], @"configurations are not equals" );
@@ -152,9 +157,18 @@
 			 dispatch_semaphore_signal(semaphore);
 			 STAssertNil(subscriptionError, @"subscribeOnChannels subscriptionError %@", subscriptionError);
 		 }];
-		while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW))
-			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-									 beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+		while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+
+		semaphore = dispatch_semaphore_create(0);
+		[PubNub sendMessage: @"my message" toChannel: [PNChannel channelWithName: @"channel"]
+		withCompletionBlock:^(PNMessageState messageSendingState, id data)
+		 {
+			 if( messageSendingState == PNMessageSending )
+				 return;
+			 dispatch_semaphore_signal(semaphore);
+			 STAssertTrue( messageSendingState == PNMessageSent, @"sendMessage error %@", data);
+		 }];
+		while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 	}
 }
 

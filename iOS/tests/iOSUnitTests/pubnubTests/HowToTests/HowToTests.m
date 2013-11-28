@@ -70,6 +70,11 @@
 //- (void)setUp {
 //    [super setUp];
 - (void)test01Init {
+	[PubNub resetClient];
+	NSLog(@"end reset");
+	for( int j=0; j<5; j++ )
+		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+
 	semaphoreNotification = dispatch_semaphore_create(0);
     [PubNub setDelegate:self];
 	pnChannels = [PNChannel channelsWithNames:@[@"iosdev", @"andoirddev", @"wpdev", @"ubuntudev", @"1"]];
