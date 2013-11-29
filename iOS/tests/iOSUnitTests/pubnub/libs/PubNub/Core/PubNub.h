@@ -139,7 +139,7 @@
  * use PNObservationCenter methods for this purpose.
  */
 + (void)subscribeOnChannel:(PNChannel *)channel;
-+ (void) subscribeOnChannel:(PNChannel *)channel
++ (void)subscribeOnChannel:(PNChannel *)channel
 withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock;
 
 /**

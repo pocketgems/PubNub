@@ -53,9 +53,6 @@
                   Identifier = "TimeOutTest/test60RequestServerTimeTimeout">
                </Test>
                <Test
-                  Identifier = "ApnsToken">
-               </Test>
-               <Test
                   Identifier = "TimeOutTest">
                </Test>
                <Test
@@ -125,9 +122,6 @@
                   Identifier = "HowToTests/test35RequestServerTimeTokenWithCompletionBlock">
                </Test>
                <Test
-                  Identifier = "HowToTests">
-               </Test>
-               <Test
                   Identifier = "OversizedJSON">
                </Test>
                <Test
@@ -141,6 +135,12 @@
                </Test>
                <Test
                   Identifier = "ClientIdentifier">
+               </Test>
+               <Test
+                  Identifier = "ChannelLimitTest">
+               </Test>
+               <Test
+                  Identifier = "ApnsToken">
                </Test>
             </SkippedTests>
          </TestableReference>

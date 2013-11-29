@@ -58,6 +58,9 @@
 	BOOL handleClientCompletedTimeTokenProcessing;
 	BOOL pNClientDidSendMessageNotification;
 	BOOL pNClientMessageSendingDidFailNotification;
+
+	BOOL pNClientPresenceEnablingDidCompleteNotification;
+	BOOL pNClientPresenceDisablingDidCompleteNotification;
 }
 
 @property (nonatomic, retain) NSConditionLock *theLock;
@@ -271,20 +274,41 @@
 							   name:kPNClientParticipantsListDownloadFailedWithErrorNotification
 							 object:nil];
 
+	[notificationCenter addObserver:self
+						   selector:@selector(kPNClientPresenceEnablingDidCompleteNotification:)
+							   name:kPNClientPresenceEnablingDidCompleteNotification
+							 object:nil];
+	[notificationCenter addObserver:self
+						   selector:@selector(kPNClientPresenceDisablingDidCompleteNotification:)
+							   name:kPNClientPresenceDisablingDidCompleteNotification
+							 object:nil];
+
+
 	[self t05AddClientConnectionStateObserver];
 	[self t10Connect];
 	[self t20SubscribeOnChannels];
+	[self t25RequestParticipantsListForChannel];
 	[self t30RequestParticipantsListForChannel];
 	[self t35RequestServerTimeTokenWithCompletionBlock];
-	[self t40SendMessage];
-	[self t45SendMessageBig];
+//	[self t40SendMessage];
+//	[self t45SendMessageBig];
 	[self t50RequestHistoryForChannel];
-	[self t55RequestHistoryReverse];
-	[self t60SubscribeOnChannelsByTurns];
+//	[self t55RequestHistoryReverse];
+//	[self t60SubscribeOnChannelsByTurns];
 	[self t900UnsubscribeFromChannels];
 }
 
 #pragma mark - Handler methods
+
+- (void)kPNClientPresenceEnablingDidCompleteNotification:(NSNotification *)__unused notification {
+	PNLog(PNLogGeneralLevel, self, @"NSNotification kPNClientPresenceEnablingDidCompleteNotification: %@", notification);
+	pNClientPresenceEnablingDidCompleteNotification = YES;
+}
+- (void)kPNClientPresenceDisablingDidCompleteNotification:(NSNotification *)__unused notification {
+	PNLog(PNLogGeneralLevel, self, @"NSNotification kPNClientPresenceDisablingDidCompleteNotification: %@", notification);
+	pNClientPresenceDisablingDidCompleteNotification = YES;
+}
+
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 - (void)handleApplicationDidEnterBackgroundState:(NSNotification *)__unused notification {
@@ -514,6 +538,54 @@
 	STAssertTrue( handleClientSubscriptionProcess, @"notification not caleld");
 }
 
+-(void)revertPresenceObservationForChannel:(PNChannel*)channel {
+	__block NSDate *start = [NSDate date];
+	__block BOOL isCompletionBlockCalled = NO;
+	BOOL state = [PubNub isPresenceObservationEnabledForChannel: channel];
+	 if( state == NO ) {
+		pNClientPresenceEnablingDidCompleteNotification = NO;
+		[PubNub enablePresenceObservationForChannel: channel
+							  withCompletionHandlingBlock:^(NSArray *array, PNError *error)
+		 {
+			 NSTimeInterval interval = -[start timeIntervalSinceNow];
+			 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %f instead of %f", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+			 STAssertNil( error, @"enablePresenceObservationForChannel error %@", error);
+			 isCompletionBlockCalled = YES;
+		 }];
+		 for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
+			 isCompletionBlockCalled == NO; j++ )
+			 [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+		 STAssertTrue( pNClientPresenceEnablingDidCompleteNotification==YES, @"notification not called");
+
+	}
+	 else {
+		 pNClientPresenceDisablingDidCompleteNotification = NO;
+		 [PubNub disablePresenceObservationForChannel: channel
+						 withCompletionHandlingBlock:^(NSArray *array, PNError *error)
+		  {
+			  NSTimeInterval interval = -[start timeIntervalSinceNow];
+			  STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %f instead of %f", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
+			  STAssertNil( error, @"disablePresenceObservationForChannel error %@", error);
+			  isCompletionBlockCalled = YES;
+		  }];
+		 for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
+			 isCompletionBlockCalled == NO; j++ )
+			 [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+		 STAssertTrue( pNClientPresenceDisablingDidCompleteNotification==YES, @"notification not called");
+	}
+	BOOL newState = [PubNub isPresenceObservationEnabledForChannel: channel];
+	STAssertTrue( state != newState, @"state not changed");
+	STAssertTrue(isCompletionBlockCalled, @"block not called");
+}
+
+-(void)t25RequestParticipantsListForChannel {
+	for( int i=0; i<pnChannels.count; i++ ) {
+		[self revertPresenceObservationForChannel: pnChannels[i]];
+		[self revertPresenceObservationForChannel: pnChannels[i]];
+	}
+}
+
+
 -(void)t30RequestParticipantsListForChannel {
 	for( int i=0; i<pnChannels.count; i++ ) {
 		handleClientHereNowProcess = NO;
@@ -650,6 +722,7 @@
 }
 
 -(void)t50RequestHistoryForChannel {
+	[self requestHistoryForChannel: nil from: nil to: nil limit: 0 reverseHistory: NO];
 	for( int i=0; i<pnChannels.count; i++ ) {
 		PNDate *startDate = [PNDate dateWithDate:[NSDate dateWithTimeIntervalSinceNow:(-3600.0f)]];
 		PNDate *endDate = [PNDate dateWithDate:[NSDate date]];
@@ -726,7 +799,7 @@
 - (void)t60SubscribeOnChannelsByTurns {
 	for( int i = 0; i<20; i++ )	{
 //		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-//		__block BOOL isCompletionBlockCalled = NO;
+		__block BOOL isCompletionBlockCalled = NO;
 		NSString *channelName = [NSString stringWithFormat: @"%@ %d", [NSDate date], i];
 		NSArray *arr = [PNChannel channelsWithNames: @[channelName]];
 		NSDate *start = [NSDate date];
@@ -735,8 +808,8 @@
 		withCompletionHandlingBlock:^(PNSubscriptionProcessState state, NSArray *channels, PNError *subscriptionError)
 		 {
 //			 dispatch_semaphore_signal(semaphore);
-//			 isCompletionBlockCalled = YES;
-			 [[TestSemaphor sharedInstance] lift:channelName];
+			 isCompletionBlockCalled = YES;
+//			 [[TestSemaphor sharedInstance] lift:channelName];
 			 NSTimeInterval interval = -[start timeIntervalSinceNow];
 			 NSLog(@"subscribed %f, %@", interval, channels);
 			 STAssertTrue( interval < [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1, @"Timeout error, %d instead of %d", interval, [PubNub sharedInstance].configuration.subscriptionRequestTimeout);
@@ -752,11 +825,14 @@
 			 STAssertTrue( isSubscribed == YES, @"Channel no subecribed");
 		 }];
 		// Run loop
-//		for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
-//			isCompletionBlockCalled == NO; j++ )
-//			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
-//		STAssertTrue( isCompletionBlockCalled, @"completion block not called, %@", channelName);
-		STAssertTrue([[TestSemaphor sharedInstance] waitForKey: channelName timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, %@", channelName);
+		for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1 &&
+			isCompletionBlockCalled == NO; j++ )
+			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+		STAssertTrue( isCompletionBlockCalled, @"completion block not called, %@", channelName);
+		for( int j=0; /*j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1
+			&& */isCompletionBlockCalled == NO; j++ )
+			[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+//		STAssertTrue([[TestSemaphor sharedInstance] waitForKey: channelName timeout: [PubNub sharedInstance].configuration.subscriptionRequestTimeout+1], @"completion block not called, %@", channelName);
 	}
 }
 

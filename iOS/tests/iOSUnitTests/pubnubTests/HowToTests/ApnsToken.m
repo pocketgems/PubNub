@@ -26,6 +26,7 @@
 
 	BOOL pNClientPushNotificationDisableDidCompleteNotification;
 	BOOL pNClientPushNotificationDisableDidFailNotification;
+	int pNClientPushNotificationChannelsRetrieveDidCompleteNotification;
 }
 
 @end
@@ -55,6 +56,10 @@
 											 selector:@selector(kPNClientPushNotificationDisableDidFailNotification:)
 												 name:kPNClientPushNotificationDisableDidFailNotification
 											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(kPNClientPushNotificationChannelsRetrieveDidCompleteNotification:)
+												 name:kPNClientPushNotificationChannelsRetrieveDidCompleteNotification
+											   object:nil];
 }
 
 - (void)tearDown
@@ -82,6 +87,11 @@
 - (void)kPNClientPushNotificationDisableDidFailNotification:(NSNotification *)__unused notification {
 	NSLog(@"kPNClientPushNotificationDisableDidFailNotification");
 	pNClientPushNotificationDisableDidFailNotification = YES;
+}
+
+- (void)kPNClientPushNotificationChannelsRetrieveDidCompleteNotification:(NSNotification *)__unused notification {
+	NSLog(@"kPNClientPushNotificationChannelsRetrieveDidCompleteNotification");
+	pNClientPushNotificationChannelsRetrieveDidCompleteNotification++;
 }
 //////////////////////////////////////////////////////////////////
 
@@ -180,7 +190,6 @@
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationEnableDidCompleteNotification, @"notification not called");
 }
-//file:///Users/tuller/work/pubnub%20hotfix-t221/iOS/tests/iOSUnitTests/pubnubTests/HowToTests/ApnsToken.m: test failure: -[ApnsToken test10Connect] failed: "((error) == nil)" should be true. enablePushNotificationsOnChannels error Domain=com.pubnub.pubnub; Code=117; Description="PubNub API access denied"; Reason="An 'auth' key was provided for this request because PAM is enabled, but access was denied because the 'auth' key supplied does not posess the adequate permissions for this resource"; Fix suggestion="Ensure that you specified a valid 'authorizationKey'. If the key is correct, then access is currently denied for this key."; Associated object=(
 
 -(void)t40DisablePushNotificationsOnChannels {
 	__block BOOL isCompletionBlockCalled = NO;
@@ -200,10 +209,25 @@
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationDisableDidFailNotification, @"notification not called");
 
+
+	isCompletionBlockCalled = NO;
+	pNClientPushNotificationChannelsRetrieveDidCompleteNotification = 0;
+	pushToken = [@"12345678123456781234567812345678" dataUsingEncoding: NSUTF8StringEncoding];
+	[PubNub requestPushNotificationEnabledChannelsForDevicePushToken: pushToken withCompletionHandlingBlock:
+	 ^(NSArray *channels, PNError *error) {
+		 isCompletionBlockCalled = YES;
+		 STAssertNil( error, @"requestPushNotificationEnabledChannelsForDevicePushToken error %@", error);
+		 STAssertTrue( channels.count == pnChannels.count, @"channel's arrays are not equal, \n %@, \n %@", pnChannels, channels);
+		 NSLog( @"channel with push: \n %@, \n %@", pnChannels, channels);
+	 }];
+	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1; j++ )
+		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
+	STAssertTrue( pNClientPushNotificationChannelsRetrieveDidCompleteNotification==1, @"notification must be called once");
+
 	isCompletionBlockCalled = NO;
 	pNClientPushNotificationDisableDidCompleteNotification = NO;
 	pNClientPushNotificationDisableDidFailNotification = NO;
-	pushToken = [@"12345678123456781234567812345678" dataUsingEncoding: NSUTF8StringEncoding];
 	[PubNub disablePushNotificationsOnChannels: pnChannels withDevicePushToken:pushToken andCompletionHandlingBlock:
 	 ^(NSArray *channels, PNError *error) {
 		 isCompletionBlockCalled = YES;
@@ -214,6 +238,21 @@
 		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
 	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
 	STAssertTrue( pNClientPushNotificationDisableDidCompleteNotification, @"notification not called");
+
+	isCompletionBlockCalled = NO;
+	pNClientPushNotificationChannelsRetrieveDidCompleteNotification = 0;
+	pushToken = [@"12345678123456781234567812345678" dataUsingEncoding: NSUTF8StringEncoding];
+	[PubNub requestPushNotificationEnabledChannelsForDevicePushToken: pushToken withCompletionHandlingBlock:
+	 ^(NSArray *channels, PNError *error) {
+		 isCompletionBlockCalled = YES;
+		 STAssertNil( error, @"requestPushNotificationEnabledChannelsForDevicePushToken error %@", error);
+		 STAssertTrue( channels.count == 0, @"channel's array are not empty, \n %@", channels);
+		 NSLog( @"channel with push: \n %@", channels);
+	 }];
+	for( int j=0; j<[PubNub sharedInstance].configuration.subscriptionRequestTimeout+1; j++ )
+		[[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1.0] ];
+	STAssertTrue( isCompletionBlockCalled, @"completion block not called");
+	STAssertTrue( pNClientPushNotificationChannelsRetrieveDidCompleteNotification==1, @"notification must be called once");
 }
 
 @end
