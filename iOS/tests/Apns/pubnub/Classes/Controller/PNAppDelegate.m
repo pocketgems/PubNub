@@ -8,7 +8,7 @@
 
 #import "PNAppDelegate.h"
 #import "PNIdentificationViewController.h"
-
+#import "NSData+PNAdditions.h"
 
 #pragma mark Private interface methods
 
@@ -36,13 +36,7 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"My device token is: %@", deviceToken);
-
-    NSString *devToken = [[[[deviceToken description]
-                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
-                           stringByReplacingOccurrencesOfString:@">" withString:@""]
-                          stringByReplacingOccurrencesOfString: @" " withString: @""];
-
-	[[NSUserDefaults standardUserDefaults] setObject: devToken forKey: @"devToken"];
+	[[NSUserDefaults standardUserDefaults] setObject: [deviceToken HEXPushToken] forKey: @"devToken"];
 	[[NSUserDefaults standardUserDefaults] setObject: deviceToken forKey: @"deviceToken"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -180,6 +174,13 @@
 
 	NSLog(@"didReceiveRemoteNotification fetchCompletionHandler %@", userInfo);
 	completionHandler(UIBackgroundFetchResultNewData);
+
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"fetchCompletionHandler"
+														message:[NSString stringWithFormat: @"%@", userInfo]
+													   delegate:nil
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles:nil];
+	[alertView show];
 }
 
 # pragma mark - Background Callback

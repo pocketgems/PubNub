@@ -105,8 +105,8 @@
                                                                                                topCapHeight:5.0f];
     [self.connectButton setBackgroundImage:stretchableButtonBackground forState:UIControlStateNormal];
 
-    self.clientIdentifier.text = [PubNub clientIdentifier];
-    self.sslEnablingSwitch.on = [PNDataManager sharedInstance].configuration.shouldUseSecureConnection;
+//    self.clientIdentifier.text = [PubNub clientIdentifier];
+//    self.sslEnablingSwitch.on = [PNDataManager sharedInstance].configuration.shouldUseSecureConnection;
 }
 
 
@@ -120,7 +120,11 @@
     self.clientIdentifier.userInteractionEnabled = NO;
 
     // Update PubNub client configuration
-    [PubNub setConfiguration:[PNDataManager sharedInstance].configuration];
+    [PubNub setConfiguration: [PNConfiguration configurationForOrigin:@"pubsub.pubnub.com"
+														   publishKey:@"pub-c-bb4a4d9b-21b1-40e8-a30b-04a22f5ef154"
+														 subscribeKey:@"sub-c-6b43405c-3694-11e3-a5ee-02ee2ddab7fe"
+															secretKey:@"sec-c-ZmNlNzczNTEtOGUwNS00MmRjLWFkMjQtMjJiOTA2MjY2YjI5"
+															cipherKey:nil] ];
 
 
     PNIdentificationViewController *weakSelf = self;
