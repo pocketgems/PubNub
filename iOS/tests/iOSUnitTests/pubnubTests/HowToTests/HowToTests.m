@@ -290,11 +290,11 @@
 	[self t25RequestParticipantsListForChannel];
 	[self t30RequestParticipantsListForChannel];
 	[self t35RequestServerTimeTokenWithCompletionBlock];
-//	[self t40SendMessage];
+	[self t40SendMessage];
 //	[self t45SendMessageBig];
 	[self t50RequestHistoryForChannel];
-//	[self t55RequestHistoryReverse];
-//	[self t60SubscribeOnChannelsByTurns];
+	[self t55RequestHistoryReverse];
+	[self t60SubscribeOnChannelsByTurns];
 	[self t900UnsubscribeFromChannels];
 }
 
@@ -695,7 +695,7 @@
 	__block BOOL isCompletionBlockCalled = NO;
 	NSDate *start = [NSDate date];
 	NSLog(@"requestHistoryForChannel start %@, end %@", startDate, endDate);
-	[PubNub requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:NO withCompletionBlock:^(NSArray *messages, PNChannel *channel, PNDate *fromDate, PNDate *toDate, PNError *error) {
+	[PubNub requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:NO withCompletionBlock:^(NSArray *messages, PNChannel *ch, PNDate *fromDate, PNDate *toDate, PNError *error) {
 //		 dispatch_semaphore_signal(semaphore);
 		 isCompletionBlockCalled = YES;
 		 history = messages;
@@ -709,6 +709,8 @@
 				 NSLog(@"requestHistoryForChannel error %@, start %@, end %@", error, startDate, endDate);
 			 STAssertNil( error, @"requestHistoryForChannel error %@", error);
 		 }
+		if( ch == nil )
+			STAssertNotNil( error, @"error cann't be nil");
 	 }];
 //	while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW) || handleClientMessageHistoryProcess == NO)
 //		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
