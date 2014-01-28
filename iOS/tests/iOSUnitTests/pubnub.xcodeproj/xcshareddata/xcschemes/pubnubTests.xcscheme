@@ -25,6 +25,27 @@
                <Test
                   Identifier = "ChangingChannels">
                </Test>
+               <Test
+                  Identifier = "AbbreviatedPresenceTest">
+               </Test>
+               <Test
+                  Identifier = "ApnsToken">
+               </Test>
+               <Test
+                  Identifier = "CatchupTest">
+               </Test>
+               <Test
+                  Identifier = "ChannelLimitTest">
+               </Test>
+               <Test
+                  Identifier = "PAMTest">
+               </Test>
+               <Test
+                  Identifier = "TimeOutTest">
+               </Test>
+               <Test
+                  Identifier = "TimeCommand">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>

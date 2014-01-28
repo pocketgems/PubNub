@@ -23,6 +23,7 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+<<<<<<< HEAD
                   Identifier = "AbbreviatedPresenceTest">
                </Test>
                <Test
@@ -35,6 +36,8 @@
                   Identifier = "CatchupTest">
                </Test>
                <Test
+=======
+>>>>>>> feature-pt64287520
                   Identifier = "ChangingChannels">
                </Test>
                <Test
@@ -47,6 +50,7 @@
                   Identifier = "HowToTests/test20SubscribeOnChannels">
                </Test>
                <Test
+<<<<<<< HEAD
                   Identifier = "HowToTests/test30RequestParticipantsListForChannel">
                </Test>
                <Test
@@ -141,6 +145,108 @@
                </Test>
                <Test
                   Identifier = "W_ChaosTest">
+=======
+                  Identifier = "HowToTests/test50RequestHistoryForChannel">
+               </Test>
+               <Test
+                  Identifier = "TimeCommand/testHandleOriginLookup20">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test20SubscribeOnChannels">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test30RequestParticipantsListForChannel">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test35RequestServerTimeTokenWithCompletionBlock">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test40SendMessage">
+               </Test>
+               <Test
+                  Identifier = "HowToTests/test55RequestHistoryReverse">
+               </Test>
+               <Test
+                  Identifier = "AbbreviatedPresenceTest">
+               </Test>
+               <Test
+                  Identifier = "ChannelLimitTest">
+               </Test>
+               <Test
+                  Identifier = "Configuration">
+               </Test>
+               <Test
+                  Identifier = "PAMTest">
+               </Test>
+               <Test
+                  Identifier = "TimeOutTest">
+               </Test>
+               <Test
+                  Identifier = "HowToTests">
+               </Test>
+               <Test
+                  Identifier = "PAMTestError">
+               </Test>
+               <Test
+                  Identifier = "PNBaseRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNChannelConstructor">
+               </Test>
+               <Test
+                  Identifier = "PNConnectionChannelTest">
+               </Test>
+               <Test
+                  Identifier = "PNConnectionTest">
+               </Test>
+               <Test
+                  Identifier = "PNCryptoHelperTest">
+               </Test>
+               <Test
+                  Identifier = "PNCryptoTest">
+               </Test>
+               <Test
+                  Identifier = "PNHereNowRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNLatencyMeasureRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNLeaveRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNMessageHistoryRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNMessagePostRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNMessagingChannelTest">
+               </Test>
+               <Test
+                  Identifier = "PNReachabilityTest">
+               </Test>
+               <Test
+                  Identifier = "PNServiceChannelTest">
+               </Test>
+               <Test
+                  Identifier = "PNSubscribeRequestTest">
+               </Test>
+               <Test
+                  Identifier = "PNSubscribeUnsubscribeTest">
+               </Test>
+               <Test
+                  Identifier = "W_ChaosTest">
+               </Test>
+               <Test
+                  Identifier = "TimeCommand">
+               </Test>
+               <Test
+                  Identifier = "SendBigMessage">
+               </Test>
+               <Test
+                  Identifier = "PNTimeTokenRequestTest">
+>>>>>>> feature-pt64287520
                </Test>
             </SkippedTests>
          </TestableReference>

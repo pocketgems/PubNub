@@ -38,8 +38,8 @@
 #pragma mark Static
 
 static NSString * const kPNLibraryVersion = @"3.5.4";
-static NSString * const kPNCodebaseBranch = @"master";
-static NSString * const kPNCodeCommitIdentifier = @"9c9291e775ec05e869b752217432c83661a4e302";
+static NSString * const kPNCodebaseBranch = @"feature-master-pt64287520";
+static NSString * const kPNCodeCommitIdentifier = @"126d988e1a2c7ff1f5f15e40235e3f9be213d50b";
 
 // Stores reference on singleton PubNub instance
 static PubNub *_sharedInstance = nil;
@@ -2909,15 +2909,15 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
             __block id decodedJSONObject = nil;
             [PNJSONSerialization JSONObjectWithString:object
                                       completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
-                                          
-                                          decodedJSONObject = result;
-                                      }
-                                           errorBlock:^(NSError *error) {
-                                               
+
+                                      decodedJSONObject = result;
+                                  }
+                                       errorBlock:^(NSError *error) {
+
                                                PNLog(PNLogGeneralLevel, self, @"MESSAGE DECODING ERROR: %@", error);
                                            }];
             
-            object = decodedJSONObject;
+        object = decodedJSONObject;
         }
         else {
             
@@ -3848,14 +3848,24 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     //
 }
 
-- (void)connectionChannelDidResume:(PNConnectionChannel *)channel {
+- (void)connectionChannelDidResume:(PNConnectionChannel *)channel requireWarmUp:(BOOL)isWarmingUpRequired {
 
-    [self warmUpConnection:channel];
+    // Checking whether connection should be 'warmed up' to keep it open or not.
+    if (isWarmingUpRequired) {
+
+        [self warmUpConnection:channel];
+    }
 
     // Check whether on resume there is no async locking operation is running
     if (!self.asyncLockingOperationInProgress) {
 
         [self handleLockingOperationComplete:YES];
+    }
+
+    // Checking whether all communication channels connected or not
+    if ([self.messagingChannel isConnected] && [self.serviceChannel isConnected]) {
+
+        [self notifyDelegateAboutConnectionToOrigin:self.configuration.origin];
     }
 }
 

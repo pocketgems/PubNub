@@ -5,18 +5,28 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
+<<<<<<< HEAD
 	<string>F1CFE733-91EB-482A-8238-25324085F991</string>
+=======
+	<string>3C659D83-23CA-429A-BBE3-1B7564707958</string>
+>>>>>>> feature-pt64287520
 	<key>IDESourceControlProjectName</key>
 	<string>ConnectionIssues1</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+<<<<<<< HEAD
 		<key>05B51DCA-C040-494B-94E0-D490909C382E</key>
 		<string>https://github.com/pubnub/objective-c/</string>
+=======
+		<key>390F4CE6-C368-4B61-BAF1-74CDD1844E51</key>
+		<string>https://github.com/pubnub/objective-c</string>
+>>>>>>> feature-pt64287520
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>iOS/tests/ConnectionIssues1/ConnectionIssues1.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+<<<<<<< HEAD
 		<key>05B51DCA-C040-494B-94E0-D490909C382E</key>
 		<string>../../../../..</string>
 	</dict>
@@ -26,15 +36,32 @@
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
 	<string>05B51DCA-C040-494B-94E0-D490909C382E</string>
+=======
+		<key>390F4CE6-C368-4B61-BAF1-74CDD1844E51</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/pubnub/objective-c</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>390F4CE6-C368-4B61-BAF1-74CDD1844E51</string>
+>>>>>>> feature-pt64287520
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
+<<<<<<< HEAD
 			<string>05B51DCA-C040-494B-94E0-D490909C382E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>pubnup master</string>
+=======
+			<string>390F4CE6-C368-4B61-BAF1-74CDD1844E51</string>
+			<key>IDESourceControlWCCName</key>
+			<string>pubnub 3.5</string>
+>>>>>>> feature-pt64287520
 		</dict>
 	</array>
 </dict>
