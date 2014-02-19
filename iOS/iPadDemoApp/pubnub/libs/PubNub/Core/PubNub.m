@@ -5687,7 +5687,10 @@ didFailParticipantsListLoadForChannel:(PNChannel *)channel
     PNLog(PNLogGeneralLevel, self, @"Destroyed");
 }
 
-#pragma mark -
+#pragma mark - Logging methods
 
++(void) toggleLogging {
+    _isLoggingEnabled = !_isLoggingEnabled;
+}
 
 @end
