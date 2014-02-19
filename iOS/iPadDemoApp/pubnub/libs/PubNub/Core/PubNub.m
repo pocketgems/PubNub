@@ -7192,7 +7192,10 @@ didReceiveNetworkLatency:(double)latency
     [PNLogger logGeneralMessageFrom:self message:^NSString * { return @"Destroyed"; }];
 }
 
-#pragma mark -
+#pragma mark - Logging methods
 
++(void) toggleLogging {
+    _isLoggingEnabled = !_isLoggingEnabled;
+}
 
 @end
