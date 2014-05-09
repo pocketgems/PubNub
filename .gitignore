@@ -23,3 +23,14 @@ Icon?
 ehthumbs.db
 Thumbs.db
 .idea/
+/.idea/workspace.xml
+
+# Android
+######################################
+*.class
+*.classpath
+*.project
+out/
+bin/
+gen/
+
