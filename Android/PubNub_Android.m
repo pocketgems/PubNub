@@ -12,11 +12,10 @@
 
 #import "PNConfiguration+Protected.h"
 #import "PNConfiguration.h"
+#import "PNCryptoHelper.h"
+#import "PNJSONSerialization.h"
 #import "PNMacro.h"
 #import "PubNub_AndroidBridge.h"
-
-#import "GameLog.h"
-#import "PGJsonUtility.h"
 
 BOOL _isLoggingEnabled = NO;
 
@@ -42,16 +41,17 @@ static dispatch_once_t __pubNubOnceToken;
 
 + (PubNub *)sharedInstance {
     dispatch_once(&__pubNubOnceToken, ^{
-        LOG(@"Initializing sharedInstance");
-
         [PubNub_AndroidBridge initializeJava];
         __sharedInstance = [[[self class] alloc] init];
+        PNLog(PNLogGeneralLevel, __sharedInstance, @"INITIALIZING SHARED INSTANCE");
     });
 
     return __sharedInstance;
 }
 
 + (void)resetClient {
+    PNLog(PNLogGeneralLevel, __sharedInstance, @"CLIENT RESET.");
+
     [self disconnect];
 
     __pubNubOnceToken = 0;
@@ -70,21 +70,17 @@ static dispatch_once_t __pubNubOnceToken;
 
 + (void)connectWithSuccessBlock:(PNClientConnectionSuccessBlock)success
                      errorBlock:(PNClientConnectionFailureBlock)failure {
-    if (success || failure) {
-        // Error saying the callback's are not yet supported
-        NSUnimplementedFunction();
-        DEBUG_BREAK();
-    }
-    else {
-        PNConfiguration *configuration = [[self sharedInstance] configuration];
-        [PubNub_AndroidBridge _initializePubnubWithPublishKey:configuration.publishKey
-                                                 subscribeKey:configuration.subscriptionKey
-                                                    secretKey:configuration.secretKey];
-        [self sharedInstance].clientConnected = YES;
-    }
+    PNLog(PNLogDelegateLevel, [self sharedInstance], @"PUBNUB WILL CONNECT TO ORIGIN: %@)",
+          [self sharedInstance].configuration.origin);
 }
 
 + (void)disconnect {
+    [self disconnectByUser:YES];
+}
+
++ (void)disconnectByUser:(BOOL)isDisconnectedByUser {
+    PNLog(PNLogGeneralLevel, [self sharedInstance], @"TRYING TO DISCONNECT%@",
+          isDisconnectedByUser ? @" BY USER REQUEST." : @" BY INTERNAL REQUEST");
 
     for (NSString *channelName in [[[self sharedInstance] channelToSubscritionCallbacks] allKeys]) {
         ChannelSubscriptionCallback *callback = [[self sharedInstance] channelToSubscritionCallbacks][channelName];
@@ -97,15 +93,13 @@ static dispatch_once_t __pubNubOnceToken;
         [callback removeFromUnsubscriptionCallbackList:channelName];
     }
 
-    LOG(@" Disconnecting pubnub");
-
     [PubNub_AndroidBridge _shutdownPubnub];
 
-//    Remove all callbacks and make sure they get dealloced
-//
-//    Call Pubnub Shutdown on Java
-//    Remove all PNObjervation callback's call PNObservation reset
-//    Remove observing any notifications from PubNubObservation
+    //    Remove all callbacks and make sure they get dealloced
+    //
+    //    Call Pubnub Shutdown on Java
+    //    Remove all PNObjervation callback's call PNObservation reset
+    //    Remove observing any notifications from PubNubObservation
 }
 
 #pragma mark - Client configuration
@@ -119,18 +113,21 @@ static dispatch_once_t __pubNubOnceToken;
     if ([configuration isValid]) {
         if (configuration && [[[self sharedInstance] configuration] isEqual:configuration]) {
             // Don't do anything as they are equal
-            LOG(@"Configuration is already equal, not setting it again");
+            PNLog(PNLogGeneralLevel, [self sharedInstance], @"IGNORE CONFIGURATION UPDATE. IT IS THE SAME AS WAS SET BEFORE");
         }
         else if (![[self sharedInstance] configuration]) {
             // Initialize Java Pubnub
             [self sharedInstance].configuration = configuration;
+            [PubNub_AndroidBridge _initializePubnubWithPublishKey:configuration.publishKey
+                                                     subscribeKey:configuration.subscriptionKey
+                                                        secretKey:configuration.secretKey];
         }
         else {
-            LOG(@"ERROR: Setting a new configuration not supported %@", configuration);
+            PNLog(PNLogGeneralLevel, [self sharedInstance], @"SETTING A NEW CONFIGURATION IS NOT YET SUPPORTED %@", configuration);
         }
     }
     else {
-        LOG(@"ERROR: Configuration %@ not valid", configuration);
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"PROVIDED CONFIGURATION %@ IS NOT VALID", configuration);
     }
 }
 
@@ -146,10 +143,11 @@ static dispatch_once_t __pubNubOnceToken;
 
 + (void)setClientIdentifier:(NSString *)identifier shouldCatchup:(BOOL)shouldCatchup {
     if (shouldCatchup) {
-        LOG(@"ERROR: Should catchup not supported on android");
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"SHOULD CATCHUP IS NOT SUPPORTED ON ANDROID");
         DEBUG_BREAK();
     }
     else {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"UPDATING CLIENT IDENTIFIER %@", identifier);
         [PubNub_AndroidBridge _setClientIdentifier:identifier];
     }
 }
@@ -219,10 +217,11 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
  andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock {
     if (withPresenceEvent) {
         // Throw an error saying it's not supported
-        LOG(@"ERROR: With Presence event subscribing on a channel not supported");
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"WITH PRESENCE EVENT SUBSCRIBING ON A CHANNEL IS NOT SUPPORTED");
         DEBUG_BREAK();
     }
     else {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"TRYING TO SUBSCRIBE ON CHANNELS: %@", channels);
         for (PNChannel *channel in channels) {
             if (self.sharedInstance.channelToSubscritionCallbacks[channel.name]) {
                 // Alreday Subscribed - Do nothing
@@ -288,10 +287,11 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
      andCompletionHandlingBlock:(PNClientChannelUnsubscriptionHandlerBlock)handlerBlock {
     if (withPresenceEvent) {
         // Throw an error saying it's not supported
-        LOG(@"ERROR: With Presence event unsubscribing on a channel not supported");
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"WITH PRESENCE EVENT UNSUBSCRIBING ON A CHANNEL IS NOT SUPPORTED");
         DEBUG_BREAK();
     }
     else {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"TRYING TO UNSUBSCRIBE FROM CHANNELS: %@", channels);
         for (PNChannel *channel in channels) {
             if ([[self sharedInstance] channelToUnsubscritionCallbacks][channel.name]) {
                 // Alreday in Unsubscribtion process - Do nothing
@@ -462,7 +462,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
         messageToBeSent = message;
     }
     else {
-        messageToBeSent = [PGJSONUtility stringFromObject:message];
+        messageToBeSent = [PNJSONSerialization stringFromJSONObject:message];
     }
 
     MessageProcessingCallback *callback = [[MessageProcessingCallback alloc] initWithMessageProcessingBlock:success
@@ -475,7 +475,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)sendMessage:(PNMessage *)message {
 
-    [self sendMessage:message withCompletionBlock:nil];
+    [self sendMessage:message.message withCompletionBlock:nil];
 }
 
 + (void)sendMessage:(PNMessage *)message withCompletionBlock:(PNClientMessageProcessingBlock)success {
@@ -638,8 +638,102 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 + (id)AESDecrypt:(id)object error:(PNError **)decryptionError {
-    NSUnimplementedFunction();
-    return nil;
+
+    __block id decryptedObject = nil;
+
+    // Check whether user provided JSON string or not.
+    if ([PNJSONSerialization isJSONString:object]) {
+
+        if ([object isKindOfClass:[NSString class]]) {
+
+            __block id decodedJSONObject = nil;
+            [PNJSONSerialization JSONObjectWithString:object
+                                      completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
+
+                                          decodedJSONObject = result;
+                                      }
+                                           errorBlock:^(NSError *error) {
+
+                                               PNLog(PNLogGeneralLevel, self, @"MESSAGE DECODING ERROR: %@", error);
+                                           }];
+
+            object = decodedJSONObject;
+        }
+        else {
+            decryptedObject = object;
+        }
+    }
+
+    if ([PNCryptoHelper sharedInstance].isReady) {
+
+        PNError *processingError;
+        NSInteger processingErrorCode = -1;
+
+#ifndef CRYPTO_BACKWARD_COMPATIBILITY_MODE
+        BOOL isExpectedDataType = [object isKindOfClass:[NSString class]];
+#else
+        BOOL isExpectedDataType = [object isKindOfClass:[NSString class]] ||
+		[object isKindOfClass:[NSArray class]] ||
+		[object isKindOfClass:[NSDictionary class]];
+#endif
+        if (isExpectedDataType) {
+
+#ifndef CRYPTO_BACKWARD_COMPATIBILITY_MODE
+            NSString *decodedMessage = [[PNCryptoHelper sharedInstance] decryptedStringFromString:object error:&processingError];
+#else
+            id decodedMessage = [[PNCryptoHelper sharedInstance] decryptedObjectFromObject:object error:&processingError];
+#endif
+            if (decodedMessage == nil || processingError != nil) {
+
+                processingErrorCode = kPNCryptoInputDataProcessingError;
+            }
+            else if (decodedMessage != nil) {
+
+                decryptedObject = decodedMessage;
+            }
+
+#ifndef CRYPTO_BACKWARD_COMPATIBILITY_MODE
+            if (processingError == nil && processingErrorCode < 0) {
+
+                [PNJSONSerialization JSONObjectWithString:decodedMessage
+                                          completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
+
+											  decryptedObject = result;
+                                          }
+                                               errorBlock:^(NSError *error) {
+
+                                                   PNLog(PNLogGeneralLevel, self, @"MESSAGE DECODING ERROR: %@", error);
+                                               }];
+            }
+#endif
+        }
+        else {
+
+            processingErrorCode = kPNCryptoInputDataProcessingError;
+        }
+
+        if (processingError != nil || processingErrorCode > 0) {
+
+            if (processingErrorCode > 0) {
+
+                processingError = [PNError errorWithCode:processingErrorCode];
+            }
+            if (decryptionError != NULL) {
+
+                *decryptionError = processingError;
+            }
+
+            PNLog(PNLogGeneralLevel, object, @" Message decoding failed because of error: %@", processingError);
+            decryptedObject = @"DECRYPTION_ERROR";
+        }
+    }
+    else {
+
+        decryptedObject = object;
+    }
+
+
+    return decryptedObject;
 }
 
 + (NSString *)AESEncrypt:(id)object {
@@ -647,9 +741,45 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     return [self AESEncrypt:object error:NULL];
 }
 
+
 + (NSString *)AESEncrypt:(id)object error:(PNError **)encryptionError {
-    NSUnimplementedFunction();
-    return nil;
+
+    PNError *processingError;
+    NSString *encryptedObjectHash = nil;
+    if ([PNCryptoHelper sharedInstance].isReady) {
+
+#ifndef CRYPTO_BACKWARD_COMPATIBILITY_MODE
+        object = object ? [PNJSONSerialization stringFromJSONObject:object] : @"";
+#endif
+
+        // Retrieve reference on encrypted message (if possible)
+        if ([PNCryptoHelper sharedInstance].isReady) {
+
+#ifndef CRYPTO_BACKWARD_COMPATIBILITY_MODE
+            NSString *encryptedData = [[PNCryptoHelper sharedInstance] encryptedStringFromString:object error:&processingError];
+
+            encryptedObjectHash = [NSString stringWithFormat:@"\"%@\"", encryptedData];
+#else
+            id encryptedMessage = [[PNCryptoHelper sharedInstance] encryptedObjectFromObject:object error:&processingError];
+            NSString *encryptedData = [PNJSONSerialization stringFromJSONObject:encryptedMessage];
+
+            encryptedObjectHash = [NSString stringWithFormat:@"%@", encryptedData];
+#endif
+
+            if (processingError != nil) {
+
+                if (encryptionError != NULL) {
+
+                    *encryptionError = processingError;
+                }
+
+                PNLog(PNLogCommunicationChannelLayerErrorLevel, self,
+                      @"Message encryption failed with error: %@\nUnencrypted message will be sent.",
+                      processingError);
+            }
+        }
+    }
+    return encryptedObjectHash;
 }
 
 
