@@ -11,6 +11,7 @@
 #import "Callbacks_Android.h"
 
 #import "PGJSONUtility.h"
+#import "PNChannel.h"
 #import "PNMessage.h"
 #import "PNMessage+Protected.h"
 #import "PubNub+Protected.h"
@@ -236,7 +237,7 @@
 
         for (id message in responseArray) {
             PNError *error = nil;
-            PNMessage *pubnubMessage = [PNMessage messageWithObject:message forChannel:pubnubChannel error:&error];
+            PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:nil atDate:nil];
             if (error) {
                 LOG(@"Warning: Error while creating a PNMessage object using the message %@ object", message);
             }
@@ -368,7 +369,7 @@
     return self;
 }
 
-- (void)connnectCallback:(NSString *)channel response:(NSString *)response {
+- (void)connectCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         // Connect callback response contains 1, connected message and message
         LOG(@"Connect Callback %@ %@", channel, response);
@@ -377,6 +378,10 @@
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didSubscribeOnChannels:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                                 didSubscribeOnChannels:@[pubnubChannel]];
+        }
+
+        if (self.handlerBlock) {
+            self.handlerBlock(PNSubscriptionProcessSubscribedState, @[pubnubChannel], nil);
         }
     });
 }
@@ -428,7 +433,7 @@
         id message = [PGJSONUtility objectFromString:response];
 
         PNError *error = nil;
-        PNMessage *pubnubMessage = [PNMessage messageWithObject:message forChannel:pubnubChannel error:&error];
+        PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:nil atDate:nil];
 
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessage:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
