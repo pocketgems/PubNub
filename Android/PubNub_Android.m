@@ -792,7 +792,14 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 #pragma mark - Logging methods
 
 + (void)toggleLogging {
-    _isLoggingEnabled = !_isLoggingEnabled;
+    if (_isLoggingEnabled) {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"DISABLING LOGGING.");
+        _isLoggingEnabled = NO;
+    } else {
+        _isLoggingEnabled = YES;
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"ENABLING LOGGING.");
+    }
+    [PubNub_AndroidBridge _loggingEnabled:_isLoggingEnabled];
 }
 
 #pragma mark - Instance Methods

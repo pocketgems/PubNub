@@ -125,4 +125,8 @@ public class PGPubnub extends Pubnub {
             log.error(e.toString());
         }
     }
+
+    public static void setLoggingEnabled(boolean loggingEnabled) {
+        log.LOGGING = loggingEnabled;
+    }
 }
