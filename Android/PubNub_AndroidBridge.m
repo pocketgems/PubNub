@@ -59,6 +59,10 @@
                                           selector:@selector(_sendMessage:channel:withCallback:)
                                        returnValue:nil
                                          arguments:[NSString className], [NSString className], [MessageProcessingCallback className], NULL];
+        [PubNub_AndroidBridge registerStaticMethod:@"sendJSONMessage"
+                                          selector:@selector(_sendJSONMessage:channel:withCallback:)
+                                       returnValue:nil
+                                         arguments:[NSString className], [NSString className], [MessageProcessingCallback className], NULL];
     });
 }
 

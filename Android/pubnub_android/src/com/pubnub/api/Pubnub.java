@@ -5,6 +5,8 @@ import java.util.UUID;
 import com.pocketgems.android.pgcommon.PGLog;
 import com.pocketgems.pgengine.pubnub.*;
 
+import org.json.JSONObject;
+
 /**
  * Pubnub object facilitates querying channels for messages and listening on
  * channels for presence/message events
@@ -101,6 +103,20 @@ public class Pubnub extends PubnubCore {
 
             callback.retain_native();
             __sharedInstance.publish(channel, message, callback);
+        }
+        catch (Exception e) {
+            PGLog.log(LOG_TAG, e.toString());
+        }
+    }
+
+    public static void sendJSONMessage(String message, String channel, MessageProcessingCallback callback) {
+        try {
+            JSONObject jsonMessage = new JSONObject(message);
+
+            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Send json on channel" + " " + channel + " " + jsonMessage + " " + callback);
+
+            callback.retain_native();
+            __sharedInstance.publish(channel, jsonMessage, callback);
         }
         catch (Exception e) {
             PGLog.log(LOG_TAG, e.toString());
