@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Pocket Gems. All rights reserved.
 //
 
-#ifdef PGDROID
+#ifdef APPORTABLE
 
 #import "Callbacks_Android.h"
 
 #import "PGJSONUtility.h"
 #import "PNChannel.h"
+#import "PNMacro.h"
 #import "PNMessage.h"
 #import "PNMessage+Protected.h"
 #import "PubNub+Protected.h"
 #import "PNErrorCodes.h"
-#import "GameLog.h"
 
 @interface PubNub ()
 
@@ -105,66 +105,50 @@
 
 - (id)initWithMessageProcessingBlock:(PNClientMessageProcessingBlock)handlerBlock andDelegate:(PubNub *)pubnubDelegate {
     self = [super init];
-
     if (self) {
         self.handlerBlock = handlerBlock;
         self.pubnubDelegate = pubnubDelegate;
+        PNLog(PNLogGeneralLevel, self, @"INITIALIZING MESSAGE PROCESSING CALLBACK");
     }
-
-    LOG(@"Initilaizing %@", self);
-
     return self;
 }
 
 - (void)successCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Success Callback %@ %@", channel, response);
-
+        PNLog(PNLogGeneralLevel, self, @"SUCCESS CALLBACK %@ %@", channel, response);
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didSendMessage:)]) {
-            LOG(@"Warning: don't have access to the message object so sending nil");
-            DEBUG_BREAK();
-
+            PNLog(PNLogCommunicationChannelLayerWarnLevel, self, @"DON'T HAVE ACCESS TO THE MESSAGE OBJECT SO SENDING NIL");
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                                         didSendMessage:nil];
         }
-
         if (self.handlerBlock) {
-            LOG(@"Warning: don't have access to the message object so sending nil");
-            DEBUG_BREAK();
-
+            PNLog(PNLogCommunicationChannelLayerWarnLevel, self, @"DON'T HAVE ACCESS TO THE MESSAGE OBJECT SO SENDING NIL");
             self.handlerBlock(PNMessageSent, nil);
         }
-
         [self release];
     });
 }
 
 - (void)errorCallback:(NSString *)channel errorCode:(int)errorCode errorMessage:(NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Error Callback %@ %d %@", channel, errorCode, errorMessage);
-
+        PNLog(PNLogGeneralLevel, self, @"ERROR CALLBACK %@ %d %@", channel, errorCode, errorMessage);
         PNError *error = [PNError errorWithMessage:errorMessage code:errorCode];
-
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didFailMessageSend:withError:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                                     didFailMessageSend:nil
                                              withError:error];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(PNMessageSendingError, error);
         }
-
         [self release];
     });
 }
 
 - (void)dealloc {
-    LOG(@"Deallocing %@", self);
-
+    PNLog(PNLogGeneralLevel, self, @"DEALLOCING MESSAGE PROCESSING CALLBACK");
     [_handlerBlock release], _handlerBlock = nil;
     _pubnubDelegate = nil;
-
     [super dealloc];
 }
 
@@ -214,21 +198,17 @@
 
 - (id)initWithHistoryLoadHandlingBlock:(PNClientHistoryLoadHandlingBlock)handlerBlock andDelegate:(PubNub *)pubnubDelegate {
     self = [super init];
-
     if (self) {
         self.handlerBlock = handlerBlock;
         self.pubnubDelegate = pubnubDelegate;
+        PNLog(PNLogGeneralLevel, self, @"INITIALIZING MESSAGE HISTORY PROCESSING CALLBACK");
     }
-
-    LOG(@"Initilaizing %@", self);
-
     return self;
 }
 
 - (void)successCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Success Callback %@ %@", channel, response);
-
+        PNLog(PNLogGeneralLevel, self, @"SUCCESS CALLBACK %@ %@", channel, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
 
         // Response object will be a JSON string
@@ -237,15 +217,14 @@
 
         for (id message in responseArray) {
             PNError *error = nil;
-            PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:nil atDate:nil];
+            PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
             if (error) {
-                LOG(@"Warning: Error while creating a PNMessage object using the message %@ object", message);
+                PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE CREATING A PNMESSAGE OBJECT USING THE MESSAGE %@", message);
             }
             else {
                 [messageArray addObject:pubnubMessage];
             }
         }
-
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessageHistory:forChannel:startingFrom:to:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                               didReceiveMessageHistory:messageArray
@@ -253,39 +232,32 @@
                                           startingFrom:nil
                                                     to:nil];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(messageArray, pubnubChannel, nil, nil, nil);
         }
-
         [self release];
     });
 }
 
 - (void)errorCallback:(NSString *)channel errorCode:(int)errorCode errorMessage:(NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Error Callback %@ %d %@", channel, errorCode, errorMessage);
-
+        PNLog(PNLogGeneralLevel, self, @"ERROR CALLBACK %@ %d %@", channel, errorCode, errorMessage);
         PNError *error = [PNError errorWithMessage:errorMessage code:errorCode];
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
-
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didFailHistoryDownloadForChannel:withError:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                       didFailHistoryDownloadForChannel:pubnubChannel
                                              withError:error];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(nil, pubnubChannel, nil, nil, error);
         }
-
         [self release];
     });
 }
 
 - (void)dealloc {
-    LOG(@"Deallocing %@", self);
-
+    PNLog(PNLogGeneralLevel, self, @"DEALLOCING MESSAGE HISTORY PROCESSING CALLBACK");
     [_handlerBlock release], _handlerBlock = nil;
     _pubnubDelegate = nil;
     [super dealloc];
@@ -358,28 +330,23 @@
 - (id)initWithChannelSubscriptionBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
                            andDelegate:(PubNub *)pubnubDelegate {
     self = [super init];
-
     if (self) {
         self.handlerBlock = handlerBlock;
         self.pubnubDelegate = pubnubDelegate;
+        PNLog(PNLogGeneralLevel, self, @"INITIALIZING CHANNEL SUBSCRIPTION CALLBACK");
     }
-
-    LOG(@"Initilaizing %@", self);
-
     return self;
 }
 
 - (void)connectCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         // Connect callback response contains 1, connected message and message
-        LOG(@"Connect Callback %@ %@", channel, response);
-
+        PNLog(PNLogGeneralLevel, self, @"CONNECT CALLBACK %@ %@", channel, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didSubscribeOnChannels:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                                 didSubscribeOnChannels:@[pubnubChannel]];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(PNSubscriptionProcessSubscribedState, @[pubnubChannel], nil);
         }
@@ -388,7 +355,7 @@
 
 - (void)disconnectCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Disconnect Callback %@ %@", channel, response);
+        PNLog(PNLogGeneralLevel, self, @"DISCONNECT CALLBACK %@ %@", channel, response);
 
         // Disconnect callback response contains 0, disconnected message, and message
         id responseArray = [PGJSONUtility objectFromString:response];
@@ -400,7 +367,6 @@
                                didDisconnectFromOrigin:self.pubnubDelegate.configuration.origin
                                              withError:error];
         }
-
         if (self.handlerBlock) {
             PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
             self.handlerBlock(PNSubscriptionProcessNotSubscribedState, @[pubnubChannel], error);
@@ -411,14 +377,12 @@
 - (void)reconnect:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         // Reconnect callback response contains 1, reconnected message and message
-        LOG(@"Reconnect Callback %@ %@", channel, response);
-
+        PNLog(PNLogGeneralLevel, self, @"RECONNECT CALLBACK %@ %@", channel, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didRestoreSubscriptionOnChannels:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                       didRestoreSubscriptionOnChannels:@[pubnubChannel]];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(PNSubscriptionProcessRestoredState, @[pubnubChannel], nil);
         }
@@ -427,14 +391,10 @@
 
 - (void)successCallback:(NSString *)channel response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Success Callback %@ %@", channel, response);
-
+        PNLog(PNLogGeneralLevel, self, @"SUCCESS CALLBACK %@ %@", channel, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
         id message = [PGJSONUtility objectFromString:response];
-
-        PNError *error = nil;
-        PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:nil atDate:nil];
-
+        PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessage:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                                      didReceiveMessage:pubnubMessage];
@@ -444,14 +404,12 @@
 
 - (void)errorCallback:(NSString *)channel errorCode:(int)errorCode errorMessage:(NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Error Callback %@ %d %@", channel, errorCode, errorMessage);
-
+        PNLog(PNLogGeneralLevel, self, @"ERROR CALLBACK %@ %d %@", channel, errorCode, errorMessage);
         PNError *error = [PNError errorWithMessage:errorMessage code:errorCode];
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:connectionDidFailWithError:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                             connectionDidFailWithError:error];
         }
-
         if (self.handlerBlock) {
             PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
             self.handlerBlock(PNSubscriptionProcessNotSubscribedState, @[pubnubChannel], error);
@@ -460,8 +418,7 @@
 }
 
 - (void)dealloc {
-    LOG(@"Deallocing %@", self);
-
+    PNLog(PNLogGeneralLevel, self, @"DEALLOCING CHANNEL SUBSCRIPTION CALLBACK");
     [_handlerBlock release], _handlerBlock = nil;
     _pubnubDelegate = nil;
     [super dealloc];
@@ -469,7 +426,6 @@
 
 - (void)removeFromSubscriptionCallbackList:(NSString *)channelName {
     [self.pubnubDelegate.channelToSubscritionCallbacks removeObjectForKey:channelName];
-
     [self release];
 }
 
@@ -526,29 +482,23 @@
 - (id)initWithChannelUnsubscriptionBlock:(PNClientChannelUnsubscriptionHandlerBlock)handlerBlock
                              andDelegate:(PubNub *)pubnubDelegate {
     self = [super init];
-
     if (self) {
         self.handlerBlock = handlerBlock;
         self.pubnubDelegate = pubnubDelegate;
+        PNLog(PNLogGeneralLevel, self, @"INITIALIZING CHANNEL UNSUBSCRIPTION CALLBACK");
     }
-
-    LOG(@"Initilaizing %@", self);
-
     return self;
 }
 
 - (void)successCallback:(NSString *)channelName response:(NSString *)response {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         // Unsubscription success callback response contains 'Channel Unsubscribed' string
-        LOG(@"Success Callback %@ %@", channelName, response);
-
+        PNLog(PNLogGeneralLevel, self, @"SUCCESS CALLBACK %@ %@", channelName, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channelName];
-
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didUnsubscribeOnChannels:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                               didUnsubscribeOnChannels:@[pubnubChannel]];
         }
-
         if (self.handlerBlock) {
             self.handlerBlock(@[pubnubChannel], nil);
         }
@@ -557,15 +507,12 @@
 
 - (void)errorCallback:(NSString *)channelName errorCode:(int)errorCode errorMessage:(NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        LOG(@"Error Callback %@ %d %@", channelName, errorCode, errorMessage);
-
+        PNLog(PNLogGeneralLevel, self, @"ERROR CALLBACK %@ %d %@", channelName, errorCode, errorMessage);
         PNError *error = [PNError errorWithMessage:errorMessage code:errorCode];
-
         if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:unsubscriptionDidFailWithError:)]) {
             [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
                         unsubscriptionDidFailWithError:error];
         }
-
         if (self.handlerBlock) {
             PNChannel *pubnubChannel = [PNChannel channelWithName:channelName];
             self.handlerBlock(@[pubnubChannel], error);
@@ -574,8 +521,7 @@
 }
 
 - (void)dealloc {
-    LOG(@"Deallocing %@", self);
-
+    PNLog(PNLogGeneralLevel, self, @"DEALLOCING CHANNEL UNSUBSCRIPTION CALLBACK");
     [_handlerBlock release], _handlerBlock = nil;
     _pubnubDelegate = nil;
     [super dealloc];
@@ -584,7 +530,6 @@
 - (void)removeFromUnsubscriptionCallbackList:(NSString *)channelName {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self.pubnubDelegate.channelToUnsubscritionCallbacks removeObjectForKey:channelName];
-
         [self release];
     });
 }
