@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Pocket Gems. All rights reserved.
 //
 
-#ifdef PGDROID
+#ifdef APPORTABLE
 
 #import "PubNub_AndroidBridge.h"
 
-#import "GameLog.h"
+#import "PNMacro.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-property-implementation"
@@ -22,7 +22,7 @@
     static dispatch_once_t PubNub_AndroidBridge_onceToken = 0;
     dispatch_once(&PubNub_AndroidBridge_onceToken, ^ {
         if ([NSThread currentThread] != [NSThread mainThread]) {
-            LOG(@"initializeJava MUST be called on the main thread");
+          PNLog(PNLogCommunicationChannelLayerWarnLevel, self, @"initializeJava MUST BE CALLED ON THE MAIN THREAD");
         }
 
         [super initializeJava];
@@ -67,7 +67,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pubnub.api.Pubnub";
+    return @"com.pocketgems.pgengine.pubnub.PGPubnub";
 }
 
 @end

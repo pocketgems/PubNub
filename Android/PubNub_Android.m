@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Pocket Gems. All rights reserved.
 //
 
-#ifdef PGDROID
+#ifdef APPORTABLE
 
 #import "PubNub.h"
 
