@@ -63,6 +63,10 @@
                                           selector:@selector(_sendJSONMessage:channel:withCallback:)
                                        returnValue:nil
                                          arguments:[NSString className], [NSString className], [MessageProcessingCallback className], NULL];
+        [PubNub_AndroidBridge registerStaticMethod:@"setLoggingEnabled"
+                                          selector:@selector(_loggingEnabled:)
+                                       returnValue:nil
+                                         arguments:[JavaClass boolPrimitive], NULL];
     });
 }
 
