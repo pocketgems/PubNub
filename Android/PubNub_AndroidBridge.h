@@ -40,6 +40,8 @@
 
 + (void)_shutdownPubnub;
 
++ (void)_loggingEnabled:(BOOL)loggingEnabled;
+
 @end
 
 #endif
