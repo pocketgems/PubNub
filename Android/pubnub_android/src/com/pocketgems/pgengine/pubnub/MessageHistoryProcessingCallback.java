@@ -1,7 +1,5 @@
 package com.pocketgems.pgengine.pubnub;
 
-import com.pocketgems.android.pgcommon.PGLog;
-import com.pocketgems.pgengine.pubnub.PubnubUtility;
 import com.pubnub.api.*;
 
 /**
@@ -9,24 +7,21 @@ import com.pubnub.api.*;
  */
 
 public class MessageHistoryProcessingCallback extends Callback {
-
-    private static final String LOG_TAG = "MessageHistoryProcessingCallback";
+    private static Logger log = new Logger(MessageHistoryProcessingCallback.class);
 
     public void successCallback(String channel, Object response) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Request History on channel success" + " " + channel + " " + response + " " + response.getClass());
-
+            log.verbose("Successfully requested history on channel " + channel + " " + response + " " + response.getClass());
             successCallback_native(channel, PubnubUtility.JSONString(response));
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     public void errorCallback(String channel, PubnubError error) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Request History on channel error" + " " + channel + " " + error.errorCode);
-
+            log.verbose("Error requesting history on channel " + channel + " " + error.errorCode);
             int errorCode = -1;
             if (PubnubErrorMap.errorMap.containsKey(error.errorCode)) {
                 errorCode = PubnubErrorMap.errorMap.get(error.errorCode);
@@ -34,13 +29,13 @@ public class MessageHistoryProcessingCallback extends Callback {
             errorCallback_native(channel, errorCode, error.getErrorString());
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Deallocing " + this);
+        log.verbose("Deallocing " + this);
         super.finalize();
     }
 

@@ -1,7 +1,5 @@
 package com.pocketgems.pgengine.pubnub;
 
-import com.pocketgems.android.pgcommon.PGLog;
-import com.pocketgems.pgengine.pubnub.PubnubUtility;
 import com.pubnub.api.*;
 
 /**
@@ -9,61 +7,55 @@ import com.pubnub.api.*;
  */
 
 public class ChannelSubscriptionCallback extends Callback {
-
-    private static final String LOG_TAG = "ChannelSubscriptionCallback";
+    private static Logger log = new Logger(ChannelSubscriptionCallback.class);
 
     @Override
     public void connectCallback(String channel, Object message) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Subscribing on channel Connected" + " " + channel + " " + message + " " + message.getClass());
-
+            log.verbose("Connected on channel " + channel + " " + message + " " + message.getClass());
             connectCallback_native(channel, PubnubUtility.JSONString(message));
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     @Override
     public void disconnectCallback(String channel, Object message) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Subscribing on channel disconnected" + " " + channel + " " + message + " " + message.getClass());
-
+            log.verbose("Disconnected from channel " + channel + " " + message + " " + message.getClass());
             disconnectCallback_native(channel, PubnubUtility.JSONString(message));
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     public void reconnectCallback(String channel, Object message) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Subscribing on channel reconnect" + " " + channel + " " + message + " " + message.getClass());
-
+            log.verbose("Reconnecting on channel " + channel + " " + message + " " + message.getClass());
             reconnectCallback_native(channel, PubnubUtility.JSONString(message));
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     @Override
     public void successCallback(String channel, Object message) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Subscribing on channel success" + " " + channel + " " + message + " " + message.getClass());
-
+            log.verbose("Successfully subscribed to channel " + channel + " " + message + " " + message.getClass());
             successCallback_native(channel, PubnubUtility.JSONString(message));
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     @Override
     public void errorCallback(String channel, PubnubError error) {
         try {
-            PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Subscribing on channel error" + " " + channel + " " + error.errorCode);
-
+            log.verbose("Error subscribing on channel " + channel + " " + error.errorCode);
             int errorCode = -1;
             if (PubnubErrorMap.errorMap.containsKey(error.errorCode)) {
                 errorCode = PubnubErrorMap.errorMap.get(error.errorCode);
@@ -71,13 +63,13 @@ public class ChannelSubscriptionCallback extends Callback {
             errorCallback_native(channel, errorCode, error.getErrorString());
         }
         catch (Exception e) {
-            PGLog.log(LOG_TAG, e.toString());
+            log.error(e.toString());
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        PGLog.log(LOG_TAG, Thread.currentThread().getName() + " " + "Deallocing " + this);
+        log.verbose("Deallocing " + this);
         super.finalize();
     }
 
