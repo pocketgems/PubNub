@@ -31,6 +31,8 @@
 
 + (void)_sendMessage:(NSString *)messageString channel:(NSString *)channelName withCallback:(MessageProcessingCallback *)callback;
 
++ (void)_sendJSONMessage:(NSString *)messageString channel:(NSString *)channelName withCallback:(MessageProcessingCallback *)callback;
+
 + (void)_requestHistoryForChannel:(NSString *)channelName
                             count:(int)limit
                    reverseHistory:(BOOL)shouldReverseHistory

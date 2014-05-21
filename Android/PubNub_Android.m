@@ -457,17 +457,17 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     // Maybe unregister self from older message sent?
 
     NSString *messageToBeSent = nil;
+    MessageProcessingCallback *callback = [[MessageProcessingCallback alloc] initWithMessageProcessingBlock:success
+                                                                                                andDelegate:[self sharedInstance]];
 
     if ([message isKindOfClass:[NSString class]]) {
         messageToBeSent = message;
+        [PubNub_AndroidBridge _sendMessage:messageToBeSent channel:channel.name withCallback:callback];
     }
     else {
         messageToBeSent = [PNJSONSerialization stringFromJSONObject:message];
+        [PubNub_AndroidBridge _sendJSONMessage:messageToBeSent channel:channel.name withCallback:callback];
     }
-
-    MessageProcessingCallback *callback = [[MessageProcessingCallback alloc] initWithMessageProcessingBlock:success
-                                                                                                andDelegate:[self sharedInstance]];
-    [PubNub_AndroidBridge _sendMessage:messageToBeSent channel:channel.name withCallback:callback];
 
     // Return a proper PNMessage
     return nil;
