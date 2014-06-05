@@ -1,22 +1,21 @@
 //
 //  Callbacks_Android.m
-//  testapp
 //
-//  Created by Ravi Agarwal on 3/19/14.
-//  Copyright (c) 2014 Pocket Gems. All rights reserved.
+//  Created on 3/19/14.
 //
 
 #ifdef APPORTABLE
 
 #import "Callbacks_Android.h"
 
-#import "PGJSONUtility.h"
 #import "PNChannel.h"
-#import "PNMacro.h"
-#import "PNMessage.h"
-#import "PNMessage+Protected.h"
-#import "PubNub+Protected.h"
 #import "PNErrorCodes.h"
+#import "PNJSONSerialization.h"
+#import "PNMacro.h"
+#import "PNMessage+Protected.h"
+#import "PNMessage.h"
+#import "PubNub+Protected.h"
+
 
 @interface PubNub ()
 
@@ -212,28 +211,36 @@
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
 
         // Response object will be a JSON string
-        NSArray *responseArray = [PGJSONUtility objectFromString:response];
-        NSMutableArray *messageArray = [NSMutableArray arrayWithCapacity:responseArray.count];
-
-        for (id message in responseArray) {
-            PNError *error = nil;
-            PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
-            if (error) {
-                PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE CREATING A PNMESSAGE OBJECT USING THE MESSAGE %@", message);
+        __block NSArray *responseArray = nil;
+        [PNJSONSerialization JSONObjectWithString:response
+                                  completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
+                                      responseArray = (NSArray *)result;
+                                  }
+                                  errorBlock:^(NSError *error) {
+                                      PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE DECODING RESPONSE: %@", error);
+                                  }];
+        if (responseArray) {
+            NSMutableArray *messageArray = [NSMutableArray arrayWithCapacity:responseArray.count];
+            for (id message in responseArray) {
+                PNError *error = nil;
+                PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
+                if (error) {
+                    PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE CREATING A PNMESSAGE OBJECT USING THE MESSAGE %@", message);
+                }
+                else {
+                    [messageArray addObject:pubnubMessage];
+                }
             }
-            else {
-                [messageArray addObject:pubnubMessage];
+            if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessageHistory:forChannel:startingFrom:to:)]) {
+                [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
+                                  didReceiveMessageHistory:messageArray
+                                                forChannel:pubnubChannel
+                                              startingFrom:nil
+                                                        to:nil];
             }
-        }
-        if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessageHistory:forChannel:startingFrom:to:)]) {
-            [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
-                              didReceiveMessageHistory:messageArray
-                                            forChannel:pubnubChannel
-                                          startingFrom:nil
-                                                    to:nil];
-        }
-        if (self.handlerBlock) {
-            self.handlerBlock(messageArray, pubnubChannel, nil, nil, nil);
+            if (self.handlerBlock) {
+                self.handlerBlock(messageArray, pubnubChannel, nil, nil, nil);
+            }
         }
         [self release];
     });
@@ -358,18 +365,26 @@
         PNLog(PNLogGeneralLevel, self, @"DISCONNECT CALLBACK %@ %@", channel, response);
 
         // Disconnect callback response contains 0, disconnected message, and message
-        id responseArray = [PGJSONUtility objectFromString:response];
-        id errorMessage = responseArray[1];
-
-        PNError *error = [PNError errorWithMessage:errorMessage code:kPNUnknownError];
-        if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didDisconnectFromOrigin:withError:)]) {
-            [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
-                               didDisconnectFromOrigin:self.pubnubDelegate.configuration.origin
-                                             withError:error];
-        }
-        if (self.handlerBlock) {
-            PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
-            self.handlerBlock(PNSubscriptionProcessNotSubscribedState, @[pubnubChannel], error);
+        __block NSArray *responseArray = nil;
+        [PNJSONSerialization JSONObjectWithString:response
+                                  completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
+                                      responseArray = (NSArray *)result;
+                                  }
+                                  errorBlock:^(NSError *error) {
+                                      PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE DECODING RESPONSE: %@", error);
+                                  }];
+        if (responseArray) {
+            id errorMessage = responseArray[1];
+            PNError *error = [PNError errorWithMessage:errorMessage code:kPNUnknownError];
+            if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didDisconnectFromOrigin:withError:)]) {
+                [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
+                                   didDisconnectFromOrigin:self.pubnubDelegate.configuration.origin
+                                                 withError:error];
+            }
+            if (self.handlerBlock) {
+                PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
+                self.handlerBlock(PNSubscriptionProcessNotSubscribedState, @[pubnubChannel], error);
+            }
         }
     });
 }
@@ -393,11 +408,20 @@
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         PNLog(PNLogGeneralLevel, self, @"SUCCESS CALLBACK %@ %@", channel, response);
         PNChannel *pubnubChannel = [PNChannel channelWithName:channel];
-        id message = [PGJSONUtility objectFromString:response];
-        PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
-        if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessage:)]) {
-            [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
-                                     didReceiveMessage:pubnubMessage];
+        __block id message = nil;
+        [PNJSONSerialization JSONObjectWithString:response
+                                  completionBlock:^(id result, BOOL isJSONP, NSString *callbackMethodName) {
+                                      message = result;
+                                  }
+                                  errorBlock:^(NSError *error) {
+                                      PNLog(PNLogCommunicationChannelLayerErrorLevel, self, @"PROBLEM WHILE DECODING RESPONSE: %@", error);
+                                  }];
+        if (message) {
+            PNMessage *pubnubMessage = [PNMessage messageFromServiceResponse:message onChannel:pubnubChannel atDate:nil];
+            if ([self.pubnubDelegate.delegate respondsToSelector:@selector(pubnubClient:didReceiveMessage:)]) {
+              [self.pubnubDelegate.delegate pubnubClient:self.pubnubDelegate
+                                       didReceiveMessage:pubnubMessage];
+            }
         }
     });
 }

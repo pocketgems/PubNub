@@ -1,9 +1,7 @@
 //
-//  Callbacks_Android.m
-//  testapp
+//  PubNub_Android.m
 //
-//  Created by Ravi Agarwal on 3/19/14.
-//  Copyright (c) 2014 Pocket Gems. All rights reserved.
+//  Created on 3/19/14.
 //
 
 #ifdef APPORTABLE

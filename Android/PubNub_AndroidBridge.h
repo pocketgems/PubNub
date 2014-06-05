@@ -1,9 +1,7 @@
 //
 //  PubNub_AndroidBridge.h
-//  PGEngine
 //
-//  Created by Ravi Agarwal on 3/18/14.
-//  Copyright (c) 2014 Pocket Gems. All rights reserved.
+//  Created on 3/18/14.
 //
 
 #ifdef APPORTABLE
