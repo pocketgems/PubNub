@@ -1,11 +1,8 @@
-package com.pocketgems.pgengine.pubnub;
+package com.pubnub.bridge;
 
 import java.util.HashMap;
 import com.pubnub.api.*;
 
-/**
- * Created by Ravi on 3/21/14.
- */
 public class PubnubErrorMap {
 
     public static HashMap<Integer, Integer> errorMap;

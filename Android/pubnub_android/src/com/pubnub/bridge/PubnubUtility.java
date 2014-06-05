@@ -1,13 +1,9 @@
-package com.pocketgems.pgengine.pubnub;
+package com.pubnub.bridge;
 
 import java.lang.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-/**
- * Created by Ravi on 3/28/14.
- */
 
 public class PubnubUtility {
 
