@@ -71,7 +71,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pocketgems.pgengine.pubnub.PGPubnub";
+    return @"com.pubnub.bridge.PubnubBridge";
 }
 
 @end

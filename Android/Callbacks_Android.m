@@ -100,7 +100,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pocketgems.pgengine.pubnub.MessageProcessingCallback";
+    return @"com.pubnub.bridge.MessageProcessingCallback";
 }
 
 - (id)initWithMessageProcessingBlock:(PNClientMessageProcessingBlock)handlerBlock andDelegate:(PubNub *)pubnubDelegate {
@@ -193,7 +193,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pocketgems.pgengine.pubnub.MessageHistoryProcessingCallback";
+    return @"com.pubnub.bridge.MessageHistoryProcessingCallback";
 }
 
 - (id)initWithHistoryLoadHandlingBlock:(PNClientHistoryLoadHandlingBlock)handlerBlock andDelegate:(PubNub *)pubnubDelegate {
@@ -324,7 +324,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pocketgems.pgengine.pubnub.ChannelSubscriptionCallback";
+    return @"com.pubnub.bridge.ChannelSubscriptionCallback";
 }
 
 - (id)initWithChannelSubscriptionBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
@@ -476,7 +476,7 @@
 }
 
 + (NSString *)className {
-    return @"com.pocketgems.pgengine.pubnub.ChannelUnsubscriptionCallback";
+    return @"com.pubnub.bridge.ChannelUnsubscriptionCallback";
 }
 
 - (id)initWithChannelUnsubscriptionBlock:(PNClientChannelUnsubscriptionHandlerBlock)handlerBlock

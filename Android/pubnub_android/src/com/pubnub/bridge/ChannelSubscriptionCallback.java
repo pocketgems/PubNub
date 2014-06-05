@@ -1,10 +1,6 @@
-package com.pocketgems.pgengine.pubnub;
+package com.pubnub.bridge;
 
 import com.pubnub.api.*;
-
-/**
- * Created by Ravi on 3/19/14.
- */
 
 public class ChannelSubscriptionCallback extends Callback {
     private static Logger log = new Logger(ChannelSubscriptionCallback.class);

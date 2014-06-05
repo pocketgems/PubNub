@@ -1,33 +1,31 @@
-package com.pocketgems.pgengine.pubnub;
+package com.pubnub.bridge;
 
 import com.pubnub.api.*;
 
 import org.json.JSONObject;
 
 /**
- * Pubnub object that implements the required static bridge methods for PG support
- *
- * @author Orlando
+ * Pubnub object that implements the required static bridge methods for Apportable support
  *
  */
-public class PGPubnub extends Pubnub {
-    private static Logger log = new Logger(PGPubnub.class);
+public class PubnubBridge extends Pubnub {
+    private static Logger log = new Logger(PubnubBridge.class);
 
     /**
      * @param publish_key
      * @param subscribe_key
      * @param secret_key
      */
-    public PGPubnub(String publish_key, String subscribe_key, String secret_key) {
+    public PubnubBridge(String publish_key, String subscribe_key, String secret_key) {
         super(publish_key, subscribe_key, secret_key);
     }
 
     // Static Methods
 
-    static PGPubnub __sharedInstance = null;
+    static PubnubBridge __sharedInstance = null;
     public static void initialializePubnub(String publish_key, String subscribe_key, String secret_key) {
         log.verbose("Initilializing Pubnub: " + publish_key + " " + subscribe_key + " " + secret_key);
-        __sharedInstance = new PGPubnub(publish_key, subscribe_key, secret_key);
+        __sharedInstance = new PubnubBridge(publish_key, subscribe_key, secret_key);
     }
 
     public static void setClientIdentifier(String clientIdentifier) {
