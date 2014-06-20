@@ -7288,7 +7288,9 @@ didReceiveNetworkLatency:(double)latency
         }];
         
         NSDictionary *options = (NSDictionary *)error.associatedObject;
-        [[self class] requestHistoryForChannel:channel from:[options valueForKey:@"startDate"] to:[options valueForKey:@"endDate"]
+        [[self class] requestHistoryForChannel:channel
+                                          from:[options valueForKey:@"startDate"]
+                                            to:[options valueForKey:@"endDate"]
                                          limit:[[options valueForKey:@"limit"] integerValue]
                                 reverseHistory:[[options valueForKey:@"revertMessages"] boolValue]
                             includingTimeToken:[[options valueForKey:@"includeTimeToken"] boolValue]

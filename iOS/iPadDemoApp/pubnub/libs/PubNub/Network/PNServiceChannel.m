@@ -563,9 +563,18 @@
     else if ([request isKindOfClass:[PNMessageHistoryRequest class]]) {
 
         PNMessageHistoryRequest *historyRequest = (PNMessageHistoryRequest *)request;
-        error.associatedObject = @{@"startDate":historyRequest.startDate, @"endDate":historyRequest.endDate,
-                                   @"limit":@(historyRequest.limit), @"revertMessages":@(historyRequest.shouldRevertMessages),
-                                   @"includeTimeToken":@(historyRequest.shouldIncludeTimeToken)};
+
+        NSMutableDictionary *associatedObject = [NSMutableDictionary dictionary];
+        if (historyRequest.startDate != nil) {
+            associatedObject[@"startDate"] = historyRequest.startDate;
+        }
+        if (historyRequest.endDate != nil) {
+            associatedObject[@"endDate"] = historyRequest.endDate;
+        }
+        associatedObject[@"limit"] = @(historyRequest.limit);
+        associatedObject[@"revertMessages"] = @(historyRequest.shouldRevertMessages);
+        associatedObject[@"includeTimeToken"] = @(historyRequest.shouldIncludeTimeToken);
+        error.associatedObject = associatedObject;
         
         // Notify delegate about message history download failed
         [self.serviceDelegate serviceChannel:self
