@@ -1521,6 +1521,9 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
         error = (PNError *)notification.userInfo;
         channel = ([error.associatedObject isKindOfClass:[NSArray class]] ? [(NSArray *)error.associatedObject lastObject] : error.associatedObject);
     }
+    if (![channel isKindOfClass:[PNChannel class]]) {
+        channel = nil;
+    }
 
     // Retrieving list of observers (including one time and persistent observers)
     NSArray *observers = [self observersForEvent:PNObservationEvents.clientReceivedHistory];
