@@ -21,7 +21,7 @@
             #define pn_dispatch_property_ownership strong
         #else
             #define pn_dispatch_property_ownership assign
-        #endif
+        #endif // OS_OBJECT_USE_OBJC
     #endif // pn_dispatch_property_ownership
 
     #ifndef pn_dispatch_object_memory_management
@@ -33,7 +33,7 @@
         #else
             #define pn_dispatch_object_retain(__OBJECT__) dispatch_retain(__OBJECT__)
             #define pn_dispatch_object_release(__OBJECT__) dispatch_release(__OBJECT__)
-        #endif
+        #endif // OS_OBJECT_USE_OBJC
     #endif // pn_dispatch_object_memory_management
 #endif // pn_gcdhelper
 
