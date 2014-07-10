@@ -1090,28 +1090,6 @@ void writeStreamCallback(CFWriteStreamRef stream, CFStreamEventType type, void *
         [self configureReadStream:_socketReadStream];
         [self configureWriteStream:_socketWriteStream];
 
-#ifdef DEBUG
-        // This enables us to use Charles as a proxy for PubNub connections.
-        // To set it up, configure Charles to also have a socks proxy in the next
-        // port after the HTTP proxy. On the simulator you just have Charles configure
-        // your system proxy settings and it will work. On a device, configure your
-        // proxy using the HTTP proxy port and the port will be adjusted below to use the
-        // socks proxy for this connection.
-        NSString *proxyType = self.proxySettings[(NSString *)kCFProxyTypeKey];
-        NSString *proxyHost = self.proxySettings[(NSString *)kCFProxyHostNameKey];
-        int proxyPort = [self.proxySettings[(NSString *)kCFProxyPortNumberKey] intValue];
-        if (proxyType && proxyHost && proxyPort && ![proxyType isEqualToString:(NSString *)kCFProxyTypeNone]) {
-            if (![self.proxySettings[(NSString *)kCFProxyTypeKey] isEqualToString:(NSString *)kCFProxyTypeSOCKS]) {
-                // If system is not set to use a socks proxy then we assume that the socks proxy
-                // is in the next port after the HTTP proxy port
-                proxyPort++;
-            }
-            NSDictionary *proxyToUse = @{ (NSString *)kCFStreamPropertySOCKSProxyHost : proxyHost,
-                                          (NSString *)kCFStreamPropertySOCKSProxyPort : @(proxyPort)};
-
-            CFReadStreamSetProperty((CFReadStreamRef)_socketReadStream, kCFStreamPropertySOCKSProxy, (__bridge CFTypeRef)(proxyToUse));
-        }
-#endif
         // Check whether at least one of the streams was unable to complete configuration
         if (![PNBitwiseHelper is:self.state containsBit:PNConnectionConfigured]) {
 
