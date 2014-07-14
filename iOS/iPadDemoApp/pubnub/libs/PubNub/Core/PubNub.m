@@ -7185,6 +7185,8 @@ didFailPushNotificationDisableForChannels:(NSArray *)channels
     }
     else {
         
+        self.asyncLockingOperationInProgress = NO;
+        
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
             return [NSString stringWithFormat:@"RESCHEDULE PUSH NOTIFICATION REMOVAL REQUEST (STATE: %@)",
@@ -7240,6 +7242,8 @@ didFailPushNotificationDisableForChannels:(NSArray *)channels
         [self notifyDelegateAboutPushNotificationsEnabledChannelsFailedWithError:error];
     }
     else {
+        
+        self.asyncLockingOperationInProgress = NO;
         
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
@@ -7327,6 +7331,8 @@ didReceiveNetworkLatency:(double)latency
     }
     else {
         
+        self.asyncLockingOperationInProgress = NO;
+        
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
             return [NSString stringWithFormat:@"RESCHEDULE MESSAGE SENDING REQUEST (STATE: %@)",
@@ -7382,6 +7388,8 @@ didReceiveNetworkLatency:(double)latency
         [self notifyDelegateAboutHistoryDownloadFailedWithError:error];
     }
     else {
+        
+        self.asyncLockingOperationInProgress = NO;
         
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
@@ -7440,6 +7448,8 @@ didReceiveNetworkLatency:(double)latency
     }
     else {
         
+        self.asyncLockingOperationInProgress = NO;
+        
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
             return [NSString stringWithFormat:@"RESCHEDULE PARTICIPANTS LIST REQUEST (STATE: %@)",
@@ -7496,6 +7506,8 @@ didReceiveNetworkLatency:(double)latency
         [self notifyDelegateAboutParticipantChannelsListDownloadFailedWithError:error];
     }
     else {
+        
+        self.asyncLockingOperationInProgress = NO;
         
         [PNLogger logGeneralMessageFrom:self message:^NSString * {
             
