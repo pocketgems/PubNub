@@ -98,6 +98,16 @@ typedef enum _PNPubNubClientState {
  */
 - (PNReachability *)reachability;
 
+// Stores current client state
+@property (nonatomic, readwrite, assign) PNPubNubClientState state;
+
+// Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
+// into pending set)
+@property (nonatomic, assign, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
+
+// Stores whether client is restoring connection after network failure or not
+@property (nonatomic, assign, getter = isRestoringConnection) BOOL restoringConnection;
+
 #pragma mark -
 
 
