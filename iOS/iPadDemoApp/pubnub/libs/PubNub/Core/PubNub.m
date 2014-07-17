@@ -66,9 +66,6 @@ static NSMutableArray *pendingInvocations = nil;
 // Stores whether client should perform initial connection (connection which is initialized after client configuration)
 @property (nonatomic, assign, getter = shouldConnectOnServiceReachability) BOOL connectOnServiceReachability;
 
-// Stores whether client is restoring connection after network failure or not
-@property (nonatomic, assign, getter = isRestoringConnection) BOOL restoringConnection;
-
 // Stores reference on configuration which was used to perform initial PubNub client initialization
 @property (nonatomic, strong) PNConfiguration *temporaryConfiguration;
 
@@ -103,13 +100,6 @@ static NSMutableArray *pendingInvocations = nil;
  Stores reference on timer which is used with heartbeat logic
  */
 @property (nonatomic, strong) NSTimer *heartbeatTimer;
-
-// Stores current client state
-@property (nonatomic, assign) PNPubNubClientState state;
-
-// Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
-// into pending set)
-@property (nonatomic, assign, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
 
 // Stores whether client updating client identifier or not
 @property (nonatomic, assign, getter = isUpdatingClientIdentifier) BOOL updatingClientIdentifier;
