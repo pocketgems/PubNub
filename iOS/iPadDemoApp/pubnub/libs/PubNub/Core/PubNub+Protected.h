@@ -99,7 +99,7 @@ typedef enum _PNPubNubClientState {
 - (PNReachability *)reachability;
 
 // Stores current client state
-@property (nonatomic, readwrite, assign) PNPubNubClientState state;
+@property (nonatomic, assign) PNPubNubClientState state;
 
 // Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
 // into pending set)
