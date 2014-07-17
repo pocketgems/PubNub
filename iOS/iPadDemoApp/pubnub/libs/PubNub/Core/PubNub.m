@@ -166,12 +166,6 @@ static dispatch_once_t onceToken;
 @property (nonatomic, assign, getter = shouldConnectOnServiceReachability) BOOL connectOnServiceReachability;
 
 /**
- Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
- into pending set)
- */
-@property (nonatomic, assign, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
-
-/**
  Stores reference on flag which specify whether client identifier was passed by user or generated on demand
  */
 @property (nonatomic, assign, getter = isUserProvidedClientIdentifier) BOOL userProvidedClientIdentifier;

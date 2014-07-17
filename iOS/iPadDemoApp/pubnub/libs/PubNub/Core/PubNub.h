@@ -1289,6 +1289,18 @@
  */
 - (void)disconnect;
 
+/**
+ * Retrieve request execution possibility code. If everything is fine, than 0 will be returned, in other case it will
+ * be treated as error and mean that request execution is impossible
+ */
+- (NSInteger)requestExecutionPossibilityStatusCode;
+
+/**
+ Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
+ into pending set)
+ */
+@property (nonatomic, assign, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
+
 #pragma mark -
 
 

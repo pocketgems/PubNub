@@ -61,11 +61,6 @@ typedef enum _PNPubNubClientState {
 #pragma mark - Properties
 
 /**
- Stores current client state.
- */
-@property (nonatomic, assign) PNPubNubClientState state;
-
-/**
  Stores reference on observation center which has been configured for this \b PubNub client.
  */
 @property (nonatomic, strong) PNObservationCenter *observationCenter;
@@ -96,20 +91,9 @@ typedef enum _PNPubNubClientState {
 @property (nonatomic, pn_desired_weak) id<PNDelegate> clientDelegate;
 
 /**
- Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
- into pending set)
- */
-@property (nonatomic, assign, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
-
-/**
  Stores whether client updating client identifier or not
  */
 @property (nonatomic, assign, getter = isUpdatingClientIdentifier) BOOL updatingClientIdentifier;
-
-/**
- Stores whether client is restoring connection after network failure or not
- */
-@property (nonatomic, assign, getter = isRestoringConnection) BOOL restoringConnection;
 
 
 #pragma mark - Instance methods
@@ -222,6 +206,16 @@ typedef enum _PNPubNubClientState {
  @return Formatted string
  */
 - (NSString *)humanReadableStateFrom:(PNPubNubClientState)state;
+
+/**
+ Stores current client state.
+ */
+@property (nonatomic, assign) PNPubNubClientState state;
+
+/**
+ Stores whether client is restoring connection after network failure or not
+ */
+@property (nonatomic, assign, getter = isRestoringConnection) BOOL restoringConnection;
 
 #pragma mark -
 
