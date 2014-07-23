@@ -10193,6 +10193,12 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  */
 - (BOOL)isConnected;
 
+/**
+ * Retrieve request execution possibility code. If everything is fine, than 0 will be returned, in other case it will
+ * be treated as error and mean that request execution is impossible
+ */
+- (NSInteger)requestExecutionPossibilityStatusCode;
+
 #pragma mark - Logging methods
 
 /**

@@ -508,12 +508,6 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
  */
 - (BOOL)shouldRestoreSubscriptionWithLastTimeToken;
 
-/**
- * Retrieve request execution possibility code. If everything is fine, than 0 will be returned, in other case it will
- * be treated as error and mean that request execution is impossible
- */
-- (NSInteger)requestExecutionPossibilityStatusCode;
-
 
 @end
 
