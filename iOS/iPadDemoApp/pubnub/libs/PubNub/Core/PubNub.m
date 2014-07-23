@@ -787,7 +787,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
                         [self sharedInstance].asyncLockingOperationInProgress = YES;
                         [self sharedInstance].connectOnServiceReachability = YES;
 
-                        [[self sharedInstance] handleConnectionErrorOnNetworkFailureWithError:nil];
+                        [[self sharedInstance] handleConnectionErrorOnNetworkFailure];
                         [self sharedInstance].asyncLockingOperationInProgress = YES;
 
                         if (![[PNObservationCenter defaultCenter] isSubscribedOnClientStateChange:[self sharedInstance]]) {
