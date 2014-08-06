@@ -33,6 +33,7 @@
 
 // Stores reference on stringified push notification token
 @property (nonatomic, strong) NSString *pushToken;
+@property (nonatomic, strong) NSData *devicePushToken;
 
 #pragma mark -
 
@@ -61,6 +62,7 @@
     if ((self = [super init])) {
 
         self.sendingByUserRequest = YES;
+        self.devicePushToken = pushToken;
         self.pushToken = [[pushToken HEXPushToken] lowercaseString];
     }
 
@@ -80,13 +82,12 @@
 
 - (NSString *)resourcePath {
 
-    return [NSString stringWithFormat:@"/v1/push/sub-key/%@/devices/%@?callback=%@_%@&uuid=%@%@",
+    return [NSString stringWithFormat:@"/v1/push/sub-key/%@/devices/%@?callback=%@_%@&uuid=%@%@&pnsdk=%@",
                                       [[PubNub sharedInstance].configuration.subscriptionKey percentEscapedString],
-                                      self.pushToken,
-                                      [self callbackMethodName],
-                                      self.shortIdentifier,
+                                      self.pushToken, [self callbackMethodName], self.shortIdentifier,
                                       [PubNub escapedClientIdentifier],
-                                      ([self authorizationField]?[NSString stringWithFormat:@"&%@", [self authorizationField]]:@"")];
+                                      ([self authorizationField]?[NSString stringWithFormat:@"&%@", [self authorizationField]]:@""),
+                                      [self clientInformationField]];
 }
 
 - (NSString *)debugResourcePath {
