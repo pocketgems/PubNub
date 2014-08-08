@@ -12,6 +12,7 @@
 #import "PNConfiguration.h"
 #import "PNCryptoHelper.h"
 #import "PNJSONSerialization.h"
+#import "PNLogger.h"
 #import "PNMacro.h"
 #import "PubNub_AndroidBridge.h"
 
@@ -41,6 +42,7 @@ static dispatch_once_t __pubNubOnceToken;
     dispatch_once(&__pubNubOnceToken, ^{
         [PubNub_AndroidBridge initializeJava];
         __sharedInstance = [[[self class] alloc] init];
+        [PNLogger prepare];
         PNLog(PNLogGeneralLevel, __sharedInstance, @"INITIALIZING SHARED INSTANCE");
     });
 
