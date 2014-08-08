@@ -186,8 +186,8 @@ NSString *PNObfuscateString(NSString *string) {
 
 #ifdef PN_SOCKET_PROXY_ENABLED
     #if PN_SOCKET_PROXY_ENABLED == 1
-        #define PN_SOCKET_PROXY_HOST @"0.0.0.0"
-        #define PN_SOCKET_PROXY_PORT @(0)
+        #define PN_SOCKET_PROXY_HOST @"127.0.0.1"
+        #define PN_SOCKET_PROXY_PORT @(8889)
     #endif // PN_SOCKET_PROXY_ENABLED
 #endif // PN_SOCKET_PROXY_ENABLED
 
