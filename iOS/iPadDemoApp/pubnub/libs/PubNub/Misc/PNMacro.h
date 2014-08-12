@@ -96,15 +96,15 @@
 
 static void PNLog(PNLogLevel level, id sender, ...);
 void PNLog(PNLogLevel level, id sender, ...) {
+#if PNLOG_LOGGING_ENABLED == 1
     va_list args;
     va_start(args, sender);
-#if PNLOG_LOGGING_ENABLED == 1
     NSString *logFormatString = va_arg(args, NSString*);
     NSString *formattedLogString = [[NSString alloc] initWithFormat:logFormatString arguments:args];
-#endif
     va_end(args);
     
     [PNLogger logFrom:sender forLevel:level message:^NSString * { return formattedLogString; }];
+#endif
 }
 
 #pragma mark - Misc functions
