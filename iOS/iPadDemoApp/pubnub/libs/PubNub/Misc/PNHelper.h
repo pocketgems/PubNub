@@ -12,50 +12,28 @@
 #ifndef pn_gcdhelper
     #define pn_gcdhelper 1
 
-    #ifndef PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
-        #define PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS 0
-
-        #if __IPHONE_OS_VERSION_MIN_REQUIRED
-            // Only starting from iOS 6.x GCD structures treated as objects and handled by ARC
-            #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
-                #undef PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
-                #define PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS 1
-            #endif // __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
-        #else
-            // Only starting from Mac OS X 10.8.x GCD structures treated as objects and handled by ARC
-            #if MAC_OS_X_VERSION_MIN_REQUIRED >= 1080
-                #undef PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
-                #define PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS 1
-            #endif // MAC_OS_X_VERSION_MIN_REQUIRED >= 1080
-        #endif // __IPHONE_OS_VERSION_MIN_REQUIRED
-
-        #ifdef OS_OBJECT_USE_OBJC
-            #if OS_OBJECT_USE_OBJC == 0
-                #undef PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
-                #define PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS 0
-            #endif
-        #endif
-    #endif // PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
+    #if !__has_feature(objc_arc)
+        #error The following logic assumes ARC.  Fix the logic to use this header in a Non-ARC file.
+    #endif
 
     #ifndef pn_dispatch_property_ownership
-        #define pn_dispatch_property_ownership assign
-
-        #if PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
-            #undef pn_dispatch_property_ownership
+        #if OS_OBJECT_USE_OBJC
             #define pn_dispatch_property_ownership strong
-        #endif // PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
+        #else
+            #define pn_dispatch_property_ownership assign
+        #endif
     #endif // pn_dispatch_property_ownership
 
     #ifndef pn_dispatch_object_memory_management
         #define pn_dispatch_object_memory_management
 
-        #if PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
+        #if OS_OBJECT_USE_OBJC
             #define pn_dispatch_object_retain(__OBJECT__)
             #define pn_dispatch_object_release(__OBJECT__)
         #else
             #define pn_dispatch_object_retain(__OBJECT__) dispatch_retain(__OBJECT__)
             #define pn_dispatch_object_release(__OBJECT__) dispatch_release(__OBJECT__)
-        #endif // PN_DISPATCH_STRUCTURES_TREATED_AS_OBJECTS
+        #endif
     #endif // pn_dispatch_object_memory_management
 #endif // pn_gcdhelper
 
