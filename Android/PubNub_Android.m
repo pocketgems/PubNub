@@ -14,6 +14,7 @@
 #import "PNJSONSerialization.h"
 #import "PNLogger.h"
 #import "PNMacro.h"
+#import "PubNub+Protected.h"
 #import "PubNub_AndroidBridge.h"
 
 BOOL _isLoggingEnabled = NO;
@@ -72,6 +73,7 @@ static dispatch_once_t __pubNubOnceToken;
                      errorBlock:(PNClientConnectionFailureBlock)failure {
     PNLog(PNLogDelegateLevel, [self sharedInstance], @"PUBNUB WILL CONNECT TO ORIGIN: %@)",
           [self sharedInstance].configuration.origin);
+    [self sharedInstance].clientConnected = YES;
 }
 
 + (void)disconnect {
@@ -81,6 +83,7 @@ static dispatch_once_t __pubNubOnceToken;
 + (void)disconnectByUser:(BOOL)isDisconnectedByUser {
     PNLog(PNLogGeneralLevel, [self sharedInstance], @"TRYING TO DISCONNECT%@",
           isDisconnectedByUser ? @" BY USER REQUEST." : @" BY INTERNAL REQUEST");
+    [self sharedInstance].clientConnected = NO;
 
     for (NSString *channelName in [[[self sharedInstance] channelToSubscritionCallbacks] allKeys]) {
         ChannelSubscriptionCallback *callback = [[self sharedInstance] channelToSubscritionCallbacks][channelName];
@@ -204,7 +207,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
 + (void)subscribeOnChannels:(NSArray *)channels
 withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock {
 
-    [self subscribeOnChannels:channels withPresenceEvent:YES andCompletionHandlingBlock:handlerBlock];
+    [self subscribeOnChannels:channels withPresenceEvent:NO andCompletionHandlingBlock:handlerBlock];
 }
 
 + (void)subscribeOnChannels:(NSArray *)channels withPresenceEvent:(BOOL)withPresenceEvent {
@@ -454,6 +457,27 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 + (PNMessage *)sendMessage:(id)message
                  toChannel:(PNChannel *)channel
        withCompletionBlock:(PNClientMessageProcessingBlock)success {
+    return [self sendMessage:message toChannel:channel compressed:NO withCompletionBlock:success];
+}
+
++ (void)sendMessage:(PNMessage *)message {
+
+    [self sendMessage:message.message withCompletionBlock:nil];
+}
+
++ (void)sendMessage:(PNMessage *)message withCompletionBlock:(PNClientMessageProcessingBlock)success {
+
+    [self sendMessage:message.message toChannel:message.channel withCompletionBlock:success];
+}
+
++ (PNMessage *)sendMessage:(id)message
+                 toChannel:(PNChannel *)channel
+                compressed:(BOOL)shouldCompressMessage
+       withCompletionBlock:(PNClientMessageProcessingBlock)success {
+    if (shouldCompressMessage) {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"SENDING COMPRESSED MESSAGES IS NOT SUPPORTED");
+    }
+
     // Maybe unregister self from older message sent?
 
     NSString *messageToBeSent = nil;
@@ -471,16 +495,6 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
     // Return a proper PNMessage
     return nil;
-}
-
-+ (void)sendMessage:(PNMessage *)message {
-
-    [self sendMessage:message.message withCompletionBlock:nil];
-}
-
-+ (void)sendMessage:(PNMessage *)message withCompletionBlock:(PNClientMessageProcessingBlock)success {
-
-    [self sendMessage:message.message toChannel:message.channel withCompletionBlock:success];
 }
 
 
@@ -783,12 +797,6 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 
-#pragma mark - Instance methods
-
-- (BOOL)isConnected {
-    return self.clientConnected;
-}
-
 #pragma mark - Logging methods
 
 + (void)toggleLogging {
@@ -812,6 +820,26 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
         _channelToUnsubscritionCallbacks = [NSMutableDictionary dictionary];
     }
     return self;
+}
+
+- (BOOL)isConnected {
+    return self.clientConnected;
+}
+
+- (NSInteger)requestExecutionPossibilityStatusCode {
+    return 0;
+}
+
+- (PNPubNubClientState)state {
+    return self.clientConnected ? PNPubNubClientStateConnected : PNPubNubClientStateDisconnected;
+}
+
+- (BOOL)isAsyncLockingOperationInProgress {
+    return NO;
+}
+
+- (BOOL)isRestoringConnection {
+    return NO;
 }
 
 @end
