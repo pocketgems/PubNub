@@ -17,8 +17,6 @@
 #import "PubNub+Protected.h"
 #import "PubNub_AndroidBridge.h"
 
-BOOL _isLoggingEnabled = NO;
-
 #pragma mark - PubNub Android
 
 @interface PubNub ()
@@ -794,20 +792,6 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
         }
     }
     return encryptedObjectHash;
-}
-
-
-#pragma mark - Logging methods
-
-+ (void)toggleLogging {
-    if (_isLoggingEnabled) {
-        PNLog(PNLogGeneralLevel, [self sharedInstance], @"DISABLING LOGGING.");
-        _isLoggingEnabled = NO;
-    } else {
-        _isLoggingEnabled = YES;
-        PNLog(PNLogGeneralLevel, [self sharedInstance], @"ENABLING LOGGING.");
-    }
-    [PubNub_AndroidBridge _loggingEnabled:_isLoggingEnabled];
 }
 
 #pragma mark - Instance Methods
