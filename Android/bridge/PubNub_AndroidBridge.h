@@ -9,7 +9,10 @@
 #import <BridgeKit/JavaObject.h>
 #import <BridgeKit/AndroidActivity.h>
 
-#import "Callbacks_Android.h"
+#import "ChannelSubscriptionCallback.h"
+#import "ChannelUnsubscriptionCallback.h"
+#import "MessageHistoryProcessingCallback.h"
+#import "MessageProcessingCallback.h"
 
 @interface PubNub_AndroidBridge : JavaObject
 
