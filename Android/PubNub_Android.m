@@ -69,9 +69,22 @@ static dispatch_once_t __pubNubOnceToken;
 
 + (void)connectWithSuccessBlock:(PNClientConnectionSuccessBlock)success
                      errorBlock:(PNClientConnectionFailureBlock)failure {
-    PNLog(PNLogDelegateLevel, [self sharedInstance], @"PUBNUB WILL CONNECT TO ORIGIN: %@)",
-          [self sharedInstance].configuration.origin);
-    [self sharedInstance].clientConnected = YES;
+    // Check whether client configuration was provided or not
+    if ([self sharedInstance].configuration == nil) {
+        PNLog(PNLogGeneralLevel, [self sharedInstance], @"{ERROR} TRYING TO CONNECT W/O CONFIGURATION");
+        if (failure) {
+            PNError *connectionError = [PNError errorWithCode:kPNClientConfigurationError];
+            failure(connectionError);
+        }
+    } else {
+        PNLog(PNLogDelegateLevel, [self sharedInstance], @"PUBNUB WILL CONNECT TO ORIGIN: %@)",
+              [self sharedInstance].configuration.origin);
+        [self sharedInstance].clientConnected = YES;
+        if (success) {
+            success([self sharedInstance].configuration.origin);
+        }
+        [[self sharedInstance] notifyDelegateAboutConnectionToOrigin:self.configuration.origin];
+    }
 }
 
 + (void)disconnect {
@@ -104,6 +117,11 @@ static dispatch_once_t __pubNubOnceToken;
 }
 
 #pragma mark - Client configuration
+
++ (PNConfiguration *)configuration {
+
+    return [[self sharedInstance].configuration copy];
+}
 
 + (void)setConfiguration:(PNConfiguration *)configuration {
 
@@ -269,13 +287,13 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)unsubscribeFromChannels:(NSArray *)channels {
 
-    [self unsubscribeFromChannels:channels withPresenceEvent:YES];
+    [self unsubscribeFromChannels:channels withPresenceEvent:NO];
 }
 
 + (void)unsubscribeFromChannels:(NSArray *)channels
     withCompletionHandlingBlock:(PNClientChannelUnsubscriptionHandlerBlock)handlerBlock {
 
-    [self unsubscribeFromChannels:channels withPresenceEvent:YES andCompletionHandlingBlock:handlerBlock];
+    [self unsubscribeFromChannels:channels withPresenceEvent:NO andCompletionHandlingBlock:handlerBlock];
 }
 
 + (void)unsubscribeFromChannels:(NSArray *)channels withPresenceEvent:(BOOL)withPresenceEvent {
@@ -824,6 +842,30 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 - (BOOL)isRestoringConnection {
     return NO;
+}
+
+- (void)notifyDelegateAboutConnectionToOrigin:(NSString *)originHostName {
+
+    // Check whether delegate able to handle connection completion
+    if ([self.delegate respondsToSelector:@selector(pubnubClient:didConnectToOrigin:)]) {
+
+        [self.delegate performSelector:@selector(pubnubClient:didConnectToOrigin:)
+                            withObject:self
+                            withObject:self.configuration.origin];
+    }
+
+    [PNLogger logDelegateMessageFrom:self message:^NSString * {
+
+        return [NSString stringWithFormat:@"PubNub client successfully connected to PubNub origin at: %@", originHostName];
+    }];
+
+
+    [self sendNotification:kPNClientDidConnectToOriginNotification withObject:originHostName];
+}
+
+- (void)sendNotification:(NSString *)notificationName withObject:(id)object {
+    // Send notification to all who is interested in it (observation center will track it as well)
+    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:self userInfo:object];
 }
 
 @end
