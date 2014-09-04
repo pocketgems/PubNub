@@ -17,6 +17,9 @@
 #import "PubNub+Protected.h"
 #import "PubNub_AndroidBridge.h"
 
+#define NSUnimplementedMethod() \
+PNLog(PNLogGeneralLevel, __sharedInstance, @"METHOD %@ IS NOT IMPLEMENTED!", __FUNCTION__)
+
 #pragma mark - PubNub Android
 
 @interface PubNub ()
@@ -178,7 +181,7 @@ static dispatch_once_t __pubNubOnceToken;
 #pragma mark - Channels subscription management
 
 + (NSArray *)subscribedChannels {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     DEBUG_BREAK();
     return nil;
 }
@@ -353,7 +356,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 + (void)enablePushNotificationsOnChannels:(NSArray *)channels
                       withDevicePushToken:(NSData *)pushToken
                andCompletionHandlingBlock:(PNClientPushNotificationsEnableHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
@@ -376,19 +379,19 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 + (void)disablePushNotificationsOnChannels:(NSArray *)channels
                        withDevicePushToken:(NSData *)pushToken
                 andCompletionHandlingBlock:(PNClientPushNotificationsDisableHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
 + (void)removeAllPushNotificationsForDevicePushToken:(NSData *)pushToken
                          withCompletionHandlingBlock:(PNClientPushNotificationsRemoveHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
 + (void)requestPushNotificationEnabledChannelsForDevicePushToken:(NSData *)pushToken
                                      withCompletionHandlingBlock:(PNClientPushNotificationsEnabledChannelsHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
@@ -401,7 +404,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     // Ensure that PubNub client currently connected to
     // remote PubNub services
     if ([[self sharedInstance] isConnected]) {
-        NSUnimplementedFunction();
+        NSUnimplementedMethod();
     }
 
     return observingPresence;
@@ -425,7 +428,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)enablePresenceObservationForChannels:(NSArray *)channels
                  withCompletionHandlingBlock:(PNClientPresenceEnableHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
@@ -447,7 +450,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)disablePresenceObservationForChannels:(NSArray *)channels
                   withCompletionHandlingBlock:(PNClientPresenceDisableHandlingBlock)handlerBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
@@ -459,7 +462,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 + (void)requestServerTimeTokenWithCompletionBlock:(PNClientTimeTokenReceivingCompleteBlock)success {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
@@ -655,7 +658,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 
 + (void)requestParticipantsListForChannel:(PNChannel *)channel
                       withCompletionBlock:(PNClientParticipantsHandlingBlock)handleBlock {
-    NSUnimplementedFunction();
+    NSUnimplementedMethod();
     return;
 }
 
