@@ -199,9 +199,6 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
         // Checking whether logger allowed to log or dump console output.
         if ([self isLoggerEnabled] || [self isDumpingToFile]) {
 
-            NSString *message = [NSString stringWithFormat:@"%@ (%p) %@%@", NSStringFromClass([sender class]),
-                            sender, [[self sharedInstance] logEntryPrefixForLevel:level], messageBlock()];
-
             if ([self isDumpingToFile]) {
                 
                 dispatch_async([self sharedInstance].dumpProcessingQueue, ^{
@@ -216,7 +213,12 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
                         const char *cOutput = [[[NSDate date] consoleOutputTimestamp] UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
                         fwrite("> ", 2, 1, consoleDumpFilePointer);
-                        cOutput = [message UTF8String];
+                        cOutput = [NSStringFromClass([sender class]) UTF8String];
+                        fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
+                        fprintf(consoleDumpFilePointer, " (%p) ", sender);
+                        cOutput = [[[self sharedInstance] logEntryPrefixForLevel:level] UTF8String];
+                        fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
+                        cOutput = [messageBlock() UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
                         fwrite("\n", 1, 1, consoleDumpFilePointer);
                         fflush(consoleDumpFilePointer);
@@ -225,7 +227,8 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
             }
             else if ([self isLoggerEnabled]) {
 
-                NSLog(@"%@", message);
+                NSLog(@"%@ (%p) %@%@", NSStringFromClass([sender class]),
+                       sender, [[self sharedInstance] logEntryPrefixForLevel:level], messageBlock());
             }
         }
     }
