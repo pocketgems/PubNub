@@ -223,7 +223,6 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
                         cOutput = [message UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
                         fwrite("\n", 1, 1, consoleDumpFilePointer);
-                        fflush(consoleDumpFilePointer);
                     }
                 });
             }
