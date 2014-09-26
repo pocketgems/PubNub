@@ -200,7 +200,9 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
         if ([self isLoggerEnabled] || [self isDumpingToFile]) {
 
             if ([self isDumpingToFile]) {
-                
+
+                NSString *senderClass = NSStringFromClass([sender class]);
+                NSString *message = messageBlock();
                 dispatch_async([self sharedInstance].dumpProcessingQueue, ^{
                     
                     FILE *consoleDumpFilePointer = [self consoleDumpFilePointer];
@@ -213,12 +215,12 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
                         const char *cOutput = [[[NSDate date] consoleOutputTimestamp] UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
                         fwrite("> ", 2, 1, consoleDumpFilePointer);
-                        cOutput = [NSStringFromClass([sender class]) UTF8String];
+                        cOutput = [senderClass UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
-                        fprintf(consoleDumpFilePointer, " (%p) ", sender);
+                        fwrite(" ", 1, 1, consoleDumpFilePointer);
                         cOutput = [[[self sharedInstance] logEntryPrefixForLevel:level] UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
-                        cOutput = [messageBlock() UTF8String];
+                        cOutput = [message UTF8String];
                         fwrite(cOutput, strlen(cOutput), 1, consoleDumpFilePointer);
                         fwrite("\n", 1, 1, consoleDumpFilePointer);
                         fflush(consoleDumpFilePointer);
