@@ -10199,6 +10199,10 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  */
 - (NSInteger)requestExecutionPossibilityStatusCode;
 
+// Stores whether library is performing one of async locking methods or not (if yes, other calls will be placed
+// into pending set)
+@property (nonatomic, readonly, getter = isAsyncLockingOperationInProgress) BOOL asyncLockingOperationInProgress;
+
 #pragma mark -
 
 
