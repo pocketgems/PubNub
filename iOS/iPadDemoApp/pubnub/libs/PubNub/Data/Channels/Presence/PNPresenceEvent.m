@@ -17,6 +17,7 @@
 #import "PNClient+Protected.h"
 #import "PNClient.h"
 #import "PNDate.h"
+#import "PNMacro.h"
 
 
 // ARC check
@@ -55,7 +56,7 @@ struct PNPresenceEventDataKeysStruct PNPresenceEventDataKeys = {
 @property (nonatomic, strong) PNDate *date;
 @property (nonatomic, copy) NSString *uuid;
 @property (nonatomic, assign) NSUInteger occupancy;
-@property (nonatomic, assign) PNChannel *channel;
+@property (nonatomic, pn_desired_weak) PNChannel *channel;
 
 
 @end

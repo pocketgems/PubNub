@@ -13,6 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PNStructures.h"
+#import "PNMacro.h"
 
 
 #pragma mark Class forward
@@ -43,7 +44,7 @@
 
 // Stores reference on channel on which this event
 // is fired
-@property (nonatomic, readonly, assign) PNChannel *channel;
+@property (nonatomic, readonly, pn_desired_weak) PNChannel *channel;
 
 /**
  Stores reference on user identifier which is triggered presence event.

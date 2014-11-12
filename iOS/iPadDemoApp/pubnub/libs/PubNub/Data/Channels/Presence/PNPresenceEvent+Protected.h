@@ -13,6 +13,7 @@
 //
 
 #import "PNPresenceEvent.h"
+#import "PNMacro.h"
 
 
 #pragma mark Static
@@ -67,7 +68,7 @@ extern struct PNPresenceEventDataKeysStruct PNPresenceEventDataKeys;
 
 // Stores reference on channel on which this event
 // is fired
-@property (nonatomic, assign) PNChannel *channel;
+@property (nonatomic, pn_desired_weak) PNChannel *channel;
 
 // Stores reference on presence occurrence
 // date

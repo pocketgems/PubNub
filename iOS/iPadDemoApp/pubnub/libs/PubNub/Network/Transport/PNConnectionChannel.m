@@ -241,7 +241,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
                 andDelegate:(id<PNConnectionChannelDelegate>)delegate {
     
     // Check whether initialization was successful or not
-    if((self = [super init])) {
+    if((self = [self init])) {
         
         self.delegate = delegate;
         self.configuration = configuration;

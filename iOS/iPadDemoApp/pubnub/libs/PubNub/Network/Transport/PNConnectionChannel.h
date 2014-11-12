@@ -13,6 +13,7 @@
 #import "PNConnectionChannelDelegate.h"
 #import "PNRequestsQueueDelegate.h"
 #import "PNConnectionDelegate.h"
+#import "PNMacro.h"
 
 
 #pragma mark Class forward
@@ -55,7 +56,7 @@ typedef enum _PNConnectionChannelType {
 #pragma mark - Properties
 
 // Connection channel delegate
-@property (nonatomic, assign) id<PNConnectionChannelDelegate> delegate;
+@property (nonatomic, pn_desired_weak) id<PNConnectionChannelDelegate> delegate;
 
 
 #pragma mark Class methods
