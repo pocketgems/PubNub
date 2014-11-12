@@ -1180,6 +1180,10 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
     [self sharedInstance].configuration = configuration;
 }
 
++ (void)closeConsoleDumpChannel {
+
+    [[self sharedInstance] closeConsoleDumpChannel];
+}
 
 #pragma mark - Instance methods
 
