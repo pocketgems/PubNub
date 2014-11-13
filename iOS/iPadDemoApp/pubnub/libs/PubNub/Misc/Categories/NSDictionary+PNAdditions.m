@@ -74,7 +74,7 @@
 
 - (NSString *)logDescription {
     
-    __block NSString *logDescription = @"<{";
+    NSMutableString *logDescription = [NSMutableString stringWithString:@"<{"];
     __block NSUInteger entryIdx = 0;
     
     [self enumerateKeysAndObjectsUsingBlock:^(NSString *entryKey, id entry, BOOL *entryEnumeratorStop) {
@@ -82,15 +82,15 @@
         // Check whether parameter can be transformed for log or not
         if ([entry respondsToSelector:@selector(logDescription)]) {
             
-            entry = [entry performSelector:@selector(logDescription)];
-            entry = (entry ? entry : @"");
+            entry = [entry logDescription] ?: @"";
         }
-        logDescription = [logDescription stringByAppendingFormat:@"%@:%@%@", entryKey, entry, (entryIdx + 1 != [self count] ? @"|" : @"}>")];
+        [logDescription appendFormat:entryIdx ? @"|%@:%@" : @"%@:%@", entryKey, entry];
         entryIdx++;
     }];
+    [logDescription appendString:@"}>"];
+
     
-    
-    return logDescription;
+    return [logDescription copy];
 }
 
 #pragma mark -

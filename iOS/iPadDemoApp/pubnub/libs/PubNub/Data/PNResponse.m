@@ -386,11 +386,11 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
 
 - (NSString *)logDescription {
     
-    return [NSString stringWithFormat:@"<%ld|%@|%@|%@|%ld|%ld|%@|%@|%@|%@>", (long)self.statusCode, (self.message ? self.message : [NSNull null]),
+    return [NSString stringWithFormat:@"<%ld|%@|%@|%@|%ld|%ld|%@|%@|%@|%@>", (long)self.statusCode, (self.message ?: [NSNull null]),
             @(self.isErrorResponse), @(self.isLastResponseOnConnection), (unsigned long)[self.content length],
-            (unsigned long)self.size, (self.callbackMethod ? self.callbackMethod : [NSNull null]),
-            (self.serviceName ? self.serviceName : [NSNull null]), (self.requestIdentifier ? self.requestIdentifier : [NSNull null]),
-            (self.response ? self.response : [NSNull null])];
+            (unsigned long)self.size, (self.callbackMethod ?: [NSNull null]),
+            (self.serviceName ?: [NSNull null]), (self.requestIdentifier ?: [NSNull null]),
+            ([self.response respondsToSelector:@selector(logDescription)] ? [self.response logDescription] : (self.response ?: [NSNull null]))];
 }
 
 #pragma mark -

@@ -267,15 +267,15 @@ struct PNMessageDataKeysStruct PNMessageDataKeys = {
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-    PNDate *eitherDate = (self.receiveDate ? self.receiveDate : self.date);
+    PNDate *eitherDate = (self.receiveDate ?: self.date);
     NSMutableString *logDescription = [NSMutableString stringWithFormat:@"<%@|%@",
-                                       (self.channel.name ? self.channel.name : [NSNull null]),
+                                       (self.channel.name ?: [NSNull null]),
                                        (eitherDate ? [eitherDate performSelector:@selector(logDescription)] : [NSNull null])];
     if (self.message) {
         
         [logDescription appendFormat:@"%@>",
          ([self.message respondsToSelector:@selector(logDescription)] ?
-          [self.message performSelector:@selector(logDescription)] : self.message)];
+          [self.message logDescription] : self.message)];
     }
     else {
         
