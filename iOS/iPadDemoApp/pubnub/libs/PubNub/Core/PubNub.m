@@ -1457,7 +1457,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
                             
                             postponeConnectionTillNetworkCheck = YES;
                             
-                            [self handleConnectionErrorOnNetworkFailureWithError:nil];
+                            [self handleConnectionErrorOnNetworkFailure];
                             self.asyncLockingOperationInProgress = NO;
                             
                             if (![self.observationCenter isSubscribedOnClientStateChange:self]) {
