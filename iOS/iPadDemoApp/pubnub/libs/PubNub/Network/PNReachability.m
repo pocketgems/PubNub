@@ -517,6 +517,10 @@ void PNReachabilityCallback(SCNetworkReachabilityRef reachability __unused, SCNe
         __block __pn_desired_weak __typeof(self) weakSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
+            // Make sure the system isn't caching results from URL interactions
+            [[NSURLCache sharedURLCache] setMemoryCapacity:0];
+            [[NSURLCache sharedURLCache] setDiskCapacity:0];
+
             NSError *requestError;
             NSHTTPURLResponse *response;
             NSString *timeTokenRequestPath = [[PNNetworkHelper originLookupResourcePath] stringByReplacingOccurrencesOfString:@"(null)"
@@ -524,8 +528,7 @@ void PNReachabilityCallback(SCNetworkReachabilityRef reachability __unused, SCNe
             NSMutableURLRequest *timeTokenRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:timeTokenRequestPath]];
             timeTokenRequest.timeoutInterval = kPNReachabilityOriginLookupTimeout;
             NSData *downloadedTimeTokenData = [NSURLConnection sendSynchronousRequest:timeTokenRequest returningResponse:&response error:&requestError];
-            [[NSURLCache sharedURLCache] removeCachedResponseForRequest:timeTokenRequest];
-            
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 [weakSelf handleOriginLookupCompletionWithData:downloadedTimeTokenData response:response error:requestError];
