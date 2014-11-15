@@ -30,7 +30,7 @@
 // Stores number of participants for particular channel (this number fetched from presence API if it is used and
 // updated when requested list of participants)
 // INFO: it may differ in count from participants name because of nature of this value update logic
-@property (nonatomic, readonly, assign) NSUInteger participantsCount;
+@property (nonatomic, readonly, assign) int participantsCount;
 
 // Stores list of participants names for particular channel (updated and initially filled only by participants list
 // request)

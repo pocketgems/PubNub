@@ -54,9 +54,9 @@
 
     // Configure invocation instance
     methodInvocation.selector = selector;
-    [parameters enumerateObjectsUsingBlock:^(id parameter, NSUInteger parameterIdx, BOOL *parametersEnumeratorStop) {
+    [parameters enumerateObjectsUsingBlock:^(id parameter, int parameterIdx, BOOL *parametersEnumeratorStop) {
 
-        NSUInteger parameterIndex = (parameterIdx + signatureParameterOffset);
+        int parameterIndex = (parameterIdx + signatureParameterOffset);
         parameter = [parameter isKindOfClass:[NSNull class]] ? nil : parameter;
         const char *parameterType = [methodSignature getArgumentTypeAtIndex:parameterIndex];
         if ([parameter isKindOfClass:[NSNumber class]]) {
@@ -66,9 +66,9 @@
                 BOOL flagValue = [(NSNumber *) parameter boolValue];
                 [methodInvocation setArgument:&flagValue atIndex:parameterIndex];
             }
-            else if (strcmp(parameterType, @encode(NSUInteger)) == 0) {
+            else if (strcmp(parameterType, @encode(int)) == 0) {
 
-                NSUInteger unsignedInteger = [(NSNumber *) parameter unsignedIntegerValue];
+                int unsignedInteger = [(NSNumber *) parameter unsignedIntegerValue];
                 [methodInvocation setArgument:&unsignedInteger atIndex:parameterIndex];
             }
         }

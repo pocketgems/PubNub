@@ -29,7 +29,7 @@
 + (PNAccessRightsInformation *)accessRightsInformationForLevel:(PNAccessRightsLevel)level rights:(PNAccessRights)rights
                                                 applicationKey:(NSString *)subscriptionKey forChannel:(PNChannel *)channel
                                                         client:(NSString *)clientAuthorizationKey
-                                                  accessPeriod:(NSUInteger)accessPeriodDuration {
+                                                  accessPeriod:(int)accessPeriodDuration {
 
     return [[self alloc] initWithAccessLevel:level rights:rights applicationKey:subscriptionKey channel:channel
                                       client:clientAuthorizationKey accessPeriod:accessPeriodDuration];
@@ -45,7 +45,7 @@
 
 - (id)initWithAccessLevel:(PNAccessRightsLevel)level rights:(PNAccessRights)rights
            applicationKey:(NSString *)subscriptionKey channel:(PNChannel *)channel
-                   client:(NSString *)clientAuthorizationKey accessPeriod:(NSUInteger)accessPeriodDuration {
+                   client:(NSString *)clientAuthorizationKey accessPeriod:(int)accessPeriodDuration {
 
     // Check whether initialization was successful or not
     if ((self = [super init])) {

@@ -29,7 +29,7 @@
 // Stores reference on maximum write TCP
 // packet size which will be sent over the
 // socket (Default: 4kb)
-static NSUInteger const kPNWriteBufferSize = 4096;
+static int const kPNWriteBufferSize = 4096;
 
 
 #pragma mark - Private interface methods
@@ -112,7 +112,7 @@ static NSUInteger const kPNWriteBufferSize = 4096;
 - (NSString *)description {
 
     return [NSString stringWithFormat:@"WRITE BUFFER CONTENT: %@", [[NSString alloc] initWithBytes:buffer
-                                                                                            length:(NSUInteger)self.length
+                                                                                            length:(int)self.length
                                                                                           encoding:NSUTF8StringEncoding]];
 }
 

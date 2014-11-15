@@ -45,10 +45,10 @@ typedef NS_OPTIONS(NSInteger , GZIPOperations) {
 #pragma mark - Static
 
 static BOOL GZIPDeflateCompressionAlgorithmEnabled = NO;
-static NSUInteger GZIPDeflateChunkSize = 1024;
-static NSUInteger GZIPDeflateWindowBits = 31;
-static NSUInteger GZIPInflateWindowBits = 47;
-static NSUInteger DeflateWindowBits = -15;
+static int GZIPDeflateChunkSize = 1024;
+static int GZIPDeflateWindowBits = 31;
+static int GZIPInflateWindowBits = 47;
+static int DeflateWindowBits = -15;
 static const char encodeCharTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static unsigned char decodeCharTable[256] =
@@ -164,9 +164,9 @@ static unsigned char decodeCharTable[256] =
         char *characters = malloc((([self length] + 2) / 3) * 4);
     	if (characters == NULL)
     		return nil;
-    	NSUInteger length = 0;
+    	int length = 0;
 
-    	NSUInteger i = 0;
+    	int i = 0;
     	while (i < [self length])
     	{
     		char buffer[3] = {0,0,0};
@@ -191,7 +191,7 @@ static unsigned char decodeCharTable[256] =
 
 - (NSString *)HEXString {
 
-    NSUInteger capacity = [self length];
+    int capacity = [self length];
     NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:capacity];
     const unsigned char *dataBuffer = [self bytes];
 
@@ -226,7 +226,7 @@ static unsigned char decodeCharTable[256] =
 - (NSData *)dataUsingGZIPOperation:(GZIPOperations)operation {
     
     NSData *processedData = nil;
-    NSUInteger window = operation == GZIPDecompressInflateOperation ? GZIPInflateWindowBits : (operation == GZIPCompressDeflateOperation ? GZIPDeflateWindowBits : DeflateWindowBits);
+    int window = operation == GZIPDecompressInflateOperation ? GZIPInflateWindowBits : (operation == GZIPCompressDeflateOperation ? GZIPDeflateWindowBits : DeflateWindowBits);
     if ([self length] == 0) {
         
         processedData = self;
@@ -245,8 +245,8 @@ static unsigned char decodeCharTable[256] =
         stream.avail_in = (uint)[self length];
         stream.total_out = 0;
         
-        NSUInteger fullLength = [self length];
-        NSUInteger halfLength = fullLength * 0.5f;
+        int fullLength = [self length];
+        int halfLength = fullLength * 0.5f;
         
         if (operation != GZIPCompressDeflateOperation) {
             
@@ -325,7 +325,7 @@ static unsigned char decodeCharTable[256] =
 
 - (NSString *)HEXPushToken {
 
-    NSUInteger capacity = [self length];
+    int capacity = [self length];
     NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:capacity];
     const unsigned char *dataBuffer = [self bytes];
 

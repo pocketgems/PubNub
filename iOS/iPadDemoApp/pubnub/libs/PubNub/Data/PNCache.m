@@ -126,7 +126,7 @@
         NSArray *channelNames = [channels valueForKey:@"name"];
         NSArray *channelsWithState = [clientState allKeys];
         
-        [channelsWithState enumerateObjectsUsingBlock:^(NSString *channelName, NSUInteger idx, BOOL *stop) {
+        [channelsWithState enumerateObjectsUsingBlock:^(NSString *channelName, int idx, BOOL *stop) {
             
             if ([channelNames containsObject:channelName] || [self.stateCache valueForKey:channelName] != nil) {
                 

@@ -69,7 +69,7 @@
                     conforms = ((conforms && identifiers) ? [identifiers isKindOfClass:[NSArray class]] : conforms);
                     conforms = ((conforms && occupancyCount) ? [occupancyCount isKindOfClass:[NSNumber class]] : conforms);
 
-                    [identifiers enumerateObjectsUsingBlock:^(id clientInformation, NSUInteger clientInformationIdx,
+                    [identifiers enumerateObjectsUsingBlock:^(id clientInformation, int clientInformationIdx,
                                                               BOOL *clientInformationEnumerator) {
 
                         id clientIdentifier = nil;
@@ -127,8 +127,8 @@
             NSMutableArray *participantsInChannel = [[self clientsFromData:[channelParticipantsInformation objectForKey:kPNResponseUUIDKey]
                                                                 forChannel:[PNChannel channelWithName:channelName]] mutableCopy];
 
-            NSUInteger participantsCount = [[channelParticipantsInformation objectForKey:kPNResponseOccupancyKey] unsignedIntValue];
-            NSUInteger differenceInParticipantsCount = participantsCount - [participantsInChannel count];
+            int participantsCount = [[channelParticipantsInformation objectForKey:kPNResponseOccupancyKey] unsignedIntValue];
+            int differenceInParticipantsCount = participantsCount - [participantsInChannel count];
             if (differenceInParticipantsCount > 0) {
 
                 for (int i = 0; i < differenceInParticipantsCount; i++) {
@@ -156,7 +156,7 @@
 - (NSArray *)clientsFromData:(NSArray *)clientsInformation forChannel:(PNChannel *)channel {
 
     NSMutableArray *clients = [NSMutableArray array];
-    [clientsInformation enumerateObjectsUsingBlock:^(id clientInformation, NSUInteger clientInformationIdx,
+    [clientsInformation enumerateObjectsUsingBlock:^(id clientInformation, int clientInformationIdx,
                                                      BOOL *clientInformationEnumerator) {
 
         [clients addObject:[self clientFromData:clientInformation forChannel:channel]];

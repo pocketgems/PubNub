@@ -47,7 +47,7 @@
  @param lineBreakMode
  Specify what kind of truncation logic should be used: NSLineBreakModeClip, NSLineBreakModeHeadTruncation, NSLineBreakModeTailTruncation or NSLineBreakModeMiddleTruncation.
  */
-- (NSString *)truncatedString:(NSUInteger)length lineBreakMode:(NSLineBreakMode)lineBreakMode;
+- (NSString *)truncatedString:(int)length lineBreakMode:(NSLineBreakMode)lineBreakMode;
 
 
 #pragma mark - Cryptography methods

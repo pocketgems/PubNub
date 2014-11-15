@@ -28,7 +28,7 @@
     return [self arrayUsingWeakReferencesWithCapacity:0];
 }
 
-+ (NSMutableArray *)arrayUsingWeakReferencesWithCapacity:(NSUInteger)capacity {
++ (NSMutableArray *)arrayUsingWeakReferencesWithCapacity:(int)capacity {
     
     CFArrayCallBacks callbacks = {0, NULL, NULL, NULL, CFEqual};
     

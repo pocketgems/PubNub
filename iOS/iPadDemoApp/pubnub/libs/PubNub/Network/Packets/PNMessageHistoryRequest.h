@@ -49,7 +49,7 @@
  @return Ready to use \b PNMessageHistoryRequest instance.
  */
 + (PNMessageHistoryRequest *)messageHistoryRequestForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                                                       limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessagesInResponse
+                                                       limit:(int)limit reverseHistory:(BOOL)shouldReverseMessagesInResponse
                                           includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 
@@ -82,7 +82,7 @@
 
  @return Initialized \b PNMessageHistoryRequest instance.
  */
-- (id)initForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
+- (id)initForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
       reverseHistory:(BOOL)shouldReverseMessagesInResponse includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 #pragma mark -

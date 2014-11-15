@@ -87,7 +87,7 @@
 - (NSString *)ASCIIStringHEXEncodedString:(BOOL)shouldUseHEXCodes {
 
     NSMutableString *asciiString = [NSMutableString stringWithCapacity:([self length]*2.0f)];
-    NSUInteger charIdx, charsCount = [self length];
+    int charIdx, charsCount = [self length];
     for (charIdx = 0; charIdx < charsCount; charIdx++) {
 
         unichar charCode = [self characterAtIndex:charIdx];
@@ -98,7 +98,7 @@
     return asciiString;
 }
 
-- (NSString *)truncatedString:(NSUInteger)length lineBreakMode:(NSLineBreakMode)lineBreakMode {
+- (NSString *)truncatedString:(int)length lineBreakMode:(NSLineBreakMode)lineBreakMode {
 
     NSString *truncatedString = self;
     if (length < self.length) {
@@ -107,7 +107,7 @@
                 
             case NSLineBreakByTruncatingHead:
                 {
-                    NSUInteger index = (self.length - length);
+                    int index = (self.length - length);
                     if (index + 1 < self.length) {
 
                         index++;
@@ -118,7 +118,7 @@
                 
             case NSLineBreakByTruncatingMiddle:
                 {
-                    NSUInteger maximumHalfLength = (NSUInteger)ceilf(length * 0.5f);
+                    int maximumHalfLength = (int)ceilf(length * 0.5f);
                     if (maximumHalfLength == (self.length * 0.5f)) {
 
                         maximumHalfLength = MAX(maximumHalfLength - 2, MAX(maximumHalfLength - 1, 0));
@@ -131,7 +131,7 @@
                 
             case NSLineBreakByTruncatingTail:
                 {
-                    NSUInteger index = length;
+                    int index = length;
                     if (index - 1 > 0) {
 
                         index--;

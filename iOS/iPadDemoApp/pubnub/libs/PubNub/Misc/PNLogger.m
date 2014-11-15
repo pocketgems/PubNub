@@ -23,7 +23,7 @@ static NSString * const kPNLoggerOldDumpFileName = @"pubnub-console-dump.1.txt";
 /**
  Enum represent available logger configuration bit masks.
  */
-typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
+typedef NS_OPTIONS(int, PNLoggerConfiguration) {
 
     PNConsoleOutput = 1 << 11,
     PNConsoleDumpIntoFile = 1 << 12,
@@ -36,7 +36,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
 
  @note Default file size is 10Mb
  */
-static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
+static int const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
 
 
 #pragma mark - Private interface declaration
@@ -49,7 +49,7 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
 /**
  Stores bit field which keep logger configuration information.
  */
-@property (atomic, assign) NSUInteger configuration;
+@property (atomic, assign) int configuration;
 
 /**
  Stores reference on full file path to the current file which is used as console dump.
@@ -82,7 +82,7 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
 /**
  Stores maximum dump file size after which it should be truncated or log rotation should be performed.
  */
-@property (nonatomic, assign) NSUInteger maximumDumpFileSize;
+@property (nonatomic, assign) int maximumDumpFileSize;
 
 #pragma mark - Class methods
 
@@ -342,7 +342,7 @@ static NSUInteger const  kPNLoggerMaximumDumpFileSize = (10 * 1024 * 1024);
 
 #pragma mark - File dump manipulation methods
 
-+ (void)setMaximumDumpFileSize:(NSUInteger)fileSize {
++ (void)setMaximumDumpFileSize:(int)fileSize {
 
     [self sharedInstance].maximumDumpFileSize = fileSize;
 }

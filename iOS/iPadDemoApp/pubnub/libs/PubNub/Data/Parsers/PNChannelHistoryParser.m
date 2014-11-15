@@ -102,7 +102,7 @@
 
         NSArray *messages = [responseData objectAtIndex:PNChannelHistoryResponseMessagesList];
         NSMutableArray *historyMessages = [NSMutableArray arrayWithCapacity:[messages count]];
-        [messages enumerateObjectsUsingBlock:^(id message, NSUInteger messageIdx, BOOL *messageEnumerator) {
+        [messages enumerateObjectsUsingBlock:^(id message, int messageIdx, BOOL *messageEnumerator) {
 
             PNMessage *messageObject = [PNMessage messageFromServiceResponse:message onChannel:nil atDate:nil];
             [historyMessages addObject:messageObject];

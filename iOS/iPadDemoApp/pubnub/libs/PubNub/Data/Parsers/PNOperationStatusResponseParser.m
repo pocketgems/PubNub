@@ -23,15 +23,15 @@
 
 // Stores reference on index under which request
 // execution status code is stored
-static NSUInteger const kPNResponseStatusCodeElementIndex = 0;
+static int const kPNResponseStatusCodeElementIndex = 0;
 
 // Stores reference on index under which request
 // execution status description is stored
-static NSUInteger const kPNResponseStatusCodeDescriptionElementIndex = 1;
+static int const kPNResponseStatusCodeDescriptionElementIndex = 1;
 
 // Stores reference on time token element index in
 // response for request status
-static NSUInteger const kPNResponseStatusTimeTokenElementIndexForStatus = 2;
+static int const kPNResponseStatusTimeTokenElementIndexForStatus = 2;
 
 
 #pragma mark - Private interface methods

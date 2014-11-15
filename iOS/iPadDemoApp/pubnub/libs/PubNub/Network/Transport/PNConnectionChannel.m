@@ -26,7 +26,7 @@
 
 #pragma mark Structures
 
-typedef NS_OPTIONS(NSUInteger, PNConnectionStateFlag)  {
+typedef NS_OPTIONS(int, PNConnectionStateFlag)  {
 
     // Channel trying to establish connection to PubNub services
     PNConnectionChannelConnecting = 1 << 0,
@@ -54,7 +54,7 @@ typedef NS_OPTIONS(NSUInteger, PNConnectionStateFlag)  {
     PNConnectionChannelDisconnected = 1 << 7
 };
 
-typedef NS_OPTIONS(NSUInteger, PNConnectionErrorStateFlag)  {
+typedef NS_OPTIONS(int, PNConnectionErrorStateFlag)  {
 
     // Flag which allow to set whether client is experiencing some error or not
     PNConnectionChannelError = 1 << 8
@@ -135,7 +135,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
 /**
  * Retrieve reference on stored request at specific index
  */
-- (PNBaseRequest *)storedRequestAtIndex:(NSUInteger)requestIndex;
+- (PNBaseRequest *)storedRequestAtIndex:(int)requestIndex;
 
 /**
  * Check whether response should be processed on this communication channel or not
@@ -641,7 +641,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
 - (PNBaseRequest *)nextStoredRequestAfter:(PNBaseRequest *)request {
 
     PNBaseRequest *nextRequest = nil;
-    NSUInteger previousRequestIndex = [self.storedRequestsList indexOfObject:request.shortIdentifier];
+    int previousRequestIndex = [self.storedRequestsList indexOfObject:request.shortIdentifier];
     if (previousRequestIndex != NSNotFound) {
 
         nextRequest = [self storedRequestAtIndex:(previousRequestIndex + 1)];
@@ -656,7 +656,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
     return [self storedRequestAtIndex:MAX([self.storedRequestsList count] - 1, 0)];
 }
 
-- (PNBaseRequest *)storedRequestAtIndex:(NSUInteger)requestIndex {
+- (PNBaseRequest *)storedRequestAtIndex:(int)requestIndex {
 
     PNBaseRequest *request = nil;
     if ([self.storedRequestsList count] > 0 && requestIndex < [self.storedRequestsList count]) {
@@ -697,7 +697,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
 - (void)destroyByRequestClass:(Class)requestClass {
 
     NSMutableArray *requests = [NSMutableArray array];
-    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
+    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, int requestIdentifierIdx,
                                                           BOOL *requestIdentifierEnumeratorStop) {
 
         PNBaseRequest *request = [self storedRequestWithIdentifier:requestIdentifier];
@@ -707,7 +707,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
         }
     }];
     
-    [requests enumerateObjectsUsingBlock:^(id request, NSUInteger requestIdx, BOOL *requestEnumeratorStop) {
+    [requests enumerateObjectsUsingBlock:^(id request, int requestIdx, BOOL *requestEnumeratorStop) {
 
         [self destroyRequest:request];
     }];
@@ -716,7 +716,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
 - (BOOL)hasRequestsWithClass:(Class)requestClass {
 
     __block BOOL hasRequestsWithClass = NO;
-    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
+    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, int requestIdentifierIdx,
                                                           BOOL *requestIdentifierEnumeratorStop) {
 
         PNBaseRequest *request = [self storedRequestWithIdentifier:requestIdentifier];
@@ -735,7 +735,7 @@ struct PNStoredRequestKeysStruct PNStoredRequestKeys = {
 
     NSMutableArray *requests = [NSMutableArray array];
 
-    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
+    [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, int requestIdentifierIdx,
             BOOL *requestIdentifierEnumeratorStop) {
 
         PNBaseRequest *request = [self storedRequestWithIdentifier:requestIdentifier];

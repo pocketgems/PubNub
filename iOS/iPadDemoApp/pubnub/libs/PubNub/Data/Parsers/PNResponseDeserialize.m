@@ -72,7 +72,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
 - (BOOL)isGZIPCompressedTransfer:(NSDictionary *)httpResponseHeaders;
 - (BOOL)isDeflateCompressedTransfer:(NSDictionary *)httpResponseHeaders;
 - (BOOL)isKeepAliveConnectionType:(NSDictionary *)httpResponseHeaders;
-- (NSUInteger)contentLength:(NSDictionary *)httpResponseHeaders;
+- (int)contentLength:(NSDictionary *)httpResponseHeaders;
 - (NSString *)contentCompressionType:(NSDictionary *)httpResponseHeaders;
 
 - (PNResponse *)responseInRange:(NSRange)responseRange
@@ -84,7 +84,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
  * response starts (searching index of "HTTP/1.1"
  * string after current one)
  */
-- (NSUInteger)nextResponseStartIndexForData:(NSData *)data inRange:(NSRange)responseRange;
+- (int)nextResponseStartIndexForData:(NSData *)data inRange:(NSRange)responseRange;
 
 - (NSRange)nextResponseStartSearchRangeInRange:(NSRange)responseRange;
 
@@ -152,7 +152,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
 
     @autoreleasepool {
         
-        NSUInteger nextResponseIndex = [self nextResponseStartIndexForData:data inRange:responseRange];
+        int nextResponseIndex = [self nextResponseStartIndexForData:data inRange:responseRange];
         if (nextResponseIndex == NSNotFound) {
 
             // Try construct response instance
@@ -234,7 +234,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
     if(contentRange.location != NSNotFound) {
         
         // Update provided data to remove from it response content which successfully was parsed
-        NSUInteger lastResponseEndIndex = contentRange.location + contentRange.length;
+        int lastResponseEndIndex = contentRange.location + contentRange.length;
         [data setData:[data subdataWithRange:NSMakeRange(lastResponseEndIndex, [data length]-lastResponseEndIndex)]];
     }
     
@@ -285,10 +285,10 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
     return connectionType && result != NSOrderedSame;
 }
 
-- (NSUInteger)contentLength:(NSDictionary *)httpResponseHeaders {
+- (int)contentLength:(NSDictionary *)httpResponseHeaders {
 
     NSString *contentLength = [httpResponseHeaders objectForKey:kPNContentLengthHeaderFieldName];
-    NSUInteger length = 0;
+    int length = 0;
     if (contentLength && ![contentLength isEqualToString:@"0"]) {
 
         length = strtoul([contentLength UTF8String], NULL, 10);
@@ -338,13 +338,13 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
             BOOL isKeepAliveConnection = [self isKeepAliveConnectionType:headers];
 
             // Retrieve response body length (from header field)
-            NSUInteger contentLength = [self contentLength:headers];
+            int contentLength = [self contentLength:headers];
 
             // Fetch cleaned up response body (all extra new lines will be stripped away)
             NSData *responseBody = CFBridgingRelease(CFHTTPMessageCopyBody(message));
 
 
-            NSUInteger contentSize = [responseBody length];
+            int contentSize = [responseBody length];
             if ((contentLength > 0 && contentSize > 0) || contentSize > 0) {
 
                 if (statusCode != 200 && !(statusCode >= 401 && statusCode <= 503)) {
@@ -434,7 +434,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
     BOOL parsingChunkOctet = YES;
     BOOL parsingChunk = NO;
     NSRange searchRange = NSMakeRange(0, [chunkedData length]);
-    NSUInteger chunkStart = searchRange.location;
+    int chunkStart = searchRange.location;
 
     NSRange cursor = [chunkedData rangeOfData:self.endLineCharactersData
                                       options:(NSDataSearchOptions)0
@@ -450,7 +450,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
 
         // The next chunk starts after the cursor.
         chunkStart = cursor.location + cursor.length;
-        NSUInteger chunkEnd = searchRange.location + searchRange.length - chunkStart;
+        int chunkEnd = searchRange.location + searchRange.length - chunkStart;
         NSRange nextSearchRange = NSMakeRange(chunkStart, chunkEnd);
 
         if (parsingChunk) {
@@ -501,7 +501,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
     return joinedData;
 }
 
-- (NSUInteger)nextResponseStartIndexForData:(NSData *)data inRange:(NSRange)responseRange {
+- (int)nextResponseStartIndexForData:(NSData *)data inRange:(NSRange)responseRange {
     
     NSRange range = [data rangeOfData:self.httpHeaderStartData
                               options:(NSDataSearchOptions)0

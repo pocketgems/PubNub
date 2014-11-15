@@ -161,8 +161,8 @@ static NSString* PNObfuscateString(NSString *string);
 NSString *PNObfuscateString(NSString *string) {
 
     NSString *obfuscatedString = string;
-    NSUInteger minimumWidth = 3;
-    NSUInteger stringWidth = (NSUInteger)([string length]/2);
+    int minimumWidth = 3;
+    int stringWidth = (int)([string length]/2);
     if (stringWidth >= minimumWidth) {
 
         obfuscatedString = [NSString stringWithFormat:@"%@*****%@", [string substringToIndex:minimumWidth],

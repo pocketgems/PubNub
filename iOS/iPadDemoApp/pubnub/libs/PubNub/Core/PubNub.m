@@ -213,7 +213,7 @@ static NSMutableArray *pendingInvocations = nil;
 #pragma mark - History methods
 
 + (void)postponeRequestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                                   limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory
+                                   limit:(int)limit reverseHistory:(BOOL)shouldReverseMessageHistory
                       includingTimeToken:(BOOL)shouldIncludeTimeToken
                      withCompletionBlock:(id)handleBlock;
 
@@ -1301,7 +1301,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
                         [allChannels makeObjectsPerformSelector:@selector(lockTimeTokenChange)];
                     }
 
-                    __block NSUInteger resubscribeRetryCount = 0;
+                    __block int resubscribeRetryCount = 0;
                     __block __pn_desired_weak PubNub *weakSharedInstance = [self sharedInstance];
                     __block void(^retrySubscription)(PNError *);
                     __block void(^retryUnsubscription)(PNError *);
@@ -2873,7 +2873,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
             }
             
             // Enumerate over the list of channels and mark that it should observe for presence
-            [channels enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx, BOOL *channelEnumeratorStop) {
+            [channels enumerateObjectsUsingBlock:^(PNChannel *channel, int channelIdx, BOOL *channelEnumeratorStop) {
                 
                 channel.observePresence = YES;
                 channel.linkedWithPresenceObservationChannel = NO;
@@ -3291,25 +3291,25 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
                withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit {
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit {
     
     [self requestHistoryForChannel:channel from:startDate limit:limit includingTimeToken:NO];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
     [self requestHistoryForChannel:channel from:startDate limit:limit includingTimeToken:NO withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken {
     
     [self requestHistoryForChannel:channel from:startDate limit:limit includingTimeToken:shouldIncludeTimeToken
                withCompletionBlock:nil];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
     [self requestHistoryForChannel:channel from:startDate to:nil limit:limit includingTimeToken:shouldIncludeTimeToken
@@ -3317,40 +3317,40 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 + (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                           limit:(NSUInteger)limit {
+                           limit:(int)limit {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit includingTimeToken:NO];
 }
 
 + (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                           limit:(NSUInteger)limit withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
+                           limit:(int)limit withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit includingTimeToken:NO
                withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit includingTimeToken:shouldIncludeTimeToken
                withCompletionBlock:nil];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:NO
                 includingTimeToken:shouldIncludeTimeToken withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory {
     
     [self requestHistoryForChannel:channel from:startDate limit:limit reverseHistory:shouldReverseMessageHistory
                 includingTimeToken:NO];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
@@ -3358,14 +3358,14 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
                 includingTimeToken:NO withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken {
     
     [self requestHistoryForChannel:channel from:startDate limit:limit reverseHistory:shouldReverseMessageHistory
                 includingTimeToken:shouldIncludeTimeToken withCompletionBlock:nil];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
@@ -3374,28 +3374,28 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 + (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                           limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory {
+                           limit:(int)limit reverseHistory:(BOOL)shouldReverseMessageHistory {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:shouldReverseMessageHistory
                 includingTimeToken:NO];
 }
 
 + (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                           limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory
+                           limit:(int)limit reverseHistory:(BOOL)shouldReverseMessageHistory
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:shouldReverseMessageHistory
                 includingTimeToken:NO withCompletionBlock:handleBlock];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken {
     
     [self requestHistoryForChannel:channel from:startDate to:endDate limit:limit reverseHistory:shouldReverseMessageHistory
                 includingTimeToken:shouldIncludeTimeToken withCompletionBlock:nil];
 }
 
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock {
 
@@ -3468,7 +3468,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
 }
 
 + (void)postponeRequestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                                   limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessageHistory
+                                   limit:(int)limit reverseHistory:(BOOL)shouldReverseMessageHistory
                       includingTimeToken:(BOOL)shouldIncludeTimeToken
                      withCompletionBlock:(id)handleBlock {
 
@@ -5319,7 +5319,7 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     [pendingInvocations removeAllObjects];
 
     [invocationsForFlush enumerateObjectsUsingBlock:^(NSInvocation *postponedInvocation,
-                                                     NSUInteger postponedInvocationIdx,
+                                                     int postponedInvocationIdx,
                                                      BOOL *postponedInvocationEnumeratorStop) {
         
         self.asyncLockingOperationInProgress = NO;
@@ -5347,9 +5347,9 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
     
     // Configure invocation instance
     methodInvocation.selector = calledMethodSelector;
-    [parameters enumerateObjectsUsingBlock:^(id parameter, NSUInteger parameterIdx, BOOL *parametersEnumeratorStop) {
+    [parameters enumerateObjectsUsingBlock:^(id parameter, int parameterIdx, BOOL *parametersEnumeratorStop) {
         
-        NSUInteger parameterIndex = (parameterIdx + signatureParameterOffset);
+        int parameterIndex = (parameterIdx + signatureParameterOffset);
         parameter = [parameter isKindOfClass:[NSNull class]] ? nil : parameter;
         const char *parameterType = [methodSignature getArgumentTypeAtIndex:parameterIndex];
         if ([parameter isKindOfClass:[NSNumber class]]) {
@@ -5359,14 +5359,14 @@ withCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBloc
                 BOOL flagValue = [(NSNumber *) parameter boolValue];
                 [methodInvocation setArgument:&flagValue atIndex:parameterIndex];
             }
-            else if (strcmp(parameterType, @encode(NSUInteger)) == 0) {
+            else if (strcmp(parameterType, @encode(int)) == 0) {
                 
-                NSUInteger unsignedInteger = [(NSNumber *) parameter unsignedIntegerValue];
+                int unsignedInteger = [(NSNumber *) parameter unsignedIntegerValue];
                 [methodInvocation setArgument:&unsignedInteger atIndex:parameterIndex];
             }
             else if (strcmp(parameterType, @encode(unsigned long)) == 0) {
 
-                NSUInteger unsignedInteger = [(NSNumber *) parameter unsignedLongValue];
+                int unsignedInteger = [(NSNumber *) parameter unsignedLongValue];
                 [methodInvocation setArgument:&unsignedInteger atIndex:parameterIndex];
             }
             else if (strcmp(parameterType, @encode(NSInteger)) == 0) {

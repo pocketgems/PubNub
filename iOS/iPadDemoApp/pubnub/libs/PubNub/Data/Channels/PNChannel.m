@@ -42,7 +42,7 @@ static NSMutableDictionary *_channelsCache = nil;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *updateTimeToken;
 @property (nonatomic, strong) PNDate *presenceUpdateDate;
-@property (nonatomic, assign) NSUInteger participantsCount;
+@property (nonatomic, assign) int participantsCount;
 @property (nonatomic, strong) NSMutableDictionary *participantsList;
 @property (nonatomic, assign, getter = shouldObservePresence) BOOL observePresence;
 @property (nonatomic, assign, getter = isAbleToResetTimeToken) BOOL ableToResetTimeToken;
@@ -79,7 +79,7 @@ static NSMutableDictionary *_channelsCache = nil;
     NSMutableArray *channels = [NSMutableArray arrayWithCapacity:[channelsName count]];
 
     [channelsName enumerateObjectsUsingBlock:^(NSString *channelName,
-                                               NSUInteger channelNameIdx,
+                                               int channelNameIdx,
                                                BOOL *channelNamesEnumerator) {
 
         PNChannel *channel = [PNChannel channelWithName:channelName];
@@ -299,7 +299,7 @@ shouldUpdatePresenceObservingFlag:(BOOL)shouldUpdatePresenceObservingFlag {
     self.presenceUpdateDate = [PNDate dateWithDate:[NSDate date]];
     self.participantsCount = hereNow.participantsCount;
     self.participantsList = [NSMutableDictionary dictionary];
-    [hereNow.participants enumerateObjectsUsingBlock:^(PNClient *client, NSUInteger clientIdx,
+    [hereNow.participants enumerateObjectsUsingBlock:^(PNClient *client, int clientIdx,
                                                        BOOL *clientEnumeratorStop) {
 
         NSString *clientStoreIdentifier = client.identifier;

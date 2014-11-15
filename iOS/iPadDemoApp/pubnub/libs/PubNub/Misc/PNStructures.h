@@ -16,7 +16,7 @@
 #define PNStructures_h
 
 // This enum represents possible message processing states
-typedef NS_OPTIONS(NSUInteger, PNMessageState) {
+typedef NS_OPTIONS(int, PNMessageState) {
 
     // Message was scheduled for processing. "processingData" field will contain message instance which was scheduled
     // for processing
@@ -33,7 +33,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessageState) {
 
 
 // This enum represents list of possible presence event types
-typedef NS_OPTIONS(NSUInteger, PNPresenceEventType) {
+typedef NS_OPTIONS(int, PNPresenceEventType) {
     
     // Number of persons changed in observed channel
     PNPresenceEventChanged,
@@ -53,7 +53,7 @@ typedef NS_OPTIONS(NSUInteger, PNPresenceEventType) {
 
 
 // This enum represent list of possible events which can occur during requests execution
-typedef NS_OPTIONS(NSUInteger, PNOperationResultEvent) {
+typedef NS_OPTIONS(int, PNOperationResultEvent) {
 
     // Stores unknown event
     PNOperationResultUnknown,
@@ -62,7 +62,7 @@ typedef NS_OPTIONS(NSUInteger, PNOperationResultEvent) {
 
 
 // This enum represents list of possible subscription states which can occur while client subscribing/restoring
-typedef NS_OPTIONS(NSUInteger, PNSubscriptionProcessState) {
+typedef NS_OPTIONS(int, PNSubscriptionProcessState) {
 
     // Not subscribed state (maybe some error occurred while tried to subscribe)
     PNSubscriptionProcessNotSubscribedState,

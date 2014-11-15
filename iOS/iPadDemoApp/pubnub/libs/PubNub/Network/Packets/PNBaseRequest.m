@@ -39,7 +39,7 @@
 // Stores number of request sending retries
 // (when it will reach limit communication
 // channel should remove it from queue
-@property (nonatomic, assign) NSUInteger retryCount;
+@property (nonatomic, assign) int retryCount;
 
 
 #pragma mark - Instance methods
@@ -150,7 +150,7 @@
     return self.retryCount < [self allowedRetryCount];
 }
 
-- (NSUInteger)allowedRetryCount {
+- (int)allowedRetryCount {
 
     return kPNRequestMaximumRetryCount;
 }

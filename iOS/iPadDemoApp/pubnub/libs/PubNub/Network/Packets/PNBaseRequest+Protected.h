@@ -69,7 +69,7 @@ typedef NS_OPTIONS(NSInteger , PNRequestHTTPMethod) {
 /**
  * Retrieve how many times request can be rescheduled for processing
  */
-- (NSUInteger)allowedRetryCount;
+- (int)allowedRetryCount;
 
 - (void)resetRetryCount;
 - (void)increaseRetryCount;

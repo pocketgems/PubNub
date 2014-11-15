@@ -49,7 +49,7 @@
 /**
  Stores reference on value, which described on how long specified access rights has been granted.
  */
-@property (nonatomic, readonly, assign) NSUInteger accessPeriodDuration;
+@property (nonatomic, readonly, assign) int accessPeriodDuration;
 
 
 #pragma mark - Instance methods

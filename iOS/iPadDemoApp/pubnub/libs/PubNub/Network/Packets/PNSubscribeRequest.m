@@ -147,9 +147,9 @@
             [updatedSet addObjectsFromArray:self.channelsForPresenceEnabling];
         }
         NSArray *presenceEnabledChannels = [PNChannelPresence presenceChannelsFromArray:_channels];
-        [self.channelsForPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx, BOOL *channelEnumeratorStop) {
+        [self.channelsForPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, int channelIdx, BOOL *channelEnumeratorStop) {
             
-            [presenceEnabledChannels enumerateObjectsUsingBlock:^(PNChannelPresence *presenceChannel, NSUInteger presenceChannelIdx,
+            [presenceEnabledChannels enumerateObjectsUsingBlock:^(PNChannelPresence *presenceChannel, int presenceChannelIdx,
                                                                   BOOL *presenceChannelEnumeratorStop) {
                 
                 if ([[presenceChannel observedChannel] isEqual:[channel valueForKey:@"observedChannel"]]) {
@@ -198,7 +198,7 @@
     NSMutableSet *channels = [NSMutableSet setWithArray:_channels];
     NSMutableSet *channelsForRemoval = [NSMutableSet set];
     
-    [_channelsForPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx,
+    [_channelsForPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, int channelIdx,
                                                                 BOOL *channelEnumeratorStop) {
         
         if ([channel isPresenceObserver]) {
@@ -214,7 +214,7 @@
             }
         }
     }];
-    [_channels enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx,
+    [_channels enumerateObjectsUsingBlock:^(PNChannel *channel, int channelIdx,
                                             BOOL *channelEnumeratorStop) {
         
         if ([channel isPresenceObserver]) {

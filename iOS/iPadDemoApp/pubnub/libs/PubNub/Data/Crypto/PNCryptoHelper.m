@@ -256,7 +256,7 @@ static NSData *_cryptorKeyData = nil;
 
     NSMutableArray *messages = [NSMutableArray arrayWithCapacity:[arrayForEncryption count]];
     [arrayForEncryption enumerateObjectsUsingBlock:^(id objectForEncryption,
-                                                     NSUInteger objectIndex,
+                                                     int objectIndex,
                                                      BOOL *objectEnumeratorStop) {
 
         id encryptedObject = [self encryptedObjectFromObject:objectForEncryption error:error];
@@ -331,7 +331,7 @@ static NSData *_cryptorKeyData = nil;
 
     NSMutableArray *messages = [NSMutableArray arrayWithCapacity:[arrayForDecryption count]];
     [arrayForDecryption enumerateObjectsUsingBlock:^(id objectForDecryption,
-                                                     NSUInteger objectIndex,
+                                                     int objectIndex,
                                                      BOOL *objectEnumeratorStop) {
 
         id decryptedObject = [self decryptedObjectFromObject:objectForDecryption error:error];

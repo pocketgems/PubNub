@@ -9368,7 +9368,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param limit
  Maximum number of messages which should be pulled out from history.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit;
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit;
 
 /**
  Fetch messages from history for specified channel starting from specified date and till current time.
@@ -9396,7 +9396,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9419,7 +9419,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldIncludeTimeToken
  Whether message post date (time token) should be added to the message in history response.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 /**
@@ -9452,7 +9452,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9476,7 +9476,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param limit
  Maximum number of messages which should be pulled out from history.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit;
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit;
 
 /**
  Fetch messages from history for specified channel in defined time frame.
@@ -9508,7 +9508,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9535,7 +9535,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldIncludeTimeToken
  Whether message post date (time token) should be added to the message in history response.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 /**
@@ -9572,7 +9572,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
               includingTimeToken:(BOOL)shouldIncludeTimeToken withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9595,7 +9595,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldReverseMessageHistory
  If set to \c YES all older messages will come first in response. Default value is \b NO.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory;
 
 /**
@@ -9627,7 +9627,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9653,7 +9653,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldIncludeTimeToken
  Whether message post date (time token) should be added to the message in history response.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 /**
@@ -9689,7 +9689,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
@@ -9717,7 +9717,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldReverseMessageHistory
  If set to \c YES all older messages will come first in response. Default value is \b NO.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory;
 
 /**
@@ -9753,7 +9753,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 
 /**
@@ -9783,7 +9783,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @param shouldIncludeTimeToken
  Whether message post date (time token) should be added to the message in history response.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken;
 
 /**
@@ -9823,7 +9823,7 @@ andCompletionHandlingBlock:(PNClientChannelSubscriptionHandlerBlock)handlerBlock
  @warning Only last call of this method will call completion block. If you need to track history request process,
  use \b PNObservationCenter methods for this purpose.
  */
-+ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
++ (void)requestHistoryForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
                   reverseHistory:(BOOL)shouldReverseMessageHistory includingTimeToken:(BOOL)shouldIncludeTimeToken
              withCompletionBlock:(PNClientHistoryLoadHandlingBlock)handleBlock;
 

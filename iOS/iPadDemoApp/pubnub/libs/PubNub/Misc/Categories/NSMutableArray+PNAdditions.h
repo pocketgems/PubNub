@@ -24,7 +24,7 @@
  * Returns array which wouldn't retain it's
  * values
  */
-+ (NSMutableArray *)arrayUsingWeakReferencesWithCapacity:(NSUInteger)capacity;
++ (NSMutableArray *)arrayUsingWeakReferencesWithCapacity:(int)capacity;
 
 #pragma mark -
 

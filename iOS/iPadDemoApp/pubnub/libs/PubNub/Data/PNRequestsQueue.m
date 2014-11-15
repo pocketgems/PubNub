@@ -24,7 +24,7 @@
 
 #pragma mark Static
 
-static NSUInteger const kPNRequestQueueNextRequestIndex = 0;
+static int const kPNRequestQueueNextRequestIndex = 0;
 
 
 #pragma mark - Private interface methods

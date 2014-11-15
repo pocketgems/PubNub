@@ -32,7 +32,7 @@
 
 // Stores reference on maximum number of messages which
 // should be returned from backend
-@property (nonatomic, readonly, assign) NSUInteger limit;
+@property (nonatomic, readonly, assign) int limit;
 
 // Stores reference on whether messages should revert
 // their order in response or not

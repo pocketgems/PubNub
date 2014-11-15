@@ -51,7 +51,7 @@
 
  @note This property set only when access rights grant API is used.
  */
-@property (nonatomic, readonly, assign) NSUInteger accessPeriodDuration;
+@property (nonatomic, readonly, assign) int accessPeriodDuration;
 
 
 #pragma mark - Instance methods

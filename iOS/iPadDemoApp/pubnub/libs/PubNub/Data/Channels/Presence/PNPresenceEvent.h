@@ -39,7 +39,7 @@
 
 // Stores reference on number of persons in channel
 // on which this event is occurred
-@property (nonatomic, readonly, assign) NSUInteger occupancy;
+@property (nonatomic, readonly, assign) int occupancy;
 
 // Stores reference on channel on which this event
 // is fired

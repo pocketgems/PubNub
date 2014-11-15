@@ -155,7 +155,7 @@
 
 - (void)correlateAccessRightsWithOptions:(PNAccessRightOptions *)options {
 
-    [options.channels enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx,
+    [options.channels enumerateObjectsUsingBlock:^(PNChannel *channel, int channelIdx,
                                                    BOOL *channelEnumeratorStop) {
 
         if (options.level != PNUserAccessRightsLevel) {
@@ -166,7 +166,7 @@
         }
 
         [options.clientsAuthorizationKeys enumerateObjectsUsingBlock:^(NSString *clientAuthorizationKey,
-                                                                               NSUInteger clientAuthorizationKeyIdx,
+                                                                               int clientAuthorizationKeyIdx,
                                                                                BOOL *clientAuthorizationKeyEnumeratorStop) {
 
                     [self storeClientAccessRightsInformation:[PNAccessRightsInformation accessRightsInformationForLevel:PNUserAccessRightsLevel

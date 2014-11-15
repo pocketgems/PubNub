@@ -72,7 +72,7 @@
 /**
  Bit which should be placed at the end of bit lists, so va_list will know where it should stop.
  */
-#define BITS_LIST_TERMINATOR   ((NSUInteger)0)
+#define BITS_LIST_TERMINATOR   ((int)0)
 
 
 @interface PNBitwiseHelper : NSObject

@@ -38,7 +38,7 @@
 
 // Stores reference on maximum number of messages which
 // should be returned from backend
-@property (nonatomic, assign) NSUInteger limit;
+@property (nonatomic, assign) int limit;
 
 // Stores reference on whether messages should revert
 // their order in response or not
@@ -61,7 +61,7 @@
 #pragma mark - Class methods
 
 + (PNMessageHistoryRequest *)messageHistoryRequestForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate
-                                                       limit:(NSUInteger)limit reverseHistory:(BOOL)shouldReverseMessagesInResponse
+                                                       limit:(int)limit reverseHistory:(BOOL)shouldReverseMessagesInResponse
                                           includingTimeToken:(BOOL)shouldIncludeTimeToken {
 
     return [[[self class] alloc] initForChannel:channel from:startDate to:endDate limit:limit
@@ -72,7 +72,7 @@
 
 #pragma mark - Instance methods
 
-- (id)initForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(NSUInteger)limit
+- (id)initForChannel:(PNChannel *)channel from:(PNDate *)startDate to:(PNDate *)endDate limit:(int)limit
       reverseHistory:(BOOL)shouldReverseMessagesInResponse includingTimeToken:(BOOL)shouldIncludeTimeToken {
 
     // Check whether initialization successful or not

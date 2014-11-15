@@ -23,7 +23,7 @@
 @property (nonatomic, copy) NSString *applicationKey;
 @property (nonatomic, strong) NSArray *channels;
 @property (nonatomic, strong) NSArray *clientsAuthorizationKeys;
-@property (nonatomic, assign) NSUInteger accessPeriodDuration;
+@property (nonatomic, assign) int accessPeriodDuration;
 
 
 #pragma mark - Class methods

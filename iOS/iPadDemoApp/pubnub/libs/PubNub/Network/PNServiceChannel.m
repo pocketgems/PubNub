@@ -703,7 +703,7 @@
         error = [PNError errorWithCode:kPNRequestExecutionFailedOnInternetFailureError];
     }
 
-    [requestsList enumerateObjectsUsingBlock:^(NSString *requestIdentifier, NSUInteger requestIdentifierIdx,
+    [requestsList enumerateObjectsUsingBlock:^(NSString *requestIdentifier, int requestIdentifierIdx,
                                                BOOL *requestIdentifierEnumeratorStop) {
 
         PNBaseRequest *request = [self requestWithIdentifier:requestIdentifier];
@@ -720,7 +720,7 @@
     if ([requestsList count] > 0) {
 
         [requestsList enumerateObjectsWithOptions:NSEnumerationReverse
-                                       usingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
+                                       usingBlock:^(id requestIdentifier, int requestIdentifierIdx,
                                                     BOOL *requestIdentifierEnumeratorStop) {
 
                PNBaseRequest *request = [self storedRequestWithIdentifier:requestIdentifier];

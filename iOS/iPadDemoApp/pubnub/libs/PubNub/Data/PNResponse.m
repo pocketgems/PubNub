@@ -68,7 +68,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
  @param errorCode
  JSON Parsing error.
  */
-- (void)handleJSONDecodeErrorWithCode:(NSUInteger)errorCode;
+- (void)handleJSONDecodeErrorWithCode:(int)errorCode;
 
 
 #pragma mark - Misc methods
@@ -114,7 +114,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
 
 #pragma mark Class methods
 
-+ (PNResponse *)responseWithContent:(NSData *)content size:(NSUInteger)responseSize code:(NSInteger)statusCode
++ (PNResponse *)responseWithContent:(NSData *)content size:(int)responseSize code:(NSInteger)statusCode
            lastResponseOnConnection:(BOOL)isLastResponseOnConnection {
     
     return [[[self class] alloc] initWithContent:content size:responseSize code:statusCode
@@ -133,7 +133,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
 
 #pragma mark - Instance methods
 
-- (id)    initWithContent:(NSData *)content size:(NSUInteger)responseSize code:(NSInteger)statusCode
+- (id)    initWithContent:(NSData *)content size:(int)responseSize code:(NSInteger)statusCode
  lastResponseOnConnection:(BOOL)isLastResponseOnConnection {
     
     // Check whether initialization was successful or not
@@ -199,7 +199,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
 
 #pragma mark - Handler methods
 
-- (void)handleJSONDecodeErrorWithCode:(NSUInteger)errorCode {
+- (void)handleJSONDecodeErrorWithCode:(int)errorCode {
 
     // Mark that request is failed to be processed correctly
     self.size = 0;
@@ -281,7 +281,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
         }
 
         NSArray *unprocessedDataKeys = [processedData allKeys];
-        [unprocessedDataKeys enumerateObjectsUsingBlock:^(NSString *dataKey, NSUInteger dataKeyIdx,
+        [unprocessedDataKeys enumerateObjectsUsingBlock:^(NSString *dataKey, int dataKeyIdx,
                                                              BOOL *dataKeyEnumeratorStop) {
 
             // Checking on whether key conforms to PubNub service "private" data template or not.
@@ -299,7 +299,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
             if (isPayloadFound) {
 
                 NSMutableDictionary *responseForModification = [self.response mutableCopy];
-                [unprocessedDataKeys enumerateObjectsUsingBlock:^(NSString *dataKey, NSUInteger dataKeyIdx,
+                [unprocessedDataKeys enumerateObjectsUsingBlock:^(NSString *dataKey, int dataKeyIdx,
                                                                   BOOL *dataKeyEnumeratorStop) {
 
                     [responseForModification setValue:[processedData valueForKey:dataKey] forKey:dataKey];

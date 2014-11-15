@@ -95,7 +95,7 @@
 - (double)bandwidthToLoadResponse:(PNResponse *)response {
 
     // Retrieve how many data has been received in tracked amount of time
-    NSUInteger responseLength = [[response content] length];
+    int responseLength = [[response content] length];
 
 
     return responseLength / [self latency];

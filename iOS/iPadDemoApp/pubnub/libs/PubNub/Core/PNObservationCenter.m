@@ -1035,7 +1035,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     // Clean one time observers for specific event
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientConnectionStateChange];
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1068,7 +1068,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientMetadataRetrieval];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1101,7 +1101,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientMetadataUpdate];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1153,7 +1153,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
         NSArray *oneTimeEventObservers = [self oneTimeObserversForEvent:PNObservationEvents.clientSubscriptionOnChannels];
         if ([oneTimeEventObservers count]) {
 
-            [oneTimeEventObservers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData, NSUInteger observerDataIdx,
+            [oneTimeEventObservers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData, int observerDataIdx,
                                                     BOOL *observerDataEnumeratorStop) {
 
                 if ([[observerData valueForKey:PNObservationObserverData.observer] isEqual:[PubNub sharedInstance]]) {
@@ -1173,7 +1173,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
         [self removeOneTimeObserversForEvent:PNObservationEvents.clientSubscriptionOnChannels];
     }
 
-    [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData, NSUInteger observerDataIdx,
+    [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData, int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1209,7 +1209,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
         if ([oneTimeEventObservers count]) {
 
             [oneTimeEventObservers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                                                NSUInteger observerDataIdx,
+                                                                int observerDataIdx,
                                                                 BOOL *observerDataEnumeratorStop) {
 
                 if ([[observerData valueForKey:PNObservationObserverData.observer] isEqual:[PubNub sharedInstance]]) {
@@ -1230,7 +1230,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     }
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1263,7 +1263,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientPresenceEnableOnChannels];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1296,7 +1296,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientPresenceDisableOnChannels];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1338,7 +1338,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:eventName];
 
     [observers enumerateObjectsUsingBlock:^(NSDictionary *observerData,
-                                                NSUInteger observerDataIdx,
+                                                int observerDataIdx,
                                                 BOOL *observerDataEnumeratorStop) {
 
         // Receive reference on handling block
@@ -1373,7 +1373,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientPushNotificationRemovalForAllChannels];
 
     [observers enumerateObjectsUsingBlock:^(NSDictionary *observerData,
-                                                NSUInteger observerDataIdx,
+                                                int observerDataIdx,
                                                 BOOL *observerDataEnumeratorStop) {
 
         // Receive reference on handling block
@@ -1406,7 +1406,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientPushNotificationEnabledChannelsRetrieval];
 
     [observers enumerateObjectsUsingBlock:^(NSDictionary *observerData,
-                                                NSUInteger observerDataIdx,
+                                                int observerDataIdx,
                                                 BOOL *observerDataEnumeratorStop) {
 
         // Receive reference on handling block
@@ -1449,7 +1449,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     }
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1471,7 +1471,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     NSArray *observers = [self observersForEvent:PNObservationEvents.clientReceivedMessage];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1493,7 +1493,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     NSArray *observers = [self observersForEvent:PNObservationEvents.clientReceivedPresenceEvent];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1529,7 +1529,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientReceivedHistory];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1561,7 +1561,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientAccessRightsChange];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1593,7 +1593,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientAccessRightsAudit];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1629,7 +1629,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientReceivedParticipantsList];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1665,7 +1665,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientParticipantChannelsList];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks
@@ -1697,7 +1697,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     [self removeOneTimeObserversForEvent:PNObservationEvents.clientTimeTokenReceivingComplete];
 
     [observers enumerateObjectsUsingBlock:^(NSMutableDictionary *observerData,
-                                            NSUInteger observerDataIdx,
+                                            int observerDataIdx,
                                             BOOL *observerDataEnumeratorStop) {
 
         // Call handling blocks

@@ -26,17 +26,17 @@
 /**
  Stores reference on index under which events list is stored.
  */
-static NSUInteger const kPNResponseEventsListElementIndex = 0;
+static int const kPNResponseEventsListElementIndex = 0;
 
 /**
  Stores reference on index under which channels list is stored.
  */
-static NSUInteger const kPNResponseChannelsListElementIndex = 2;
+static int const kPNResponseChannelsListElementIndex = 2;
 
 /**
  Stores reference on time token element index in response for events.
  */
-static NSUInteger const kPNResponseTimeTokenElementIndexForEvent = 1;
+static int const kPNResponseTimeTokenElementIndexForEvent = 1;
 
 
 #pragma mark - Private interface methods
@@ -141,7 +141,7 @@ static NSUInteger const kPNResponseTimeTokenElementIndexForEvent = 1;
         if ([events count] > 0) {
 
             NSMutableArray *eventObjects = [NSMutableArray arrayWithCapacity:[events count]];
-            [events enumerateObjectsUsingBlock:^(id event, NSUInteger eventIdx, BOOL *eventEnumeratorStop) {
+            [events enumerateObjectsUsingBlock:^(id event, int eventIdx, BOOL *eventEnumeratorStop) {
 
                 PNChannel *channel = nil;
                 if ([channels count] > 0) {

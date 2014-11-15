@@ -14,7 +14,7 @@
 #pragma mark Static
 
 // Stores default access period duration (while granted access will be valid)
-static NSUInteger const kPNDefaulfAccessPeriodDuration = 1440;
+static int const kPNDefaulfAccessPeriodDuration = 1440;
 
 
 #pragma mark - Public interface implementation

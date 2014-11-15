@@ -241,7 +241,7 @@ typedef NS_OPTIONS(unsigned long, PNLogLevel) {
 
  @note Current file immediately will be recalculated and if required log rotation will be performed.
  */
-+ (void)setMaximumDumpFileSize:(NSUInteger)fileSize;
++ (void)setMaximumDumpFileSize:(int)fileSize;
 
 
 #pragma mark - HTTP response dump methods

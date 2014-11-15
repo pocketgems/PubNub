@@ -39,7 +39,7 @@
 /**
  Stores reference on timestamp which should be used with request.
  */
-@property (nonatomic, assign) NSUInteger requestTimestamp;
+@property (nonatomic, assign) int requestTimestamp;
 
 @property (nonatomic, strong) PNAccessRightOptions *accessRightOptions;
 
@@ -147,11 +147,11 @@
     return [signature percentEscapedString];
 }
 
-- (NSUInteger)requestTimestamp {
+- (int)requestTimestamp {
 
     if (_requestTimestamp == 0) {
 
-        _requestTimestamp = (NSUInteger)[[NSDate date] timeIntervalSince1970];
+        _requestTimestamp = (int)[[NSDate date] timeIntervalSince1970];
     }
 
 

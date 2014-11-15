@@ -168,7 +168,7 @@
  
  @return Random integer from specified range of values.
  */
-+ (NSUInteger)randomIntegerInRange:(NSRange)range;
++ (int)randomIntegerInRange:(NSRange)range;
 
 #pragma mark -
 
@@ -207,7 +207,7 @@
     return (arc4random() %(INT32_MAX)-1);
 }
 
-+ (NSUInteger)randomIntegerInRange:(NSRange)range {
++ (int)randomIntegerInRange:(NSRange)range {
     
     return range.location + (random() % (range.length - range.location));
 }
@@ -230,7 +230,7 @@
     NSMutableString *shortenedUUID = [NSMutableString string];
     
     NSArray *components = [originalUUID componentsSeparatedByString:@"-"];
-    [components enumerateObjectsUsingBlock:^(NSString *group, NSUInteger groupIdx, BOOL *groupEnumeratorStop) {
+    [components enumerateObjectsUsingBlock:^(NSString *group, int groupIdx, BOOL *groupEnumeratorStop) {
         
         NSRange randomValueRange = NSMakeRange([self randomIntegerInRange:NSMakeRange(0, [group length])], 1);
         [shortenedUUID appendString:[group substringWithRange:randomValueRange]];

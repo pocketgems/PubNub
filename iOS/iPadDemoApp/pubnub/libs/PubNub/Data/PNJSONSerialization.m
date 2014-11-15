@@ -113,7 +113,7 @@
             [deserializationInvocation setSelector:jsonKitSelector];
             [deserializationInvocation setTarget:dataForDeserialization];
             
-            NSUInteger parseOption = 0;
+            int parseOption = 0;
             __autoreleasing NSError **parsingErrorForInvocation = &parsingError;
             __unsafe_unretained id invocationResult;
             [deserializationInvocation setArgument:&parseOption atIndex:2];

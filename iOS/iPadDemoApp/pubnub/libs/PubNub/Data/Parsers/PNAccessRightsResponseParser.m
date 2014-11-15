@@ -210,7 +210,7 @@ struct PNAccessLevelsStruct PNAccessLevels = {
         PNAccessRightsLevel accessLevel = [self accessRightsLevelFromString:[accessInformation valueForKeyPath:kPNAccessLevelKey]];
 
         // Fetch access rights period (time during which they will be valid)
-        NSUInteger accessPeriod = [[accessInformation valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
+        int accessPeriod = [[accessInformation valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
 
         // Fetch granted access rights.
         __block PNAccessRights accessRights = [self accessRightsFromDictionary:accessInformation];
@@ -254,7 +254,7 @@ struct PNAccessLevelsStruct PNAccessLevels = {
 - (void)parseChannelAccessInformationFromDictionary:(NSDictionary *)channelInformationDictionary {
 
     // Fetch access rights period (time during which they will be valid)
-    __block NSUInteger accessPeriod = [[channelInformationDictionary valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
+    __block int accessPeriod = [[channelInformationDictionary valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
 
     // Fetch granted access rights.
     __block PNAccessRights accessRights = PNUnknownAccessRights;
@@ -307,7 +307,7 @@ struct PNAccessLevelsStruct PNAccessLevels = {
 - (void)parseClientAccessInformationFromDictionary:(NSDictionary *)clientsInformationDictionary {
 
     // Fetch access rights period (time during which they will be valid)
-    __block NSUInteger accessPeriod = [[clientsInformationDictionary valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
+    __block int accessPeriod = [[clientsInformationDictionary valueForKeyPath:kPNAccessRightsPeriodKey] unsignedIntegerValue];
 
     // Fetch granted access rights.
     __block PNAccessRights accessRights = PNUnknownAccessRights;

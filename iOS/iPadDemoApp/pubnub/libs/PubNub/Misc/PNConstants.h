@@ -42,11 +42,11 @@ static BOOL const kPNShouldReduceSecurityLevelOnErrorByDefault = YES;
 static BOOL const kPNCanIgnoreSecureConnectionRequirementByDefault = NO;
 
 // Stores how many times request can be rescheduled because of stream errors
-static NSUInteger const kPNRequestMaximumRetryCount = 3;
+static int const kPNRequestMaximumRetryCount = 3;
 
 // Stores how much times client will try to resubscribe on channels with new identifier before report that subscription
 // failed
-static NSUInteger const kPNClientIdentifierUpdateRetryCount = 3;
+static int const kPNClientIdentifierUpdateRetryCount = 3;
 
 /**
  This value will be used for heartbeat timer to calculate interval (how many seconds will be subtracted from

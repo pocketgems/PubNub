@@ -38,7 +38,7 @@
 // Stores number of participants for particular channel (this number fetched from presence API if it is used and
 // updated when requested list of participants)
 // INFO: it may differ in count from participants name because of nature of this value update logic
-@property (nonatomic, assign) NSUInteger participantsCount;
+@property (nonatomic, assign) int participantsCount;
 
 // Last presence update date
 @property (nonatomic, strong) PNDate *presenceUpdateDate;

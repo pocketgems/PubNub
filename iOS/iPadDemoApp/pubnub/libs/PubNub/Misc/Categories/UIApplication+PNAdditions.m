@@ -37,7 +37,7 @@
 
             NSArray *backgroundModes = [applicationInformation valueForKey:@"UIBackgroundModes"];
             NSArray *suitableModes = @[@"audio", @"location", @"voip", @"bluetooth-central", @"bluetooth-peripheral"];
-            [backgroundModes enumerateObjectsUsingBlock:^(id mode, NSUInteger modeIdx, BOOL *modeEnumeratorStop) {
+            [backgroundModes enumerateObjectsUsingBlock:^(id mode, int modeIdx, BOOL *modeEnumeratorStop) {
 
                 canRunInBackground = [suitableModes containsObject:mode];
                 *modeEnumeratorStop = canRunInBackground;

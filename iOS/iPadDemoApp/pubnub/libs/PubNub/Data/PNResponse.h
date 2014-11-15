@@ -26,7 +26,7 @@
 /**
  Stores response size (including HTTP header fields).
  */
-@property (nonatomic, readonly, assign) NSUInteger size;
+@property (nonatomic, readonly, assign) int size;
 
 /**
  Stores reference on the name of the service which issued response.
@@ -104,7 +104,7 @@
 
  @return Ready to use \b PNResponse instance.
  */
-+ (PNResponse *)responseWithContent:(NSData *)content size:(NSUInteger)responseSize code:(NSInteger)statusCode
++ (PNResponse *)responseWithContent:(NSData *)content size:(int)responseSize code:(NSInteger)statusCode
            lastResponseOnConnection:(BOOL)isLastResponseOnConnection;
 
 
@@ -128,7 +128,7 @@
 
  @return Initialized \b PNResponse instance.
  */
-- (id)    initWithContent:(NSData *)content size:(NSUInteger)responseSize code:(NSInteger)statusCode
+- (id)    initWithContent:(NSData *)content size:(int)responseSize code:(NSInteger)statusCode
  lastResponseOnConnection:(BOOL)isLastResponseOnConnection;
 
 #pragma mark -

@@ -22,7 +22,7 @@
 @property (nonatomic, copy) NSString *subscriptionKey;
 @property (nonatomic, strong) PNChannel *channel;
 @property (nonatomic, copy) NSString *authorizationKey;
-@property (nonatomic, assign) NSUInteger accessPeriodDuration;
+@property (nonatomic, assign) int accessPeriodDuration;
 
 
 #pragma mark - Class methods
@@ -62,7 +62,7 @@
 + (PNAccessRightsInformation *)accessRightsInformationForLevel:(PNAccessRightsLevel)level rights:(PNAccessRights)rights
                                                 applicationKey:(NSString *)subscriptionKey forChannel:(PNChannel *)channel
                                                         client:(NSString *)clientAuthorizationKey
-                                                  accessPeriod:(NSUInteger)accessPeriodDuration;
+                                                  accessPeriod:(int)accessPeriodDuration;
 
 /**
  Allow extract list of access right information for specific access level.
@@ -113,7 +113,7 @@
  */
 - (id)initWithAccessLevel:(PNAccessRightsLevel)level rights:(PNAccessRights)rights
            applicationKey:(NSString *)subscriptionKey channel:(PNChannel *)channel client:(NSString *)clientAuthorizationKey
-             accessPeriod:(NSUInteger)accessPeriodDuration;
+             accessPeriod:(int)accessPeriodDuration;
 
 #pragma mark -
 
