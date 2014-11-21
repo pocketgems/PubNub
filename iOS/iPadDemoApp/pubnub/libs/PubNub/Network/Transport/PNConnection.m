@@ -631,9 +631,9 @@ void readStreamCallback(CFReadStreamRef stream, CFStreamEventType type, void *cl
                         if (retainedStream) {
                             
                             cfError = CFReadStreamCopyError(retainedStream);
+                            CFRelease(retainedStream);
                         }
-                        CFRelease(retainedStream);
-                        
+
 
                         return cfError;
                     }];
@@ -732,9 +732,9 @@ void writeStreamCallback(CFWriteStreamRef stream, CFStreamEventType type, void *
                         if (retainedStream) {
                             
                             cfError = CFWriteStreamCopyError(retainedStream);
+                            CFRelease(retainedStream);
                         }
-                        CFRelease(retainedStream);
-                        
+
 
                         return cfError;
                     }];
