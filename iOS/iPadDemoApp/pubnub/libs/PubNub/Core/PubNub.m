@@ -3710,6 +3710,8 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 #pragma mark - Memory management
 
 - (void)dealloc {
+
+    [self unsubscribeFromNotifications];
     
     [self.cache purgeAllState];
     self.cache = nil;
