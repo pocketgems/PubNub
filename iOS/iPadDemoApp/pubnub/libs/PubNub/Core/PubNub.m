@@ -859,21 +859,15 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
         
         // Check whether
         if (![self.messagingChannel willRestoreSubscription]) {
-            
-            // Checking whether previous rescheduled method call was more than a second ago.
-            // This limitation allow to prevent set of postponed methods performed at once w/o procedural lock.
-            if (!self.methodCallRescheduleDate || ABS([self.methodCallRescheduleDate timeIntervalSinceNow]) > 1.0f) {
-                
-                self.asyncLockingOperationInProgress = NO;
-            } else {
-
+            if (self.methodCallRescheduleDate && ABS([self.methodCallRescheduleDate timeIntervalSinceNow]) <= 1.0f) {
                 LOG(@"Had 2 errors in a row. First stack trace: %@\nSecond: %@", lastStack, [CrashReporter stackTrace]);
                 ERROR(@"Had 2 errors in a row in pubnub");
             }
         }
         lastStack = [CrashReporter stackTrace];
         self.methodCallRescheduleDate = [NSDate new];
-        
+        self.asyncLockingOperationInProgress = NO;
+
         if (methodBlock) {
             
             methodBlock();
