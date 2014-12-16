@@ -88,7 +88,7 @@
     NSString *heartbeatValue = @"";
     if ([PubNub sharedInstance].configuration.presenceHeartbeatTimeout > 0.0f) {
         
-        heartbeatValue = [NSString stringWithFormat:@"&heartbeat=%d", [PubNub sharedInstance].configuration.presenceHeartbeatTimeout];
+        heartbeatValue = [NSString stringWithFormat:@"&heartbeat=%ld", (long)[PubNub sharedInstance].configuration.presenceHeartbeatTimeout];
     }
 
     NSString *state = @"";
