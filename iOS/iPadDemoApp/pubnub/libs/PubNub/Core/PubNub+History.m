@@ -700,7 +700,7 @@
                                      limit:[[options valueForKey:@"limit"] integerValue]
                             reverseHistory:[[options valueForKey:@"revertMessages"] boolValue]
                         includingTimeToken:[[options valueForKey:@"includeTimeToken"] boolValue]
-                    reschedulingMethodCall:YES withCompletionBlock:(id)@""];
+                    reschedulingMethodCall:YES withCompletionBlock:nil];
         }];
     }
 }

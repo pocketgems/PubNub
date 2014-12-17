@@ -1068,7 +1068,7 @@
             }];
             
             [self requestPushNotificationEnabledChannelsForDevicePushToken:devicePushToken reschedulingMethodCall:YES
-                                               withCompletionHandlingBlock:(id)@""];
+                                               withCompletionHandlingBlock:nil];
         }];
     }
 }
