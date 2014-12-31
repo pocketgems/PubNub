@@ -888,17 +888,17 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
     static BOOL isDebuggerAttached;
     static dispatch_once_t debuggerCheckToken;
     dispatch_once(&debuggerCheckToken, ^{
-#ifdef DEBUG
-        struct kinfo_proc info;
-        info.kp_proc.p_flag = 0;
-        int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
-        size_t size = sizeof(info);
-        int junk = sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);
-        assert(junk == 0);
-        isDebuggerAttached = ((info.kp_proc.p_flag & P_TRACED) != 0);
-#else
+//#ifdef DEBUG
+//        struct kinfo_proc info;
+//        info.kp_proc.p_flag = 0;
+//        int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
+//        size_t size = sizeof(info);
+//        int junk = sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);
+//        assert(junk == 0);
+//        isDebuggerAttached = ((info.kp_proc.p_flag & P_TRACED) != 0);
+//#else
         isDebuggerAttached = NO;
-#endif
+//#endif
     });
     
     
