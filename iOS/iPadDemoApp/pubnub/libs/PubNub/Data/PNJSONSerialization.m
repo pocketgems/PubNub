@@ -101,7 +101,7 @@
         if ([self isNSJSONAvailable]) {
             
             result = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding]
-                                                     options:NSJSONReadingAllowFragments
+                                                     options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers
                                                        error:&parsingError];
         }
         // Fallback to JSONKit usage
