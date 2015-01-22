@@ -40,8 +40,8 @@
 #import "PNHelper.h"
 #import "PNCache.h"
 
-#import "CrashReporter.h"
-#import "GameLog.h"
+//#import "CrashReporter.h"
+//#import "GameLog.h"
 
 // ARC check
 #if !__has_feature(objc_arc)
@@ -853,8 +853,8 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 }
 
 - (void)rescheduleMethodCall:(void(^)(void))methodBlock {
-    static NSString *lastStack = nil;
-    
+//    static NSString *lastStack = nil;
+
     [self pn_dispatchAsynchronouslyBlock:^{
         
         // Check whether
@@ -867,11 +867,11 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
                 self.asyncLockingOperationInProgress = NO;
             } else {
 
-                LOG(@"Had 2 errors in a row. First stack trace: %@\nSecond: %@", lastStack, [CrashReporter stackTrace]);
-                ERROR(@"Had 2 errors in a row in pubnub");
+//                LOG(@"Had 2 errors in a row. First stack trace: %@\nSecond: %@", lastStack, [CrashReporter stackTrace]);
+//                ERROR(@"Had 2 errors in a row in pubnub");
             }
         }
-        lastStack = [CrashReporter stackTrace];
+//        lastStack = [CrashReporter stackTrace];
         self.methodCallRescheduleDate = [NSDate new];
         
         if (methodBlock) {
