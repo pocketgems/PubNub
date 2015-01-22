@@ -1462,7 +1462,6 @@
             SEL selector = @selector(pubnubClient:didAddChannels:toGroup:);
             if (!change.addingChannels) {
                 
-                symbol = PNLoggerSymbols.api.channelsRemovalFromGroupFailed;
                 notification = kPNClientGroupChannelsRemovalCompleteNotification;
                 selector = @selector(pubnubClient:didRemoveChannels:fromGroup:);
             }
