@@ -1,0 +1,45 @@
+package com.pubnub.bridge;
+
+import com.pubnub.api.*;
+
+public class MessageHistoryProcessingCallback extends Callback {
+    private static Logger log = new Logger(MessageHistoryProcessingCallback.class);
+
+    public void successCallback(String channel, Object response) {
+        try {
+            log.verbose("Successfully requested history on channel " + channel + " " + response + " " + response.getClass());
+            successCallback_native(channel, PubnubUtility.JSONString(response));
+        }
+        catch (Exception e) {
+            log.error(e.toString());
+        }
+    }
+
+    public void errorCallback(String channel, PubnubError error) {
+        try {
+            log.verbose("Error requesting history on channel " + channel + " " + error.errorCode);
+            int errorCode = -1;
+            if (PubnubErrorMap.errorMap.containsKey(error.errorCode)) {
+                errorCode = PubnubErrorMap.errorMap.get(error.errorCode);
+            }
+            errorCallback_native(channel, errorCode, error.getErrorString());
+        }
+        catch (Exception e) {
+            log.error(e.toString());
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        log.verbose("Deallocing " + this);
+        super.finalize();
+    }
+
+    // Native methods to be called
+
+    private native void successCallback_native(String channel, String response);
+    private native void errorCallback_native(String channel, int errorCode, String errorMessage);
+
+    public native MessageHistoryProcessingCallback retain_native();
+    public native void release_native();
+}
