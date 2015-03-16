@@ -266,14 +266,8 @@
 
 - (NSString *)logDescription {
     
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    NSString *resourcePath = ([self respondsToSelector:@selector(debugResourcePath)] ?
-                              [self performSelector:@selector(debugResourcePath)] : [self resourcePath]);
-    #pragma clang diagnostic pop
-    
     return [NSString stringWithFormat:@"<%@|%@|%@>", ([self HTTPMethod] == PNRequestPOSTMethod ? @"POST" :@"GET"),
-            resourcePath, @([self shouldCompressPOSTBody])];
+            [self debugResourcePath], @([self shouldCompressPOSTBody])];
 }
 
 #pragma mark -
