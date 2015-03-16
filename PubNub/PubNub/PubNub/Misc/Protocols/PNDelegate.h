@@ -14,7 +14,7 @@
 
 #pragma mark Class forward
 
-@class PNAccessRightsCollection, PNPresenceEvent, PNChannelGroup, PNMessage, PNClient, PubNub, PNError, PNDate;
+@class PNAccessRightsCollection, PNPresenceEvent, PNChannelGroup, PNMessage, PNClient, PubNub, PNError, PNDate, PNChannel, PNHereNow;
 
 
 @protocol PNDelegate <NSObject>
