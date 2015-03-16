@@ -1358,6 +1358,11 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
     }
 }
 
++ (void)closeConsoleDumpChannel {
+
+    [[self sharedInstance] closeConsoleDumpChannel];
+}
+
 - (BOOL)isLoggerEnabledFor:(PNLogLevel)level {
 
     return [PNBitwiseHelper is:self.configuration containsBit:level];
