@@ -998,17 +998,8 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
         [self pn_dispatchBlock:^{
 
-            if (!willRestore) {
-
-                // Checking whether previous rescheduled method call was more than a second ago.
-                // This limitation allow to prevent set of postponed methods performed at once w/o procedural lock.
-                if (!self.methodCallRescheduleDate || ABS([self.methodCallRescheduleDate timeIntervalSinceNow]) > 1.0f) {
-
-                    self.asyncLockingOperationInProgress = NO;
-                }
-            }
-
             self.methodCallRescheduleDate = [NSDate new];
+            self.asyncLockingOperationInProgress = NO;
 
             if (methodBlockCopy) {
 
