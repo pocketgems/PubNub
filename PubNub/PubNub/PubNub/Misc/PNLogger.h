@@ -158,5 +158,6 @@ typedef NS_OPTIONS(unsigned long, PNLogLevel) {
 
 #pragma mark -
 
++ (void)closeConsoleDumpChannel;
 
 @end
