@@ -1870,6 +1870,10 @@ void connectionContextInformationReleaseCallBack(void *info) {
 
             // Specify connection security options
             isStreamReady = CFReadStreamSetProperty(readStream, kCFStreamPropertySSLSettings, self.streamSecuritySettings);
+#ifdef PGDROID
+            // We don't know why CFNetwork return a NO after CFReadStreamSetProperty. We hack for now.
+            isStreamReady = YES;
+#endif
         }
     }
 
