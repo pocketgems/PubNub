@@ -1619,7 +1619,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                                                 postponeConnectionTillNetworkCheck = YES;
 
-                                                [self handleConnectionErrorOnNetworkFailureWithError:nil];
+                                                [self handleConnectionErrorOnNetworkFailure];
                                                 self.asyncLockingOperationInProgress = NO;
 
                                                 [self.observationCenter checkSubscribedOnClientStateChange:self
