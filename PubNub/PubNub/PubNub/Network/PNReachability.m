@@ -586,6 +586,10 @@ void reachabilityContextInformationReleaseCallBack( const void *info ) {
             __block __pn_desired_weak __typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
+                // Make sure the system isn't caching results from URL interactions
+                [[NSURLCache sharedURLCache] setMemoryCapacity:0];
+                [[NSURLCache sharedURLCache] setDiskCapacity:0];
+                
                 __strong __typeof__(self) strongSelf = weakSelf;
 
                 NSError *requestError;
@@ -596,19 +600,6 @@ void reachabilityContextInformationReleaseCallBack( const void *info ) {
                                                                        cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                                    timeoutInterval:kPNReachabilityOriginLookupTimeout];
                 NSData *downloadedTimeTokenData = [NSURLConnection sendSynchronousRequest:timeTokenRequest returningResponse:&response error:&requestError];
-                #if __IPHONE_OS_VERSION_MIN_REQUIRED
-                BOOL hasPlaceForCache = [[NSURLCache sharedURLCache] memoryCapacity] > 0;
-                #else
-                BOOL hasPlaceForCache = ([[NSURLCache sharedURLCache] memoryCapacity] > 0 ||
-                                         [[NSURLCache sharedURLCache] diskCapacity] > 0);
-                #endif
-                if (hasPlaceForCache) {
-                    
-                    if ([[NSURLCache sharedURLCache] cachedResponseForRequest:timeTokenRequest]) {
-                        
-                        [[NSURLCache sharedURLCache] removeCachedResponseForRequest:timeTokenRequest];
-                    }
-                }
 
                 dispatch_async([strongSelf pn_privateQueue], ^{
 
