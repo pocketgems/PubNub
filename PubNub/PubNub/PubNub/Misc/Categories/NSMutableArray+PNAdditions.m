@@ -42,7 +42,7 @@
 
 - (NSString *)logDescription {
     
-    __block NSString *logDescription = @"<[";
+    NSMutableString *logDescription = [NSMutableString stringWithString:@"<["];
     
     [self enumerateObjectsUsingBlock:^(id entry, NSUInteger entryIdx,
                                        __unused BOOL *entryEnumeratorStop) {
@@ -50,15 +50,14 @@
         // Check whether parameter can be transformed for log or not
         if ([entry respondsToSelector:@selector(logDescription)]) {
             
-            entry = [entry performSelector:@selector(logDescription)];
-            entry = (entry ? entry : @"");
+            entry = [entry logDescription] ?: @"";
         }
-        logDescription = [logDescription stringByAppendingFormat:@"%@%@", entry,
-                          (entryIdx + 1 != [self count] ? @"|" : @"]>")];
+        [logDescription appendFormat:entryIdx ? @"|%@" : @"%@", entry];
     }];
+    [logDescription appendString:@"]>"];
+
     
-    
-    return logDescription;
+    return [logDescription copy];
 }
 
 #pragma mark -

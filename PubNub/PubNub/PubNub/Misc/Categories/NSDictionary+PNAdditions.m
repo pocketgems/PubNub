@@ -83,10 +83,9 @@
         // Check whether parameter can be transformed for log or not
         if ([entry respondsToSelector:@selector(logDescription)]) {
             
-            entry = [entry performSelector:@selector(logDescription)];
-            entry = (entry ? entry : @"");
+            entry = [entry logDescription] ?: @"";
         }
-        [logDescription appendFormat:@"%@:%@%@", entryKey, entry, (entryIdx + 1 != [self count] ? @"|" : @"")];
+        [logDescription appendFormat:entryIdx ? @"|%@:%@" : @"%@:%@", entryKey, entry];
         entryIdx++;
     }];
     [logDescription appendString:@"}>"];

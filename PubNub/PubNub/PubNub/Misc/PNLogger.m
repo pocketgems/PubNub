@@ -1001,8 +1001,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                         // Check whether parameter can be transformed for log or not
                         if ([parameter respondsToSelector:@selector(logDescription)]) {
                             
-                            parameter = [parameter performSelector:@selector(logDescription)];
-                            parameter = (parameter ? parameter : @"");
+                            parameter = [parameter performSelector:@selector(logDescription)] ?: @"";
                         }
                         #pragma clang diagnostic pop
                         [parametersForLog addObject:parameter];
