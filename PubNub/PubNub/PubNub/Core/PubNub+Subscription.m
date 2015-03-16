@@ -898,8 +898,8 @@ withCompletionHandlingBlock:(PNClientChannelUnsubscriptionHandlerBlock)handlerBl
 
 - (void)messagingChannel:(PNMessagingChannel *)channel didFailSubscribeOn:(NSArray *)channelObjects
                withError:(PNError *)error sequenced:(BOOL)isSequenced {
-    
-    error.associatedObject = channelObjects;
+
+    [error replaceAssociatedObject:channelObjects];
     [self notifyDelegateAboutSubscriptionFailWithError:error completeLockingOperation:!isSequenced];
     
     [self launchHeartbeatTimer];
