@@ -1247,6 +1247,7 @@
 				798E02391A0105A300E8AFB7 /* Sources */,
 				798E023A1A0105A300E8AFB7 /* Frameworks */,
 				798E023B1A0105A300E8AFB7 /* Resources */,
+				ECE28F981AC0BF8A0066FE4E /* Run Script - Copy PubNub bundle to main project Resources */,
 			);
 			buildRules = (
 			);
@@ -1354,6 +1355,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nFRAMEWORK_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework\"\nmkdir -p ${FRAMEWORK_PATH}/Versions/A/Headers\n\n# Point current framework version to \"A\"\n/bin/ln -sfh ${FRAMEWORK_PATH}/Versions/A ${FRAMEWORK_PATH}/Versions/Current\n\n# Point framework \"header\" to current library headers\n/bin/ln -sfh Versions/Current/Headers ${FRAMEWORK_PATH}/Headers\n\n# Copy binary inside of .framework\n/bin/cp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.a\" \"${FRAMEWORK_PATH}/Versions/A/${PRODUCT_NAME}\"\n\n# Point framework binary at the root level to current framework binary\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" ${FRAMEWORK_PATH}/${PRODUCT_NAME}\n\n# Copy headers inside of \"A\" version.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" ${FRAMEWORK_PATH}/Versions/A/Headers";
+		};
+		ECE28F981AC0BF8A0066FE4E /* Run Script - Copy PubNub bundle to main project Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Copy PubNub bundle to main project Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rsync -rptgoD $BUILT_PRODUCTS_DIR/PubNub.bundle $PROJECT_DIR/../../../../../Resources/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
