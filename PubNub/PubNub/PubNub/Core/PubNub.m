@@ -7,6 +7,7 @@
  */
 
 #import "PubNub+Protected.h"
+#include <execinfo.h>
 
 #import "PubNub+SubscriptionProtected.h"
 #import "PubNub+PresenceEvents.h"
@@ -4039,6 +4040,32 @@ checkShouldRestoreConnection:(void(^)(BOOL))checkCompletionBlock {
             // completed.
             self.flushPostponedMethods = YES;
         }
+    }];
+}
+
++ (NSString*)stackTrace {
+    void* callStack[256];
+    int numberOfFrames = backtrace(callStack, 256);
+    char **symbols = backtrace_symbols(callStack, numberOfFrames);
+    NSMutableString *stackTrace = [[NSMutableString alloc] init];
+    for(int i = 0; i < numberOfFrames; i++) {
+        if (i) {
+            [stackTrace appendString:@"\n"];
+        }
+        [stackTrace appendString:[NSString stringWithUTF8String:symbols[i]]];
+    }
+    free(symbols);
+    return stackTrace;
+}
+
+- (void)setAsyncLockingOperationInProgress:(BOOL)asyncLockingOperationInProgress {
+
+    NSString *stackTrace = [PubNub stackTrace];
+    [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray *{
+
+        return @[PNLoggerSymbols.api.generalError,
+                 [NSString stringWithFormat:@"setAsyncLockingOperationInProgress: %@, %@", asyncLockingOperationInProgress ? @"Y" : @"N", stackTrace],
+                 [self humanReadableStateFrom:self.state]];
     }];
 }
 
