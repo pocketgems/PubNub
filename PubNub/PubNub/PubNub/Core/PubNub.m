@@ -120,12 +120,6 @@ static dispatch_once_t onceToken;
 @property (nonatomic, strong) PNCache *cache;
 
 /**
- Stores reference on last rescheduled method call date. This date is used to preven too frequent methods execution. Only
- one method will be executed, all other possible method calls will be postponed.
- */
-@property (nonatomic, strong) NSDate *methodCallRescheduleDate;
-
-/**
  Stores reference on configuration which was used to perform initial PubNub client initialization.
  */
 @property (nonatomic, strong) PNConfiguration *clientConfiguration;
@@ -998,7 +992,6 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
         [self pn_dispatchBlock:^{
 
-            self.methodCallRescheduleDate = [NSDate new];
             self.asyncLockingOperationInProgress = NO;
 
             if (methodBlockCopy) {
@@ -2775,14 +2768,6 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 }
 
 - (void)connectionChannelWillReschedulePendingRequests:(PNConnectionChannel *)channel {
-    
-    [self pn_dispatchBlock:^{
-        
-        if ([channel isEqual:self.serviceChannel]) {
-            
-            self.methodCallRescheduleDate = nil;
-        }
-    }];
 }
 
 - (void)connectionChannelWillSuspend:(PNConnectionChannel *)__unused channel {
