@@ -3994,11 +3994,32 @@ void connectionContextInformationReleaseCallBack( void *info ) {
                             (self.proxySettings ? self.proxySettings : [NSNull null]), @(self.state)];
                 }];
             #else
+
+            NSDictionary *systemProxySettings = (__bridge NSDictionary *)CFNetworkCopySystemProxySettings();
+            systemProxySettings = [(NSArray *)CFBridgingRelease(CFNetworkCopyProxiesForURL((__bridge CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", self.configuration.origin]],
+                                                                                           (__bridge CFDictionaryRef)systemProxySettings)) firstObject];
+
+            if (!systemProxySettings[(__bridge NSString *)kCFStreamPropertySOCKSProxyHost] &&
+                systemProxySettings[(__bridge NSString *)kCFProxyHostNameKey]) {
+
+                self.proxySettings = @{(__bridge NSString *)kCFStreamPropertySOCKSProxyHost:systemProxySettings[(__bridge NSString *)kCFProxyHostNameKey],
+                                       (__bridge NSString *)kCFStreamPropertySOCKSProxyPort:@([systemProxySettings[(__bridge NSString *)kCFProxyPortNumberKey] intValue] + 1)};
+
+                [PNLogger logConnectionInfoMessageFrom:self withParametersFromBlock:^NSArray * {
+                    
+                    return @[PNLoggerSymbols.connection.proxyConfigurationInformation, (self.name ? self.name : self),
+                             (self.proxySettings ? self.proxySettings : [NSNull null]), @(self.state)];
+                }];
+
+            } else {
+
                 [PNLogger logConnectionInfoMessageFrom:self withParametersFromBlock:^NSArray * {
 
                     return @[PNLoggerSymbols.connection.proxyConfigurationNotRequired, (self.name ? self.name : self),
                             @(self.state)];
                 }];
+
+            }
             #endif // PN_SOCKET_PROXY_ENABLED
         }
     #endif // PN_SOCKET_PROXY_ENABLED
