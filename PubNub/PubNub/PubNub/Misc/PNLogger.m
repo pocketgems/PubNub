@@ -937,6 +937,10 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
             
             [fileManager createDirectoryAtPath:[self sharedInstance].httpPacketStoreFolderPath withIntermediateDirectories:YES
                                     attributes:nil error:NULL];
+
+            [[NSURL fileURLWithPath:[self sharedInstance].httpPacketStoreFolderPath] setResourceValue:@(YES)
+                                                                                               forKey:NSURLIsExcludedFromBackupKey
+                                                                                                error:nil];
         }
         
         [[self sharedInstance] applyDefaultConfiguration];
