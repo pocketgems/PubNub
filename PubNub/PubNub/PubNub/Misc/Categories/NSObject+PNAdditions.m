@@ -71,7 +71,9 @@
 #pragma mark - Instance methods
 
 void objectReleaseCallBack( void *info ) {
-    
+    if (info == NULL) {
+        return;
+    }
     CFRelease(info);
 }
 
