@@ -17,6 +17,7 @@
 #import <Security/SecureTransport.h>
 #import "PNConnection+Protected.h"
 #import "PNResponseDeserialize.h"
+#import "NSMutableData+PEPNSynchronized.h"
 #import "NSObject+PNAdditions.h"
 #import "PNContextInformation.h"
 #import "PNLogger+Protected.h"
@@ -1891,9 +1892,15 @@ void connectionContextInformationReleaseCallBack( void *info ) {
     [PNBitwiseHelper addTo:&_state bit:PNReadStreamDisconnecting];
 
     // Check whether there is some data received from server and try to parse it
-    if ([_retrievedData length] > 0 || [_temporaryRetrievedData length] > 0) {
-
-        [self processResponse];
+    @synchronized(_retrievedData) {
+        if ([_retrievedData pepnSynced_length] > 0) {
+            [self processResponse];
+        }
+    }
+    @synchronized(_temporaryRetrievedData) {
+        if ([_temporaryRetrievedData pepnSynced_length] > 0) {
+            [self processResponse];
+        }
     }
 
     // Destroying input buffer
@@ -2014,27 +2021,29 @@ void connectionContextInformationReleaseCallBack( void *info ) {
                         }];
 
                         // Temporary store data in object
-                        [self.temporaryRetrievedData appendBytes:data.buffer length:(NSUInteger)readedBytesCount];
+                        [self.temporaryRetrievedData pepnSynced_appendBytes:data.buffer length:(NSUInteger)readedBytesCount];
                     }
                     else {
 
                         // Check whether temporary storage has been filled with data while deserializer worked
-                        if ([_temporaryRetrievedData length] > 0) {
-
-
-                            NSRange temporaryDataRange = [self.retrievedData rangeOfData:_temporaryRetrievedData
-                                                                                 options:(NSDataSearchOptions)0
-                                                                                   range:NSMakeRange(0, [self.retrievedData length])];
-                            if (temporaryDataRange.location == NSNotFound) {
-
-                                // Append bytes from temporary storage before just readed one.
-                                [self.retrievedData appendData:_temporaryRetrievedData];
+                        @synchronized(_temporaryRetrievedData) {
+                            if ([_temporaryRetrievedData pepnSynced_length] > 0) {
+                                
+                                
+                                NSRange temporaryDataRange = [self.retrievedData pepnSynced_rangeOfData:_temporaryRetrievedData
+                                                                                                options:(NSDataSearchOptions)0
+                                                                                                  range:NSMakeRange(0, [self.retrievedData length])];
+                                if (temporaryDataRange.location == NSNotFound) {
+                                    
+                                    // Append bytes from temporary storage before just readed one.
+                                    [self.retrievedData pepnSynced_appendData:_temporaryRetrievedData];
+                                }
+                                _temporaryRetrievedData = nil;
                             }
-                            _temporaryRetrievedData = nil;
                         }
 
                         // Store fetched data
-                        [self.retrievedData appendBytes:data.buffer length:(NSUInteger)readedBytesCount];
+                        [self.retrievedData pepnSynced_appendBytes:data.buffer length:(NSUInteger)readedBytesCount];
                         [self processResponse];
                     }
                 }];
@@ -2102,34 +2111,38 @@ void connectionContextInformationReleaseCallBack( void *info ) {
 
 
             // Check whether connection stored some response in temporary storage or not
-            if ([_temporaryRetrievedData length] > 0) {
-
-                [PNLogger logConnectionInfoMessageFrom:self withParametersFromBlock:^NSArray *{
-
-                    return @[PNLoggerSymbols.connection.stream.read.processingAdditionalData, (self.name ? self.name : self),
-                            @([self->_temporaryRetrievedData length]), @(self.state)];
-                }];
-
-                NSRange temporaryDataRange = [self.retrievedData rangeOfData:_temporaryRetrievedData
-                                                                     options:(NSDataSearchOptions)0
-                                                                       range:NSMakeRange(0, [self.retrievedData length])];
-                if (temporaryDataRange.location == NSNotFound) {
-
-                    [self.retrievedData appendData:_temporaryRetrievedData];
+            @synchronized(_temporaryRetrievedData) {
+                if ([_temporaryRetrievedData pepnSynced_length] > 0) {
+                    
+                    [PNLogger logConnectionInfoMessageFrom:self withParametersFromBlock:^NSArray *{
+                        
+                        return @[PNLoggerSymbols.connection.stream.read.processingAdditionalData, (self.name ? self.name : self),
+                                 @([self->_temporaryRetrievedData pepnSynced_length]), @(self.state)];
+                    }];
+                    
+                    @synchronized(self.retrievedData) {
+                        NSRange temporaryDataRange = [self.retrievedData pepnSynced_rangeOfData:_temporaryRetrievedData
+                                                                                        options:(NSDataSearchOptions)0
+                                                                                          range:NSMakeRange(0, [self.retrievedData length])];
+                        if (temporaryDataRange.location == NSNotFound) {
+                            
+                            [self.retrievedData pepnSynced_appendData:_temporaryRetrievedData];
+                        }
+                    }
+                    _temporaryRetrievedData = nil;
+                    
+                    // Try to process retrieved data once more (maybe some full response arrived from remote server)
+                    [self processResponse];
                 }
-                _temporaryRetrievedData = nil;
-
-                // Try to process retrieved data once more (maybe some full response arrived from remote server)
-                [self processResponse];
-            }
-            else {
-
-                // Check whether client is still connected and there is request from server side to close connection.
-                // Connection will be restored after full disconnection
-                if ([self isConnected] && ![self isReconnecting] && ![self isDisconnecting] &&
-                    [PNBitwiseHelper is:self.state containsBit:PNByServerRequest]) {
-
-                    [self disconnectByInternalRequest];
+                else {
+                    
+                    // Check whether client is still connected and there is request from server side to close connection.
+                    // Connection will be restored after full disconnection
+                    if ([self isConnected] && ![self isReconnecting] && ![self isDisconnecting] &&
+                        [PNBitwiseHelper is:self.state containsBit:PNByServerRequest]) {
+                        
+                        [self disconnectByInternalRequest];
+                    }
                 }
             }
         }];
