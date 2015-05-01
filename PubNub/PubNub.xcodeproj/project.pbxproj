@@ -1596,7 +1596,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PUBLIC_HEADERS_FOLDER_PATH = Headers;
 				SDKROOT = iphoneos;
-				STRIP_STYLE = all;
+				STRIP_STYLE = debugging;
 			};
 			name = Debug;
 		};
@@ -1633,7 +1633,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PUBLIC_HEADERS_FOLDER_PATH = Headers;
 				SDKROOT = iphoneos;
-				STRIP_STYLE = all;
+				STRIP_STYLE = debugging;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
