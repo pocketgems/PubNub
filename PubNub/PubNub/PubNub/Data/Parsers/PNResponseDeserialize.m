@@ -79,9 +79,8 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
 - (NSUInteger)contentLength:(NSDictionary *)httpResponseHeaders;
 - (NSString *)contentCompressionType:(NSDictionary *)httpResponseHeaders;
 
-- (PNResponse *)responseInRange:(NSRange)responseRange
-                         ofData:(NSData *)data
-             incompleteResponse:(BOOL *)isIncompleteResponse;
+- (PNResponse *)responseInSubdata:(NSData *)responseSubdata
+               incompleteResponse:(BOOL *)isIncompleteResponse;
 
 /**
  * Return reference on index where next HTTP
@@ -138,23 +137,30 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
             NSRange contentRange = NSMakeRange(0, [data length]);
             
             
-            void(^malformedResponseParseErrorHandler)(NSData *, NSRange) = ^(NSData *responseData, NSRange subrange) {
+            void(^malformedResponseParseErrorHandler)(NSRange) = ^(NSRange subrange) {
                 
                 // parametersBlock is called synchronously so responseData does not need to be copied.
                 [PNLogger logDeserializerErrorMessageFrom:self withParametersFromBlock:^NSArray *{
                     NSData *failedResponseData;
-                    @synchronized(responseData) {
-                        failedResponseData = [responseData subdataWithRange:subrange];
+                    @synchronized(data) {
+                        failedResponseData = (subrange.location + subrange.length <= data.length ?
+                                              [data subdataWithRange:subrange] :
+                                              nil);
                     }
-                    NSString *encodedContent = [[NSString alloc] initWithData:failedResponseData encoding:NSUTF8StringEncoding];
-                    if (!encodedContent) {
-                        
-                        encodedContent = [[NSString alloc] initWithData:failedResponseData encoding:NSASCIIStringEncoding];
-                        
+                    NSString *encodedContent;
+                    if (failedResponseData) {
+                        encodedContent = [[NSString alloc] initWithData:failedResponseData encoding:NSUTF8StringEncoding];
                         if (!encodedContent) {
                             
-                            encodedContent = @"Binary data (can't be stringified)";
+                            encodedContent = [[NSString alloc] initWithData:failedResponseData encoding:NSASCIIStringEncoding];
+                            
+                            if (!encodedContent) {
+                                
+                                encodedContent = @"Binary data (can't be stringified)";
+                            }
                         }
+                    } else {
+                        encodedContent = @"Underlying data has changed since failure";
                     }
                     
                     return @[PNLoggerSymbols.deserializer.unableToEncodeResponseData, @([failedResponseData length]),
@@ -168,7 +174,8 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
                 if (nextResponseIndex == NSNotFound) {
                     
                     // Try construct response instance
-                    PNResponse *response = [self responseInRange:contentRange ofData:data incompleteResponse:&incompleteBody];
+                    NSData *responseSubdata = [data subdataWithRange:contentRange];
+                    PNResponse *response = [self responseInSubdata:responseSubdata incompleteResponse:&incompleteBody];
                     if (response) {
                         
                         [parsedData addObject:response];
@@ -177,7 +184,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
                         
                         if (!incompleteBody) {
                             
-                            malformedResponseParseErrorHandler(data, contentRange);
+                            malformedResponseParseErrorHandler(contentRange);
                         }
                         else {
                             
@@ -199,7 +206,8 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
                         
                         
                         // Try construct response instance
-                        PNResponse *response = [self responseInRange:contentRange ofData:data incompleteResponse:&incompleteBody];
+                        NSData *responseData = [data subdataWithRange:contentRange];
+                        PNResponse *response = [self responseInSubdata:responseData incompleteResponse:&incompleteBody];
                         if(response) {
                             
                             [parsedData addObject:response];
@@ -209,7 +217,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
                             
                             if (!response) {
                                 
-                                malformedResponseParseErrorHandler(data, contentRange);
+                                malformedResponseParseErrorHandler(contentRange);
                             }
                             
                             // Update content search range
@@ -322,16 +330,13 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
     return [httpResponseHeaders objectForKey:kPNContentEncodingHeaderFieldName];
 }
 
-- (PNResponse *)responseInRange:(NSRange)responseRange ofData:(NSData *)data incompleteResponse:(BOOL *)isIncompleteResponse {
+- (PNResponse *)responseInSubdata:(NSData *)responseSubdata
+               incompleteResponse:(BOOL *)isIncompleteResponse {
     PNResponse *response = nil;
-
-        // Mark that request is incomplete because from the start we don't know for sure
-        // (also this make code cleaner)
-        *isIncompleteResponse = YES;
-    NSData *responseSubdata;
-    @synchronized(data) {
-        responseSubdata = [data subdataWithRange:responseRange];
-    }
+    
+    // Mark that request is incomplete because from the start we don't know for sure
+    // (also this make code cleaner)
+    *isIncompleteResponse = YES;
     
     // Pass bytes into HTTP message object to ease headers parsing
     CFHTTPMessageRef message = CFHTTPMessageCreateEmpty(NULL, FALSE);
