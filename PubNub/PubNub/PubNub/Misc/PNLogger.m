@@ -26,7 +26,7 @@
 #pragma mark Static
 
 static NSString * const kPNLoggerDumpFileName = @"pubnub-console-dump.pnlog";
-static NSString * const kPNLoggerOldDumpFileName = @"pubnub-console-dump.1.pnlog";
+static NSString * const kPNLoggerOldDumpFileFormat = @"pubnub-console-dump.%d.pnlog";
 
 /**
  Stores maximum in-memory log size before storing it into the file. As soon as in-memory storage will reach this limit it
@@ -720,11 +720,6 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
 @property (nonatomic, copy) NSString *dumpFilePath;
 
 /**
- Stores reference on full file path to the old file which is has been used as console dump earlier.
- */
-@property (nonatomic, copy) NSString *oldDumpFilePath;
-
-/**
  Stores reference on full path to the folder which will be used for HTTP packet storage.
  */
 @property (nonatomic, copy) NSString *httpPacketStoreFolderPath;
@@ -925,7 +920,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
         // Retrieve path to the 'Documents' folder
         NSString *documentsFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         [self sharedInstance].dumpFilePath = [documentsFolder stringByAppendingPathComponent:kPNLoggerDumpFileName];
-        [self sharedInstance].oldDumpFilePath = [documentsFolder stringByAppendingPathComponent:kPNLoggerOldDumpFileName];
+;
         [self sharedInstance].httpPacketStoreFolderPath = [documentsFolder stringByAppendingPathComponent:@"http-response-dump"];
         [self sharedInstance].maximumDumpFileSize = kPNLoggerMaximumDumpFileSize;
         
@@ -1534,41 +1529,34 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                     
                     if (consoleDumpFileSize > self.maximumDumpFileSize) {
                         
-                        NSError *oldLogDeleteError = nil;
-                        if ([fileManager fileExistsAtPath:self.oldDumpFilePath]) {
-                            
-                            [fileManager removeItemAtPath:self.oldDumpFilePath error:&oldLogDeleteError];
-                        }
+                        int rotateLogNumber = 1;
+                        NSString *rotateLogName = nil;
+                        NSString *documentsFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+                        do {
+                            rotateLogName = [documentsFolder stringByAppendingPathComponent:[NSString stringWithFormat:kPNLoggerOldDumpFileFormat, rotateLogNumber++]];
+                        } while ([fileManager fileExistsAtPath:rotateLogName]);
+
+                        NSError *fileCopyError;
+                        [fileManager copyItemAtPath:self.dumpFilePath toPath:rotateLogName error:&fileCopyError];
                         
-                        if (oldLogDeleteError == nil) {
+                        if (fileCopyError == nil) {
                             
-                            NSError *fileCopyError;
-                            [fileManager copyItemAtPath:self.dumpFilePath toPath:self.oldDumpFilePath error:&fileCopyError];
-                            
-                            if (fileCopyError == nil) {
+                            if ([fileManager fileExistsAtPath:self.dumpFilePath]) {
                                 
-                                if ([fileManager fileExistsAtPath:self.dumpFilePath]) {
+                                NSError *currentLogDeleteError = nil;
+                                [fileManager removeItemAtPath:self.dumpFilePath error:&currentLogDeleteError];
+                                
+                                if (currentLogDeleteError != nil) {
                                     
-                                    NSError *currentLogDeleteError = nil;
-                                    [fileManager removeItemAtPath:self.dumpFilePath error:&currentLogDeleteError];
-                                    
-                                    if (currentLogDeleteError != nil) {
-                                        
-                                        NSLog(@"PNLog: Can't remove current console dump log (%@) because of error: %@",
-                                              self.dumpFilePath, currentLogDeleteError);
-                                    }
+                                    NSLog(@"PNLog: Can't remove current console dump log (%@) because of error: %@",
+                                          self.dumpFilePath, currentLogDeleteError);
                                 }
-                            }
-                            else {
-                                
-                                NSLog(@"PNLog: Can't copy current log (%@) to new location (%@) because of error: %@",
-                                      self.dumpFilePath, self.oldDumpFilePath, fileCopyError);
                             }
                         }
                         else {
                             
-                            NSLog(@"PNLog: Can't remove old console dump log (%@) because of error: %@",
-                                  self.oldDumpFilePath, oldLogDeleteError);
+                            NSLog(@"PNLog: Can't copy current log (%@) to new location (%@) because of error: %@",
+                                  self.dumpFilePath, rotateLogName, fileCopyError);
                         }
                     }
                 }
