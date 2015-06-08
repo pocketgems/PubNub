@@ -32,3 +32,9 @@ Thumbs.db
 # Removed because it has some weird file names that Windows can't handle #
 ##########################################################################
 iOS/tests/*
+
+# Android #
+###########
+**/*.approj/configuration.json
+**/*.approj/Headers
+**/*.approj/targets
