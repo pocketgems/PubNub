@@ -178,6 +178,7 @@
         self.acceptCompressedResponse = kPNShouldAcceptCompressedResponse;
         self.DNSCacheClearingEnabled = kPNShouldKillDNSCache;
         self.nonSubscriptionRequestTimeout = kPNNonSubscriptionRequestTimeout;
+        self.historyRequestTimeout = kPNHistoryRequestTimeout;
         self.subscriptionRequestTimeout = kPNSubscriptionRequestTimeout;
         self.presenceHeartbeatTimeout = kPNPresenceHeartbeatTimeout;
         self.presenceHeartbeatInterval = MAX(self.presenceHeartbeatTimeout - kPNHeartbeatRequestTimeoutOffset,
@@ -260,6 +261,7 @@
     self.acceptCompressedResponse = configuration.shouldAcceptCompressedResponse;
     self.DNSCacheClearingEnabled = configuration.isDNSCacheClearingEnabled;
     self.nonSubscriptionRequestTimeout = configuration.nonSubscriptionRequestTimeout;
+    self.historyRequestTimeout = configuration.historyRequestTimeout;
     self.subscriptionRequestTimeout = configuration.subscriptionRequestTimeout;
     self.presenceHeartbeatTimeout = configuration.presenceHeartbeatTimeout;
     self.presenceHeartbeatInterval = configuration.presenceHeartbeatInterval;
@@ -295,6 +297,7 @@
     isEqual = (isEqual ? (self.presenceHeartbeatTimeout == configuration.presenceHeartbeatTimeout) : isEqual);
     isEqual = (isEqual ? (self.presenceHeartbeatInterval == configuration.presenceHeartbeatInterval) : isEqual);
     isEqual = (isEqual ? (self.nonSubscriptionRequestTimeout == configuration.nonSubscriptionRequestTimeout) : isEqual);
+    isEqual = (isEqual ? (self.historyRequestTimeout == configuration.historyRequestTimeout) : isEqual);
     isEqual = (isEqual ? (self.subscriptionRequestTimeout == configuration.subscriptionRequestTimeout) : isEqual);
     isEqual = (isEqual ? (self.shouldKeepTimeTokenOnChannelsListChange == configuration.shouldKeepTimeTokenOnChannelsListChange) : isEqual);
     isEqual = (isEqual ? (self.shouldResubscribeOnConnectionRestore == configuration.shouldResubscribeOnConnectionRestore) : isEqual);

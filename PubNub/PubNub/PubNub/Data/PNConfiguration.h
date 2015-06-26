@@ -36,6 +36,9 @@
 // requests to report that request failed
 @property (nonatomic, assign) NSTimeInterval nonSubscriptionRequestTimeout;
 
+// Stores timeout which is used for history requests
+@property (nonatomic, assign) NSTimeInterval historyRequestTimeout;
+
 // Stores timeout which is used for subscription requests to report that request failed
 @property (nonatomic, assign) NSTimeInterval subscriptionRequestTimeout;
 
