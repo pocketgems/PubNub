@@ -141,8 +141,8 @@ static DDLogLevel ddLogLevel = DDLogLevelInfo;
     // Adding file logger for messages sent by PubNub client.
     self.fileLogger = [[DDFileLogger alloc] initWithLogFileManager:[PNLogFileManager new]];
     self.fileLogger.maximumFileSize = (5 * 1024 * 1024);
-    self.fileLogger.logFileManager.maximumNumberOfLogFiles = 5;
-    self.fileLogger.logFileManager.logFilesDiskQuota = (50 * 1024 * 1024);
+    self.fileLogger.logFileManager.maximumNumberOfLogFiles = 0;
+    self.fileLogger.logFileManager.logFilesDiskQuota = 0;
 }
 
 + (void)enabled:(BOOL)isLoggingEnabled {
