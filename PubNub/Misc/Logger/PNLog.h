@@ -121,6 +121,9 @@
  */
 + (BOOL)isDumpingToFile;
 
++ (void)rollLogFileWithCompletion:(void (^)(void))completionBlock;
++ (NSString *)currentLogFilePath;
+
 #pragma mark -
 
 
