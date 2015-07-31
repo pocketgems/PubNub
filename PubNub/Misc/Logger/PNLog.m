@@ -262,6 +262,30 @@ NS_ASSUME_NONNULL_END
                     "%@", [enabledFlags componentsJoinedByString:@", "]);
 }
 
+- (void)rollLogFileWithCompletion:(void (^)(void))completionBlock  {
+    if (self.isFileLoggerActive) {
+        [self.fileLogger rollLogFileWithCompletionBlock:completionBlock];
+    }
+}
+
++ (void)rollLogFileWithCompletion:(void (^)(void))completionBlock {
+    [[self sharedInstance] rollLogFileWithCompletion:completionBlock];
+}
+
+- (NSString *)currentLogFilePath {
+    if (self.isFileLoggerActive) {
+        DDLogFileInfo *fileInfo = [self.fileLogger currentLogFileInfo];
+        if (fileInfo) {
+            return fileInfo.filePath;
+        }
+    }
+    return nil;
+}
+
++ (NSString *)currentLogFilePath {
+    return [[self sharedInstance] currentLogFilePath];
+}
+
 #pragma mark -
 
 
