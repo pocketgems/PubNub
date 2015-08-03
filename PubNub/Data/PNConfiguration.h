@@ -111,6 +111,8 @@
  */
 @property (nonatomic, assign) NSTimeInterval nonSubscribeRequestTimeout;
 
+@property (nonatomic, assign) NSTimeInterval historyRequestTimeout;
+
 /**
  @brief      Reference on number of seconds which is used by server to track whether client still
              subscribed on remote data objects live feed or not.
