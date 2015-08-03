@@ -70,6 +70,8 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
  */
 @property (nonatomic, strong) PNNetwork *serviceNetwork;
 
+@property (nonatomic, strong) PNNetwork *historyNetwork;
+
 /**
  @brief  Stores reference on reachability helper.
  @discussion Helper used by client to know about when something happened with network and when it is
@@ -366,6 +368,10 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
     _serviceNetwork = [PNNetwork networkForClient:self
                                    requestTimeout:_configuration.nonSubscribeRequestTimeout
                                maximumConnections:3 longPoll:NO];
+    _historyNetwork = [PNNetwork networkForClient:self
+                                   requestTimeout:_configuration.historyRequestTimeout
+                               maximumConnections:1
+                                         longPoll:NO];
 }
 
 
@@ -386,6 +392,12 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
 
         [self.subscriptionNetwork processOperation:operationType withParameters:parameters
                                               data:data completionBlock:block];
+    }
+    else if (operationType == PNHistoryOperation) {
+        [self.historyNetwork processOperation:operationType
+                               withParameters:parameters
+                                         data:data
+                              completionBlock:block];
     }
     else {
 
