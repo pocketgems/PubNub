@@ -131,6 +131,7 @@ NS_ASSUME_NONNULL_END
         _uuid = [[[NSUUID UUID] UUIDString] copy];
         _subscribeMaximumIdleTime = kPNDefaultSubscribeMaximumIdleTime;
         _nonSubscribeRequestTimeout = kPNDefaultNonSubscribeRequestTimeout;
+        _historyRequestTimeout = kPNDefaultNonSubscribeRequestTimeout;
         _TLSEnabled = kPNDefaultIsTLSEnabled;
         _heartbeatNotificationOptions = kPNDefaultHeartbeatNotificationOptions;
         _keepTimeTokenOnListChange = kPNDefaultShouldKeepTimeTokenOnListChange;
@@ -153,6 +154,7 @@ NS_ASSUME_NONNULL_END
     configuration.cipherKey = self.cipherKey;
     configuration.subscribeMaximumIdleTime = self.subscribeMaximumIdleTime;
     configuration.nonSubscribeRequestTimeout = self.nonSubscribeRequestTimeout;
+    configuration.historyRequestTimeout = self.historyRequestTimeout;
     configuration.presenceHeartbeatValue = self.presenceHeartbeatValue;
     configuration.presenceHeartbeatInterval = self.presenceHeartbeatInterval;
     configuration.TLSEnabled = self.isTLSEnabled;

@@ -92,6 +92,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) PNNetwork *serviceNetwork;
 
+@property (nonatomic, strong) PNNetwork *historyNetwork;
+
 /**
  @brief  Stores reference on reachability helper.
  @discussion Helper used by client to know about when something happened with network and when it is
@@ -398,6 +400,10 @@ NS_ASSUME_NONNULL_END
     _serviceNetwork = [PNNetwork networkForClient:self
                                    requestTimeout:_configuration.nonSubscribeRequestTimeout
                                maximumConnections:3 longPoll:NO];
+    _historyNetwork = [PNNetwork networkForClient:self
+                                   requestTimeout:_configuration.historyRequestTimeout
+                               maximumConnections:1
+                                         longPoll:NO];
 }
 
 
@@ -416,6 +422,12 @@ NS_ASSUME_NONNULL_END
 
         [self.subscriptionNetwork processOperation:operationType withParameters:parameters
                                               data:data completionBlock:block];
+    }
+    else if (operationType == PNHistoryOperation) {
+        [self.historyNetwork processOperation:operationType
+                               withParameters:parameters
+                                         data:data
+                              completionBlock:block];
     }
     else {
 
