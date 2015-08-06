@@ -38,5 +38,6 @@ static BOOL const kPNDefaultIsTLSEnabled = YES;
 static BOOL const kPNDefaultShouldKeepTimeTokenOnListChange = YES;
 static BOOL const kPNDefaultShouldRestoreSubscription = YES;
 static BOOL const kPNDefaultShouldTryCatchUpOnSubscriptionRestore = YES;
+static NSUInteger const kMaximumServiceNetworkConnections = 3;
 
 #endif // PNConstants_h

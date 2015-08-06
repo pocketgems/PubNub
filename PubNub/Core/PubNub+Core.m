@@ -367,7 +367,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
                                     maximumConnections:1 longPoll:YES];
     _serviceNetwork = [PNNetwork networkForClient:self
                                    requestTimeout:_configuration.nonSubscribeRequestTimeout
-                               maximumConnections:3 longPoll:NO];
+                               maximumConnections:kMaximumServiceNetworkConnections longPoll:NO];
     _historyNetwork = [PNNetwork networkForClient:self
                                    requestTimeout:_configuration.historyRequestTimeout
                                maximumConnections:1
