@@ -179,8 +179,7 @@
         DDLogAPICall([[self class] ddLogLevel], @"<PubNub> Publish%@ message to '%@' channel%@%@",
                      (compressed ? @" compressed" : @""), (channel?: @"<error>"),
                      (!shouldStore ? @" which won't be saved in hisotry" : @""),
-                     (!compressed ? [NSString stringWithFormat:@": %@",
-                                     (messageForPublish?: @"<error>")] : @"."));
+                     ([NSString stringWithFormat:@": %@", (messageForPublish?: @"<error>")]));
 
         [self processOperation:PNPublishOperation withParameters:parameters data:publishData
                completionBlock:^(PNStatus *status) {
