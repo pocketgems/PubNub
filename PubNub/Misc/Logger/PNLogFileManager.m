@@ -20,7 +20,7 @@
     NSArray *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     
     if (self = [self initWithLogsDirectory:[documents lastObject]]) {
-        NSString *dateFormat = @"yyyy'-'MM'-'dd' 'HH'-'mm'-'ss'";
+        NSString *dateFormat = @"yyyy'-'MM'-'dd'T'HH'-'mm'-'ss'";
         _dateFormatter = [[NSDateFormatter alloc] init];
         [_dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
         [_dateFormatter setDateFormat:dateFormat];
