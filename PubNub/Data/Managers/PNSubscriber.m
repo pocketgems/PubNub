@@ -718,25 +718,30 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     
     __block BOOL shouldRestore;
     __block BOOL ableToRestore;
+    DDLogAPICall([[self class] ddLogLevel], @"Called restore subscription cycle with block: %@", block);
+
+    __weak __typeof(self) weakSelf;
     dispatch_sync(self.resourceAccessQueue, ^{
-        
-        shouldRestore = (self.currentState == PNDisconnectedUnexpectedlySubscriberState &&
-                         self.mayRequireSubscriptionRestore);
-        ableToRestore = ([self.channelsSet count] || [self.channelGroupsSet count] ||
-                         [self.presenceChannelsSet count]);
+        DDLogAPICall([[weakSelf class] ddLogLevel], @"Checking if should and able to restore subscription cycle with block: %@", block);
+        shouldRestore = (weakSelf.currentState == PNDisconnectedUnexpectedlySubscriberState &&
+                         weakSelf.mayRequireSubscriptionRestore);
+        ableToRestore = ([weakSelf.channelsSet count] || [weakSelf.channelGroupsSet count] ||
+                         [weakSelf.presenceChannelsSet count]);
     });
     if (shouldRestore && ableToRestore) {
-        
+        DDLogAPICall([[self class] ddLogLevel], @"Restoring subscription cycle with block: %@", block);
         [self subscribe:YES withState:nil completion:block];
-    }
-    else if (block) {
-            
-        block(nil);
+    } else {
+        DDLogAPICall([[self class] ddLogLevel], @"Not restoring subscription cycle with block (%d, %d): %@", shouldRestore, ableToRestore, block);
+        if (block) {
+            block(nil);
+        }
     }
 }
 
 - (void)continueSubscriptionCycleIfRequiredWithCompletion:(PNSubscriberCompletionBlock)block {
 
+    DDLogAPICall([[self class] ddLogLevel], @"Continuing subscription cycle with block: %@", block);
     [self subscribe:NO withState:nil completion:block];
 }
 
