@@ -255,8 +255,7 @@ NS_ASSUME_NONNULL_END
                      (metadata ? [NSString stringWithFormat:@" with metadata (%@)", 
                                   metadataForPublish] : @""),
                      (!shouldStore ? @" which won't be saved in history" : @""),
-                     (!compressed ? [NSString stringWithFormat:@": %@",
-                                     (messageForPublish?: @"<error>")] : @"."));
+                     ([NSString stringWithFormat:@": %@", (messageForPublish?: @"<error>")]));
 
         [self processOperation:PNPublishOperation withParameters:parameters data:publishData
                completionBlock:^(PNStatus *status) {
