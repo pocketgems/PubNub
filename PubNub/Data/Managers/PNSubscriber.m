@@ -729,10 +729,11 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     if (shouldRestore && ableToRestore) {
         DDLogAPICall([[self class] ddLogLevel], @"Restoring subscription cycle with block: %@", block);
         [self subscribe:YES withState:nil completion:block];
-    }
-    else if (block) {
+    } else {
         DDLogAPICall([[self class] ddLogLevel], @"Not restoring subscription cycle with block (%d, %d): %@", shouldRestore, ableToRestore, block);
-        block(nil);
+        if (block) {
+            block(nil);
+        }
     }
 }
 
