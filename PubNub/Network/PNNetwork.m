@@ -588,9 +588,12 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
                 usingSuccess:success failure:failure];
         #pragma clang diagnostic pop
     };
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in dataTaskWithRequest");
     OSSpinLockLock(&_lock);
+    DDLogRequest([[self class] ddLogLevel], @"Locked in dataTaskWithRequest");
     task = [self.session dataTaskWithRequest:request completionHandler:[handler copy]];
     OSSpinLockUnlock(&_lock);
+    DDLogRequest([[self class] ddLogLevel], @"Unlocked in dataTaskWithRequest");
     
     return task;
 }
@@ -764,7 +767,9 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 
 - (void)cancelAllRequests {
 
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in cancelAllRequests");
     OSSpinLockLock(&_lock);
+    DDLogRequest([[self class] ddLogLevel], @"Locked in cancelAllRequests");
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks,
                                                   NSArray *downloadTasks) {
         
@@ -772,6 +777,7 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
         [uploadTasks makeObjectsPerformSelector:@selector(cancel)];
         [downloadTasks makeObjectsPerformSelector:@selector(cancel)];
         OSSpinLockUnlock(&self->_lock);
+        DDLogRequest([[self class] ddLogLevel], @"Unlocked in cancelAllRequests");
     }];
 }
 
@@ -871,12 +877,15 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 #pragma mark - Handlers
 
 -(void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error {
-    
+
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in didBecomeInvalid");
     OSSpinLockLock(&_lock);
+    DDLogRequest([[self class] ddLogLevel], @"Locked in didBecomeInvalid");
     // Replace invalidated session with new one which can be used for next requests.
     [self prepareSessionWithRequesrTimeout:self.requestTimeout
                         maximumConnections:self.maximumConnections];
     OSSpinLockUnlock(&_lock);
+    DDLogRequest([[self class] ddLogLevel], @"Unlocked in didBecomeInvalid");
 }
 
 - (void)handleData:(NSData *)data loadedWithTask:(NSURLSessionDataTask *)task
