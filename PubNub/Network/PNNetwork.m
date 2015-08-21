@@ -584,16 +584,18 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
         // it and probably whole client instance has been deallocated.
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+        DDLogRequest([[weakSelf class] ddLogLevel], @"Completion handler for %@", request.URL);
+
         [weakSelf handleData:data loadedWithTask:task error:(error?: task.error)
                 usingSuccess:success failure:failure];
         #pragma clang diagnostic pop
     };
-    DDLogRequest([[self class] ddLogLevel], @"Trying lock in dataTaskWithRequest");
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in dataTaskWithRequest: %@", request.URL);
     OSSpinLockLock(&_lock);
-    DDLogRequest([[self class] ddLogLevel], @"Locked in dataTaskWithRequest");
+    DDLogRequest([[self class] ddLogLevel], @"Locked in dataTaskWithRequest: %@", request.URL);
     task = [self.session dataTaskWithRequest:request completionHandler:[handler copy]];
     OSSpinLockUnlock(&_lock);
-    DDLogRequest([[self class] ddLogLevel], @"Unlocked in dataTaskWithRequest");
+    DDLogRequest([[self class] ddLogLevel], @"Unlocked in dataTaskWithRequest: %@", request.URL);
     
     return task;
 }
@@ -767,12 +769,13 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 
 - (void)cancelAllRequests {
 
-    DDLogRequest([[self class] ddLogLevel], @"Trying lock in cancelAllRequests");
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in cancelAllRequests with %ld in queue", (long)self.delegateQueue.operationCount);
     OSSpinLockLock(&_lock);
     DDLogRequest([[self class] ddLogLevel], @"Locked in cancelAllRequests");
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks,
                                                   NSArray *downloadTasks) {
-        
+
+        DDLogRequest([[self class] ddLogLevel], @"Entering completion handler in cancelAllRequests");
         [dataTasks makeObjectsPerformSelector:@selector(cancel)];
         [uploadTasks makeObjectsPerformSelector:@selector(cancel)];
         [downloadTasks makeObjectsPerformSelector:@selector(cancel)];
