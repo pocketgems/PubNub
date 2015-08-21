@@ -688,12 +688,16 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
         __weak __typeof(self) weakSelf = self;
         [[self dataTaskWithRequest:[self requestWithURL:requestURL data:data]
                            success:^(NSURLSessionDataTask *task, id responseObject) {
-                               
+
+               if (operationType == PNSubscribeOperation) {
+                   DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request completion block");
+               }
                [weakSelf handleOperation:operationType taskDidComplete:task withData:responseObject
                          completionBlock:block];
            }
            failure:^(NSURLSessionDataTask *task, id error) {
                
+               DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request failure block");
                [weakSelf handleOperation:operationType taskDidFail:task withError:error
                          completionBlock:block];
            }] resume];
@@ -957,6 +961,10 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
     
     PNResult *result = nil;
     PNStatus *status = nil;
+
+    if (operation == PNSubscribeOperation) {
+        DDLogRequest([[self class] ddLogLevel], @"Handling parsed data");
+    }
     
     // Check whether request potentially has been cancelled prior actual sending to the network or
     // not
@@ -986,6 +994,8 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 
         [self handleOperation:operation processingCompletedWithResult:result
                        status:status completionBlock:block];
+    } else if (operation == PNSubscribeOperation) {
+        DDLogRequest([[self class] ddLogLevel], @"Not handling operation for subscription");
     }
 }
 
