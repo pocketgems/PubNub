@@ -68,7 +68,7 @@
  
  @since 4.0
  */
-- (void)cancelAllRequests;
+- (void)cancelAllRequestsWithCompletion:(void(^)(void))completionBlock;
 
 
 ///------------------------------------------------

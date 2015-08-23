@@ -667,60 +667,63 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
           withParameters:(PNRequestParameters *)parameters data:(NSData *)data
          completionBlock:(id)block {
 
-    if (operationType == PNSubscribeOperation || operationType == PNUnsubscribeOperation) {
-        
-        [self cancelAllRequests];
-    }
+    __weak __typeof(self) weakSelf = self;
+    void (^processOperationBlock)(void) = ^{
     
-    [self appendRequierdParametersTo:parameters];
-    // Silence static analyzer warnings.
-    // Code is aware about this case and at the end will simply call on 'nil' object method.
-    // In most cases if referenced object become 'nil' it mean what there is no more need in
-    // it and probably whole client instance has been deallocated.
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wreceiver-is-weak"
-    NSURL *requestURL = [PNURLBuilder URLForOperation:operationType withParameters:parameters];
-    if (requestURL) {
-        
-        DDLogRequest([[self class] ddLogLevel], @"<PubNub> %@ %@", ([data length] ? @"POST" : @"GET"),
-                     [requestURL absoluteString]);
-        
-        __weak __typeof(self) weakSelf = self;
-        [[self dataTaskWithRequest:[self requestWithURL:requestURL data:data]
-                           success:^(NSURLSessionDataTask *task, id responseObject) {
-
-               if (operationType == PNSubscribeOperation) {
-                   DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request completion block");
-               }
-               [weakSelf handleOperation:operationType taskDidComplete:task withData:responseObject
-                         completionBlock:block];
-           }
-           failure:^(NSURLSessionDataTask *task, id error) {
-               
-               DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request failure block");
-               [weakSelf handleOperation:operationType taskDidFail:task withError:error
-                         completionBlock:block];
-           }] resume];
-    }
-    else {
-        
-        PNErrorStatus *badRequestStatus = [PNErrorStatus statusForOperation:operationType
-                                                                   category:PNBadRequestCategory
-                                                        withProcessingError:nil];
-        [self.client appendClientInformation:badRequestStatus];
-        if (block) {
+        [self appendRequierdParametersTo:parameters];
+        // Silence static analyzer warnings.
+        // Code is aware about this case and at the end will simply call on 'nil' object method.
+        // In most cases if referenced object become 'nil' it mean what there is no more need in
+        // it and probably whole client instance has been deallocated.
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+        NSURL *requestURL = [PNURLBuilder URLForOperation:operationType withParameters:parameters];
+        if (requestURL) {
+            DDLogRequest([[self class] ddLogLevel], @"<PubNub> %@ %@", ([data length] ? @"POST" : @"GET"),
+                         [requestURL absoluteString]);
             
-            if ([self operationExpectResult:operationType]) {
+            [[self dataTaskWithRequest:[self requestWithURL:requestURL data:data]
+                               success:^(NSURLSessionDataTask *task, id responseObject) {
+
+                   if (operationType == PNSubscribeOperation) {
+                       DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request completion block");
+                   }
+                   [weakSelf handleOperation:operationType taskDidComplete:task withData:responseObject
+                             completionBlock:block];
+               }
+               failure:^(NSURLSessionDataTask *task, id error) {
+                   
+                   DDLogRequest([[weakSelf class] ddLogLevel], @"Entering data task with request failure block");
+                   [weakSelf handleOperation:operationType taskDidFail:task withError:error
+                             completionBlock:block];
+               }] resume];
+        }
+        else {
+            PNErrorStatus *badRequestStatus = [PNErrorStatus statusForOperation:operationType
+                                                                       category:PNBadRequestCategory
+                                                            withProcessingError:nil];
+            [self.client appendClientInformation:badRequestStatus];
+            if (block) {
                 
-                ((PNCompletionBlock)block)(nil, badRequestStatus);
-            }
-            else {
-                
-                ((PNStatusBlock)block)(badRequestStatus);
+                if ([self operationExpectResult:operationType]) {
+                    
+                    ((PNCompletionBlock)block)(nil, badRequestStatus);
+                }
+                else {
+                    
+                    ((PNStatusBlock)block)(badRequestStatus);
+                }
             }
         }
+        #pragma clang diagnostic pop
+    };
+
+    if (operationType == PNSubscribeOperation || operationType == PNUnsubscribeOperation) {
+        [self cancelAllRequestsWithCompletion:processOperationBlock];
+    } else {
+        processOperationBlock();
     }
-    #pragma clang diagnostic pop
+    
 }
 
 - (void)parseData:(id)data withParser:(Class <PNParser>)parser
@@ -771,7 +774,7 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
     }
 }
 
-- (void)cancelAllRequests {
+- (void)cancelAllRequestsWithCompletion:(void(^)(void))completionBlock {
 
     DDLogRequest([[self class] ddLogLevel], @"Trying lock in cancelAllRequests with %ld in queue", (long)self.delegateQueue.operationCount);
     OSSpinLockLock(&_lock);
@@ -785,6 +788,10 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
         [downloadTasks makeObjectsPerformSelector:@selector(cancel)];
         OSSpinLockUnlock(&self->_lock);
         DDLogRequest([[self class] ddLogLevel], @"Unlocked in cancelAllRequests");
+
+        if (completionBlock) {
+            completionBlock();
+        }
     }];
 }
 
