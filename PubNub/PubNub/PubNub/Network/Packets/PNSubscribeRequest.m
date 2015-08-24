@@ -153,7 +153,7 @@
     // Check whether presence enabling / disabling channels specified or not
     if ([self.channelsForPresenceEnabling count] > 0 || [self.channelsForPresenceDisabling count] > 0) {
         
-        NSMutableSet *updatedSet = [NSMutableSet setWithArray:channels];
+        NSMutableSet *updatedSet = [[NSMutableSet alloc] initWithArray:channels];
         
         // In case if user specified set of channels for which presence is enabled, add them to the channels list
         if ([self.channelsForPresenceEnabling count] > 0) {
@@ -193,7 +193,7 @@
 
 - (void)prepareToSend {
 
-    NSMutableSet *channels = [NSMutableSet setWithArray:_channels];
+    NSMutableSet *channels = [[NSMutableSet alloc] initWithArray:_channels];
     NSSet *forPresenceDisabling = [[NSSet alloc] initWithArray:self.channelsForPresenceDisabling];
     if ([channels intersectsSet:forPresenceDisabling]) {
 
@@ -210,8 +210,8 @@
     
     _channelsForPresenceDisabling = channelsForPresenceDisabling;
     
-    NSMutableSet *channels = [NSMutableSet setWithArray:_channels];
-    NSMutableSet *channelsForRemoval = [NSMutableSet set];
+    NSMutableSet *channels = [[NSMutableSet alloc] initWithArray:_channels];
+    NSMutableSet *channelsForRemoval = [[NSMutableSet alloc] init];
     
     [_channelsForPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, NSUInteger channelIdx,
                                                                 BOOL *channelEnumeratorStop) {
