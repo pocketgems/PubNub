@@ -326,7 +326,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
             }
             else {
 
-                self.response = [NSDictionary dictionaryWithDictionary:processedData];
+                self.response = [[NSDictionary alloc] initWithDictionary:processedData];
             }
         }
     }

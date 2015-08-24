@@ -1340,7 +1340,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                                                                                                 ofType:@"bundle"]];
         symbolsPath = [frameworkResources pathForResource:@"PNLoggerSymbols" ofType:@"plist"];;
     }
-    NSDictionary *symbolsTree = [NSDictionary dictionaryWithContentsOfFile:symbolsPath];
+    NSDictionary *symbolsTree = [[NSDictionary alloc] initWithContentsOfFile:symbolsPath];
     if (symbolsTree) {
 
         NSMutableDictionary *flattenedTree = [NSMutableDictionary dictionary];
@@ -1381,8 +1381,8 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
         }];
         
         // Storing processed tree with immutable container.
-        self.symbolsTable = [NSDictionary dictionaryWithDictionary:flattenedTree];
-        self.symbolsSectionName = [NSDictionary dictionaryWithDictionary:symbolsSectionName];
+        self.symbolsTable = [[NSDictionary alloc] initWithDictionary:flattenedTree];
+        self.symbolsSectionName = [[NSDictionary alloc] initWithDictionary:symbolsSectionName];
     }
     else {
         
