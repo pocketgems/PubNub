@@ -194,7 +194,7 @@
 - (void)prepareToSend {
 
     NSMutableSet *channels = [NSMutableSet setWithArray:_channels];
-    NSSet *forPresenceDisabling = [NSSet setWithArray:self.channelsForPresenceDisabling];
+    NSSet *forPresenceDisabling = [[NSSet alloc] initWithArray:self.channelsForPresenceDisabling];
     if ([channels intersectsSet:forPresenceDisabling]) {
 
         [forPresenceDisabling enumerateObjectsUsingBlock:^(PNChannel *channel, BOOL *channelEnumeratorStop) {

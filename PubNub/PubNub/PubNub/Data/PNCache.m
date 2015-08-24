@@ -160,7 +160,7 @@
     [self pn_dispatchBlock:^{
         
         NSMutableSet *channelsSet = [NSMutableSet setWithArray:[channels valueForKey:@"name"]];
-        [channelsSet intersectSet:[NSSet setWithArray:[self.stateCache allKeys]]];
+        [channelsSet intersectSet:[[NSSet alloc] initWithArray:[self.stateCache allKeys]]];
 
         fetchCompletionBlock([channelsSet count] ? [self.stateCache dictionaryWithValuesForKeys:[channelsSet allObjects]] : nil);
     }];

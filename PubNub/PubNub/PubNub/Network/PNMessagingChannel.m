@@ -449,7 +449,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
             PNBaseRequest *firstRequest = [[sortedRequestsList objectAtIndex:0] valueForKey:PNRequestForReschedule.request];
             if ([firstRequest isKindOfClass:[PNLeaveRequest class]]) {
 
-                NSSet *leaveChannelsSet = [NSSet setWithArray:((PNLeaveRequest *)firstRequest).channels];
+                NSSet *leaveChannelsSet = [[NSSet alloc] initWithArray:((PNLeaveRequest *)firstRequest).channels];
                 [[sortedRequestsList copy] enumerateObjectsUsingBlock:^(NSDictionary * requestInformation,
                                                                         NSUInteger requestInformationIdx,
                                                                         BOOL *requestInformationEnumeratorStop) {
@@ -457,7 +457,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
                     PNBaseRequest *request = [requestInformation valueForKey:PNRequestForReschedule.request];
                     if ([request isKindOfClass:[PNSubscribeRequest class]]) {
 
-                        NSSet *subscribeChannelsSet = [NSSet setWithArray:((PNSubscribeRequest *)request).channels];
+                        NSSet *subscribeChannelsSet = [[NSSet alloc] initWithArray:((PNSubscribeRequest *)request).channels];
                         if ([subscribeChannelsSet intersectsSet:leaveChannelsSet]) {
 
                             [sortedRequestsList removeObject:requestInformation];
@@ -687,7 +687,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
     [self pn_scheduleOnPrivateQueueAssert];
 
     // Check whether specified channels set contains channels on which client not subscribed
-    NSSet *channelsSet = [NSSet setWithArray:channels];
+    NSSet *channelsSet = [[NSSet alloc] initWithArray:channels];
     if (![self.subscribedChannelsSet intersectsSet:channelsSet]) {
 
         // Extracting channels on which client is not subscribed at this moment
@@ -895,7 +895,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
                         if (!isLeavingAllChannels) {
 
                             // Check whether we already found request which will unsubscribe from all channels or not
-                            NSSet *leaveChannelsSet = [NSSet setWithArray:leaveRequest.channels];
+                            NSSet *leaveChannelsSet = [[NSSet alloc] initWithArray:leaveRequest.channels];
                             if ([leaveChannelsSet isEqualToSet:self.subscribedChannelsSet]) {
 
                                 isLeavingAllChannels = YES;
@@ -1362,7 +1362,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
                         if ([channelsForPresenceDisabling count]) {
 
                             if ([subscribeRequest.channels count] == [channelsForPresenceDisabling count] &&
-                                [[NSSet setWithArray:subscribeRequest.channels] isEqualToSet:channelsForPresenceDisabling]) {
+                                [[[NSSet alloc] initWithArray:subscribeRequest.channels] isEqualToSet:channelsForPresenceDisabling]) {
 
                                 hasValidSetOfChannels = NO;
                                 isDisablingPresenceOnAllChannels = YES;
@@ -1871,9 +1871,9 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
 
     // Check whether failed to subscribe on set of channels or not
     NSMutableSet *channelsForSubscription = [NSMutableSet setWithArray:[self channelsWithOutPresenceFromList:subscriptionRequest.channelsForSubscription]];
-    [channelsForSubscription minusSet:[NSSet setWithArray:[self channelsWithOutPresenceFromList:[self.subscribedChannelsSet allObjects]]]];
+    [channelsForSubscription minusSet:[[NSSet alloc] initWithArray:[self channelsWithOutPresenceFromList:[self.subscribedChannelsSet allObjects]]]];
     NSMutableSet *existingChannelsSet = [NSMutableSet setWithArray:[self channelsWithOutPresenceFromList:[self.oldSubscribedChannelsSet allObjects]]];
-    [existingChannelsSet minusSet:[NSSet setWithArray:[self channelsWithOutPresenceFromList:subscriptionRequest.channelsForSubscription]]];
+    [existingChannelsSet minusSet:[[NSSet alloc] initWithArray:[self channelsWithOutPresenceFromList:subscriptionRequest.channelsForSubscription]]];
     if ([channelsForSubscription count]) {
 
         [PNLogger logCommunicationChannelErrorMessageFrom:self withParametersFromBlock:^NSArray * {
@@ -2208,7 +2208,7 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
 - (NSDictionary *)stateFromClientState:(NSDictionary *)state forChannels:(NSArray *)channels {
     
     // Fetch list of names against which client should filter provided state.
-    NSSet *channelNames = [NSSet setWithArray:[channels valueForKey:@"name"]];
+    NSSet *channelNames = [[NSSet alloc] initWithArray:[channels valueForKey:@"name"]];
     
     // Fetch list of names for which state has been provided.
     NSMutableSet *stateKeys = [NSMutableSet setWithArray:[state allKeys]];
@@ -2783,11 +2783,11 @@ typedef NS_OPTIONS(NSUInteger, PNMessagingConnectionStateFlag)  {
                         PNSubscribeRequest *subscribeRequest = (PNSubscribeRequest *) request;
 
                         NSMutableSet *channelsForSubscription = [NSMutableSet setWithArray:[self channelsWithOutPresenceFromList:subscribeRequest.channelsForSubscription]];
-                        [channelsForSubscription minusSet:[NSSet setWithArray:[self channelsWithOutPresenceFromList:[self.oldSubscribedChannelsSet allObjects]]]];
+                        [channelsForSubscription minusSet:[[NSSet alloc] initWithArray:[self channelsWithOutPresenceFromList:[self.oldSubscribedChannelsSet allObjects]]]];
                         NSMutableSet *existingChannelsSet = [NSMutableSet setWithArray:[self channelsWithOutPresenceFromList:[self.oldSubscribedChannelsSet allObjects]]];
-                        [existingChannelsSet minusSet:[NSSet setWithArray:[self channelsWithOutPresenceFromList:subscribeRequest.channelsForSubscription]]];
-                        [self.subscribedChannelsSet unionSet:[NSSet setWithArray:subscribeRequest.channels]];
-                        [self.subscribedChannelsSet minusSet:[NSSet setWithArray:subscribeRequest.channelsForPresenceDisabling]];
+                        [existingChannelsSet minusSet:[[NSSet alloc] initWithArray:[self channelsWithOutPresenceFromList:subscribeRequest.channelsForSubscription]]];
+                        [self.subscribedChannelsSet unionSet:[[NSSet alloc] initWithArray:subscribeRequest.channels]];
+                        [self.subscribedChannelsSet minusSet:[[NSSet alloc] initWithArray:subscribeRequest.channelsForPresenceDisabling]];
                         if ([existingChannelsSet count]) {
 
                             [self.subscribedChannelsSet minusSet:existingChannelsSet];
