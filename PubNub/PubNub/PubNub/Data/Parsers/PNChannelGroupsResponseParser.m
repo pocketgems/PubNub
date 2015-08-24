@@ -53,7 +53,7 @@
         
         NSString *nspace = (response.additionalData ? response.additionalData : [response.response valueForKey:kPNResponseNamespaceKey]);
         NSArray *channelGroupNames = [response.response valueForKey:kPNResponseChannelGroupsKey];
-        NSMutableArray *channelGroups = [NSMutableArray arrayWithCapacity:[channelGroupNames count]];
+        NSMutableArray *channelGroups = [[NSMutableArray alloc] initWithCapacity:[channelGroupNames count]];
         [channelGroupNames enumerateObjectsUsingBlock:^(NSString *channelGroupName, NSUInteger channelGroupNameIdx,
                                                         BOOL *channelGroupNamesEnumeratorStop) {
             

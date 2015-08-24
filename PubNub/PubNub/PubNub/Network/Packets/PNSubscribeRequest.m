@@ -104,7 +104,7 @@
     if((self = [super init])) {
         
         self.sendingByUserRequest = isSubscribingByUserRequest;
-        self.channels = [NSArray arrayWithArray:channels];
+        self.channels = [[NSArray alloc] initWithArray:channels];
         self.state = ([clientState count] ? clientState : nil);
         
         

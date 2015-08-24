@@ -25,7 +25,7 @@
 
 + (NSArray *)pn_arrayWithVarietyList:(va_list)list {
 
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
     id argument;
     while ((argument = va_arg(list, id))) {
         if (argument == nil)

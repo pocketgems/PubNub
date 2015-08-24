@@ -162,7 +162,7 @@
 
 - (NSArray *)clientsFromData:(NSArray *)clientsInformation forChannel:(PNChannel *)channel {
 
-    NSMutableArray *clients = [NSMutableArray array];
+    NSMutableArray *clients = [[NSMutableArray alloc] init];
     [clientsInformation enumerateObjectsUsingBlock:^(id clientInformation, NSUInteger clientInformationIdx,
                                                      BOOL *clientInformationEnumerator) {
 

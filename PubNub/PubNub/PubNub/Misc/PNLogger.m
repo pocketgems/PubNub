@@ -977,7 +977,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                 
                 if ([self isDumpingToFile]) {
                     
-                    NSMutableArray *parametersForLog = [NSMutableArray arrayWithCapacity:([parameters count] + 1)];
+                    NSMutableArray *parametersForLog = [[NSMutableArray alloc] initWithCapacity:([parameters count] + 1)];
                     
                     // Storing initial symbol code value
                     [parametersForLog addObject:symbolCode];

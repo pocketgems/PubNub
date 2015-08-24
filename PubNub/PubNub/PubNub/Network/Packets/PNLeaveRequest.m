@@ -79,7 +79,7 @@
 
         self.sendingByUserRequest = isLeavingByUserRequest;
         self.closeConnection = YES;
-        self.channels = [NSArray arrayWithArray:channels];
+        self.channels = [[NSArray alloc] initWithArray:channels];
     }
     
     

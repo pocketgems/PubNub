@@ -255,7 +255,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
         [PNBitwiseHelper clear:&_state];
         self.observedRequests = [NSMutableDictionary dictionary];
         self.storedRequests = [NSMutableDictionary dictionary];
-        self.storedRequestsList = [NSMutableArray array];
+        self.storedRequestsList = [[NSMutableArray alloc] init];
 
         
         // Retrieve connection identifier based on connection channel type
@@ -945,7 +945,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
     // This method should be launched only from within it's private queue
     [self pn_scheduleOnPrivateQueueAssert];
 
-    NSMutableArray *requests = [NSMutableArray array];
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
     [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
             BOOL *requestIdentifierEnumeratorStop) {
 
@@ -988,7 +988,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
     // This method should be launched only from within it's private queue
     [self pn_scheduleOnPrivateQueueAssert];
 
-    NSMutableArray *requests = [NSMutableArray array];
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
     [self.storedRequestsList enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
                                                           BOOL *requestIdentifierEnumeratorStop) {
 
@@ -1008,7 +1008,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
     // This method should be launched only from within it's private queue
     [self pn_scheduleOnPrivateQueueAssert];
 
-    NSMutableArray *requests = [NSMutableArray array];
+    NSMutableArray *requests = [[NSMutableArray alloc] init];
     [requestIdentifiers enumerateObjectsUsingBlock:^(id requestIdentifier, NSUInteger requestIdentifierIdx,
                                                      BOOL *requestIdentifierEnumeratorStop) {
 
@@ -1718,7 +1718,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
 
                         errorForRequests = [PNError errorWithCode:kPNRequestExecutionFailedClientNotReadyError];
                     }
-                    [self makeScheduledRequestsFail:[NSArray arrayWithArray:self.storedRequestsList]
+                    [self makeScheduledRequestsFail:[[NSArray alloc] initWithArray:self.storedRequestsList]
                                           withError:errorForRequests];
                 }
 
@@ -1777,7 +1777,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
 
                         error = [PNError errorWithCode:kPNRequestExecutionFailedClientNotReadyError];
                     }
-                    [self makeScheduledRequestsFail:[NSArray arrayWithArray:self.storedRequestsList] withError:error];
+                    [self makeScheduledRequestsFail:[[NSArray alloc] initWithArray:self.storedRequestsList] withError:error];
                 }
 
 

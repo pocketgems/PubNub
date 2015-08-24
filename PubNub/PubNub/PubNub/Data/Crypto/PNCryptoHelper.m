@@ -240,7 +240,7 @@ typedef enum _PNCryptorType {
 
 - (NSArray *)arrayOfEnryptedValues:(NSArray *)arrayForEncryption error:(PNError *__strong *)error {
 
-    NSMutableArray *messages = [NSMutableArray arrayWithCapacity:[arrayForEncryption count]];
+    NSMutableArray *messages = [[NSMutableArray alloc] initWithCapacity:[arrayForEncryption count]];
     [arrayForEncryption enumerateObjectsUsingBlock:^(id objectForEncryption, NSUInteger objectIndex,
                                                      BOOL *objectEnumeratorStop) {
 
@@ -313,7 +313,7 @@ typedef enum _PNCryptorType {
 
 - (NSArray *)arrayOfDecryptedValues:(NSArray *)arrayForDecryption error:(PNError *__strong *)error {
 
-    NSMutableArray *messages = [NSMutableArray arrayWithCapacity:[arrayForDecryption count]];
+    NSMutableArray *messages = [[NSMutableArray alloc] initWithCapacity:[arrayForDecryption count]];
     [arrayForDecryption enumerateObjectsUsingBlock:^(id objectForDecryption,
                                                      NSUInteger objectIndex,
                                                      BOOL *objectEnumeratorStop) {

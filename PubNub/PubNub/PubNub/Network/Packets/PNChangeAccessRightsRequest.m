@@ -112,7 +112,7 @@
 
 - (NSString *)PAMSignature {
 
-    NSMutableArray *parameters = [NSMutableArray array];
+    NSMutableArray *parameters = [[NSMutableArray alloc] init];
     NSMutableString *signature = [NSMutableString stringWithFormat:@"%@\n%@\ngrant\n", self.subscriptionKey, self.publishKey];
 
     if ([self.accessRightOptions.clientsAuthorizationKeys count] > 0) {

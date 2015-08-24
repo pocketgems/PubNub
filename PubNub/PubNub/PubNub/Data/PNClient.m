@@ -43,7 +43,7 @@
             
         self.identifier = identifier ? identifier : kPNAnonymousParticipantIdentifier;
         self.clientData = [NSMutableDictionary dictionary];
-        self.channelsWithState = [NSMutableArray array];
+        self.channelsWithState = [[NSMutableArray alloc] init];
         self.channel = channel;
         [self addClientData:data forChannel:channel];
     }

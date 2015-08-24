@@ -127,7 +127,7 @@ static NSString * const kPNCloseConnectionTypeFieldValue = @"close";
 - (void)parseResponseData:(NSMutableData *)data withBlock:(void (^)(NSArray *responses))parseCompletionBlock {
     
     [self pn_dispatchBlock:^{
-        NSMutableArray *parsedData = [NSMutableArray array];
+        NSMutableArray *parsedData = [[NSMutableArray alloc] init];
         
         self.deserializing = YES;
         

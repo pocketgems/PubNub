@@ -102,7 +102,7 @@ struct PNPushNotificationsStateStruct PNPushNotificationsState = {
     if ((self = [super init])) {
 
         self.sendingByUserRequest = YES;
-        self.channels = [NSArray arrayWithArray:channels];
+        self.channels = [[NSArray alloc] initWithArray:channels];
         self.targetState = state;
         self.devicePushToken = pushToken;
         self.pushToken = [[pushToken pn_HEXPushToken] lowercaseString];

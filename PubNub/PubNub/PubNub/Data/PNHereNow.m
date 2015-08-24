@@ -98,7 +98,7 @@ NSString * const kPNAnonymousParticipantIdentifier = @"unknown";
         information = [self.participantsMap valueForKey:channel.name];
         if (!information) {
             
-            information = [@{PNChannelParticipantsEntry.participants:[NSMutableArray array],
+            information = [@{PNChannelParticipantsEntry.participants:[[NSMutableArray alloc] init],
                              PNChannelParticipantsEntry.participantsCount:@(0)} mutableCopy];
             
             [self.participantsMap setValue:information forKey:channel.name];

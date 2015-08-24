@@ -159,7 +159,7 @@ static NSUInteger const kPNResponseTimeTokenElementIndexForEvent = 1;
 
         if ([events count] > 0) {
 
-            NSMutableArray *eventObjects = [NSMutableArray arrayWithCapacity:[events count]];
+            NSMutableArray *eventObjects = [[NSMutableArray alloc] initWithCapacity:[events count]];
             [events enumerateObjectsUsingBlock:^(id event, NSUInteger eventIdx, BOOL *eventEnumeratorStop) {
 
                 __block BOOL isPresenceObservationChannel = NO;

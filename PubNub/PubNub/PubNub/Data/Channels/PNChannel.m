@@ -96,7 +96,7 @@ static NSObject *_synchronizationObject = nil;
 
 + (NSArray *)channelsWithNames:(NSArray *)channelsName {
 
-    NSMutableArray *channels = [NSMutableArray arrayWithCapacity:[channelsName count]];
+    NSMutableArray *channels = [[NSMutableArray alloc] initWithCapacity:[channelsName count]];
 
     [channelsName enumerateObjectsUsingBlock:^(NSString *channelName, NSUInteger channelNameIdx,
                                                BOOL *channelNamesEnumerator) {

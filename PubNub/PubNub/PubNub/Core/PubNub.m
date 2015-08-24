@@ -642,8 +642,8 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
         self.state = PNPubNubClientStateCreated;
         self.cache = [PNCache new];
-        self.pendingInvocations = [NSMutableArray array];
-        self.reprioritizedPendingInvocations = [NSMutableArray array];
+        self.pendingInvocations = [[NSMutableArray alloc] init];
+        self.reprioritizedPendingInvocations = [[NSMutableArray alloc] init];
         self.observationCenter = [PNObservationCenter observationCenterWithDefaultObserver:self];
 
         // Check whether user identifier was provided by user or not
@@ -3938,7 +3938,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
             
             self.flushPostponedMethods = NO;
 
-            NSMutableArray *invocationsForFlush = [NSMutableArray arrayWithArray:self.pendingInvocations];
+            NSMutableArray *invocationsForFlush = [[NSMutableArray alloc] initWithArray:self.pendingInvocations];
             if (self.reprioritizedPendingInvocations) {
 
                 [invocationsForFlush addObjectsFromArray:self.reprioritizedPendingInvocations];
