@@ -39,8 +39,8 @@
     if ((self = [super init])) {
 
         self.applicationKey = applicationKey;
-        self.channelsAccessRightsInformation = [NSMutableDictionary dictionary];
-        self.clientsAccessRightsInformation = [NSMutableDictionary dictionary];
+        self.channelsAccessRightsInformation = [[NSMutableDictionary alloc] init];
+        self.clientsAccessRightsInformation = [[NSMutableDictionary alloc] init];
     }
 
 

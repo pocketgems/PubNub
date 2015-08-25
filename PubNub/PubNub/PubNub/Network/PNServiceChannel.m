@@ -952,7 +952,7 @@
         PNMessageHistoryRequest *historyRequest = (PNMessageHistoryRequest *)request;
         if (error.code == kPNRequestCantBeProcessedWithOutRescheduleError) {
             
-            NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary:@{
+            NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithDictionary:@{
                                                @"limit":@(historyRequest.limit), @"revertMessages":@(historyRequest.shouldRevertMessages),
                                                @"includeTimeToken":@(historyRequest.shouldIncludeTimeToken)}];
             if (historyRequest.startDate) {

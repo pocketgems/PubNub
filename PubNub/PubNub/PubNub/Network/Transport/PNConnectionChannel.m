@@ -253,8 +253,8 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
         self.delegate = delegate;
         self.configuration = configuration;
         [PNBitwiseHelper clear:&_state];
-        self.observedRequests = [NSMutableDictionary dictionary];
-        self.storedRequests = [NSMutableDictionary dictionary];
+        self.observedRequests = [[NSMutableDictionary alloc] init];
+        self.storedRequests = [[NSMutableDictionary alloc] init];
         self.storedRequestsList = [[NSMutableArray alloc] init];
 
         

@@ -266,8 +266,8 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     // Check whether initialization was successful or not
     if((self = [super init])) {
         
-        self.observers = [NSMutableDictionary dictionary];
-        self.oneTimeObservers = [NSMutableDictionary dictionary];
+        self.observers = [[NSMutableDictionary alloc] init];
+        self.oneTimeObservers = [[NSMutableDictionary alloc] init];
         self.notifications = [[NSMutableArray alloc] init];
         self.defaultObserver = (defaultObserver ? defaultObserver : [PubNub sharedInstance]);
         [self pn_setupPrivateSerialQueueWithIdentifier:@"observer" andPriority:DISPATCH_QUEUE_PRIORITY_DEFAULT];
@@ -2384,7 +2384,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
     
     if ([self.oneTimeObservers valueForKey:eventName] == nil) {
 
-        NSMutableDictionary *observersForEvent = [NSMutableDictionary dictionary];
+        NSMutableDictionary *observersForEvent = [[NSMutableDictionary alloc] init];
         [observersForEvent setValue:[[NSMutableArray alloc] init] forKey:kPNObserverGeneralCallbacks];
         [self.oneTimeObservers setValue:observersForEvent forKey:eventName];
     }

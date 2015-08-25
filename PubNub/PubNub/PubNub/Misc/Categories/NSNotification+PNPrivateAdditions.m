@@ -58,15 +58,14 @@ struct PNPrivateNotificationDataStructure PNPrivateNotificationData = {
 + (instancetype)pn_notificationWithName:(NSString *)notificationName
                           callbackToken:(NSString *)callbackToken data:(id)userData
                                  sender:(id)senderObject {
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    data[ PNPrivateNotificationData.notificationName ] = notificationName;
 
-    NSMutableDictionary *data = [NSMutableDictionary dictionaryWithObject:notificationName
-                                                                   forKey:PNPrivateNotificationData.notificationName];
     if (userData) {
-
         [data setValue:userData forKey:PNPrivateNotificationData.data];
     }
-    if (callbackToken) {
 
+    if (callbackToken) {
         [data setValue:callbackToken forKey:PNPrivateNotificationData.callbackToken];
     }
 

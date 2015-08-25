@@ -42,7 +42,7 @@
     if ((self = [super init])) {
             
         self.identifier = identifier ? identifier : kPNAnonymousParticipantIdentifier;
-        self.clientData = [NSMutableDictionary dictionary];
+        self.clientData = [[NSMutableDictionary alloc] init];
         self.channelsWithState = [[NSMutableArray alloc] init];
         self.channel = channel;
         [self addClientData:data forChannel:channel];

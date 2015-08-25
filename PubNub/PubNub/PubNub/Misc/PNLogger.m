@@ -1343,8 +1343,8 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
     NSDictionary *symbolsTree = [[NSDictionary alloc] initWithContentsOfFile:symbolsPath];
     if (symbolsTree) {
 
-        NSMutableDictionary *flattenedTree = [NSMutableDictionary dictionary];
-        NSMutableDictionary *symbolsSectionName = [NSMutableDictionary dictionary];
+        NSMutableDictionary *flattenedTree = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *symbolsSectionName = [[NSMutableDictionary alloc] init];
         
         __block __pn_desired_weak void(^symbolsFlatteningBlockWeak)(NSString *, NSString *, id, BOOL *);
         void(^symbolsFlatteningBlock)(NSString *, NSString *, id, BOOL *);

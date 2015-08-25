@@ -55,7 +55,7 @@ NSString * const kPNAnonymousParticipantIdentifier = @"unknown";
     // Check whether initialization has been successful or not.
     if ((self = [super init])) {
         
-        self.participantsMap = [NSMutableDictionary dictionary];
+        self.participantsMap = [[NSMutableDictionary alloc] init];
     }
     
     

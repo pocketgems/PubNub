@@ -261,7 +261,7 @@ typedef enum _PNCryptorType {
 
 - (NSDictionary *)dictionaryOfEnryptedValues:(NSDictionary *)dictionaryForEncryption error:(PNError *__strong *)error {
 
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:[dictionaryForEncryption count]];
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:[dictionaryForEncryption count]];
     [dictionaryForEncryption enumerateKeysAndObjectsUsingBlock:^(id key,
                                                                  id objectForEncryption,
                                                                  BOOL *objectEnumeratorStop) {
@@ -335,7 +335,7 @@ typedef enum _PNCryptorType {
 
 - (NSDictionary *)dictionaryOfDecryptedValues:(NSDictionary *)dictionaryForDecryption error:(PNError *__strong *)error {
 
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:[dictionaryForDecryption count]];
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] initWithCapacity:[dictionaryForDecryption count]];
     [dictionaryForDecryption enumerateKeysAndObjectsUsingBlock:^(id key, id objectForDecryption,
                                                                  BOOL *objectEnumeratorStop) {
 

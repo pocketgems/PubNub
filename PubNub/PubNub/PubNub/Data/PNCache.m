@@ -40,7 +40,7 @@
     // Check whether initialization has been successful or not
     if ((self = [super init])) {
 
-        self.stateCache = [NSMutableDictionary dictionary];
+        self.stateCache = [[NSMutableDictionary alloc] init];
         [self pn_setupPrivateSerialQueueWithIdentifier:@"state-cache" andPriority:DISPATCH_QUEUE_PRIORITY_DEFAULT];
     }
 
@@ -61,7 +61,7 @@
 
     [self pn_dispatchBlock:^{
 
-        NSMutableDictionary *cleanedState = (self.stateCache ? [self.stateCache mutableCopy] : [NSMutableDictionary dictionary]);
+        NSMutableDictionary *cleanedState = (self.stateCache ? [self.stateCache mutableCopy] : [[NSMutableDictionary alloc] init]);
 
         [state enumerateKeysAndObjectsUsingBlock:^(NSString *channelName, NSDictionary *channelState,
                 BOOL *channelStateEnumeratorStop) {

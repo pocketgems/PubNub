@@ -190,7 +190,7 @@ static NSObject *_synchronizationObject = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        _channelsCache = [NSMutableDictionary dictionary];
+        _channelsCache = [[NSMutableDictionary alloc] init];
     });
     
     
@@ -220,7 +220,7 @@ static NSObject *_synchronizationObject = nil;
         self.ableToResetTimeToken = YES;
 		self.updateTimeToken = @"0";
         self.name = channelName;
-        self.participantsList = [NSMutableDictionary dictionary];
+        self.participantsList = [[NSMutableDictionary alloc] init];
     }
     
     
@@ -315,7 +315,7 @@ static NSObject *_synchronizationObject = nil;
 
         self.presenceUpdateDate = [PNDate dateWithDate:[NSDate date]];
         self.participantsCount = participantsCount;
-        self.participantsList = [NSMutableDictionary dictionary];
+        self.participantsList = [[NSMutableDictionary alloc] init];
         [participants enumerateObjectsUsingBlock:^(PNClient *client, NSUInteger clientIdx, BOOL *clientEnumeratorStop) {
 
             NSString *clientStoreIdentifier = client.identifier;

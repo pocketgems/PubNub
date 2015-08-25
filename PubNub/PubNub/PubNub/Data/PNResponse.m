@@ -154,8 +154,8 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
         self.content = content;
         self.size = responseSize;
         self.statusCode = statusCode;
-        self.privateData = [NSMutableDictionary dictionary];
-        self.unknownData = [NSMutableDictionary dictionary];
+        self.privateData = [[NSMutableDictionary alloc] init];
+        self.unknownData = [[NSMutableDictionary alloc] init];
         self.lastResponseOnConnection = isLastResponseOnConnection;
 
         
