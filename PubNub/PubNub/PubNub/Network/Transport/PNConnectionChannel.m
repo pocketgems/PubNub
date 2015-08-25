@@ -1043,8 +1043,8 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
             [PNLogger logCommunicationChannelInfoMessageFrom:self withParametersFromBlock:^NSArray *{
                 
                 return @[PNLoggerSymbols.connectionChannel.resourceLinkage, (self.name ? self.name : self),
-                         (self.requestsQueue ? [NSString stringWithFormat:@"%p", self.requestsQueue] : [NSNull null]),
-                         (self.connection ? [NSString stringWithFormat:@"%p", self.connection] : [NSNull null])];
+                         (self.requestsQueue ? [[NSString alloc] initWithFormat:@"%p", self.requestsQueue] : [NSNull null]),
+                         (self.connection ? [[NSString alloc] initWithFormat:@"%p", self.connection] : [NSNull null])];
             }];
         }
     }];
@@ -2199,7 +2199,7 @@ struct PNRequestForRescheduleStructure PNRequestForReschedule = {
     [PNLogger logCommunicationChannelInfoMessageFrom:self withParametersFromBlock:^NSArray *{
 
         return @[PNLoggerSymbols.connectionChannel.connectionReset, (self.name ? self.name : self),
-                (self.connection ? [NSString stringWithFormat:@"%p", self.connection] : [NSNull null]),
+                (self.connection ? [[NSString alloc] initWithFormat:@"%p", self.connection] : [NSNull null]),
                 (self.connection ? self.connection : [NSNull null]), @(self.state)];
     }];
 

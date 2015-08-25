@@ -99,7 +99,7 @@
         channelName = ([channelName length] ? channelName : nil);
         if (channelName && nspace) {
             
-            channelName = [NSString stringWithFormat:@"%@:%@", nspace, channelName];
+            channelName = [[NSString alloc] initWithFormat:@"%@:%@", nspace, channelName];
         }
         if (!channelName && nspace) {
             
@@ -145,7 +145,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"%@(%p) %@ in \"%@\" namespace\nChannels: %@", NSStringFromClass([self class]),
+    return [[NSString alloc] initWithFormat:@"%@(%p) %@ in \"%@\" namespace\nChannels: %@", NSStringFromClass([self class]),
                                       self, self.groupName, self.nspace, self.channels];
 }
 
@@ -153,7 +153,7 @@
     
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
-    return [NSString stringWithFormat:@"<%@|%@|%@>", (self.groupName ? self.groupName : [NSNull null]),
+    return [[NSString alloc] initWithFormat:@"<%@|%@|%@>", (self.groupName ? self.groupName : [NSNull null]),
             (self.nspace ? self.nspace : [NSNull null]),
             ([self.channels count] ? [self.channels performSelector:@selector(logDescription)] : [NSNull null])];
     #pragma clang diagnostic pop

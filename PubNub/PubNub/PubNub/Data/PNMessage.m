@@ -276,7 +276,7 @@ struct PNMessageDataKeysStruct PNMessageDataKeys = {
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@ (%p): <message: %@, date: %@, channel: %@>", NSStringFromClass([self class]),
+    return [[NSString alloc] initWithFormat:@"%@ (%p): <message: %@, date: %@, channel: %@>", NSStringFromClass([self class]),
             self, self.message, (self.receiveDate ? self.receiveDate : self.date), self.channel.name];
 }
 

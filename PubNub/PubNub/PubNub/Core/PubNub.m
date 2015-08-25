@@ -936,11 +936,11 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
         
         [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray *{
             
-            return @[PNLoggerSymbols.api.resourceLinkage, (self.observationCenter ? [NSString stringWithFormat:@"%p", self.observationCenter] : [NSNull null]),
-                     (self.reachability ? [NSString stringWithFormat:@"%p", self.reachability] : [NSNull null]),
-                     (self.cryptoHelper ? [NSString stringWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
-                     (self.messagingChannel ? [NSString stringWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
-                     (self.serviceChannel ? [NSString stringWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
+            return @[PNLoggerSymbols.api.resourceLinkage, (self.observationCenter ? [[NSString alloc] initWithFormat:@"%p", self.observationCenter] : [NSNull null]),
+                     (self.reachability ? [[NSString alloc] initWithFormat:@"%p", self.reachability] : [NSNull null]),
+                     (self.cryptoHelper ? [[NSString alloc] initWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
+                     (self.messagingChannel ? [[NSString alloc] initWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
+                     (self.serviceChannel ? [[NSString alloc] initWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
         }];
         
         [self subscribeForNotifications];
@@ -1563,11 +1563,11 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                                                     [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray * {
 
-                                                        return @[PNLoggerSymbols.api.resourceLinkage, (self.observationCenter ? [NSString stringWithFormat:@"%p", self.observationCenter] : [NSNull null]),
-                                                                (self.reachability ? [NSString stringWithFormat:@"%p", self.reachability] : [NSNull null]),
-                                                                (self.cryptoHelper ? [NSString stringWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
-                                                                (self.messagingChannel ? [NSString stringWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
-                                                                (self.serviceChannel ? [NSString stringWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
+                                                        return @[PNLoggerSymbols.api.resourceLinkage, (self.observationCenter ? [[NSString alloc] initWithFormat:@"%p", self.observationCenter] : [NSNull null]),
+                                                                (self.reachability ? [[NSString alloc] initWithFormat:@"%p", self.reachability] : [NSNull null]),
+                                                                (self.cryptoHelper ? [[NSString alloc] initWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
+                                                                (self.messagingChannel ? [[NSString alloc] initWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
+                                                                (self.serviceChannel ? [[NSString alloc] initWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
                                                     }];
                                                 }
                                                 else {
@@ -2104,7 +2104,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
     [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray * {
 
         return @[PNLoggerSymbols.api.connectionChannelConnected, (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]), [self humanReadableStateFrom:self.state]];
+                (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]), [self humanReadableStateFrom:self.state]];
     }];
 
     [self checkConnectionChannelsConnectionState:^(BOOL messageChannelConnected, BOOL serviceChannelConnected) {
@@ -2148,7 +2148,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
         return @[PNLoggerSymbols.api.connectionChannelReconnected,
                 (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                 [self humanReadableStateFrom:self.state]];
     }];
 
@@ -2164,7 +2164,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                     return @[PNLoggerSymbols.api.anotherConnectionChannelNotReconnectedYet,
                             (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                            (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                            (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                             [self humanReadableStateFrom:self.state]];
                 }];
 
@@ -2185,7 +2185,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
         return @[PNLoggerSymbols.api.connectionChannelConnectionFailed,
                 (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                 [self humanReadableStateFrom:self.state]];
     }];
 
@@ -2263,7 +2263,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                 return @[PNLoggerSymbols.api.connectionChannelDisconnected,
                         (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                        (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                        (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                         [self humanReadableStateFrom:self.state]];
             }];
         }
@@ -2273,7 +2273,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                 return @[PNLoggerSymbols.api.connectionChannelDisconnectedOnReleaseWithOutEvent,
                         (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                        (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                        (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                         [self humanReadableStateFrom:self.state]];
             }];
         }
@@ -2585,7 +2585,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                                         return @[PNLoggerSymbols.api.disconnectingServiceChannel,
                                                 (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                                                (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                                                (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                                                 [self humanReadableStateFrom:self.state]];
                                     }];
 
@@ -2619,7 +2619,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
 
                                         return @[PNLoggerSymbols.api.disconnectingMessagingChannel,
                                                 (channel ? (channel.name ? channel.name : channel) : [NSNull null]),
-                                                (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]),
+                                                (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]),
                                                 [self humanReadableStateFrom:self.state]];
                                     }];
 
@@ -3863,11 +3863,11 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
     
     [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray *{
         
-        return @[PNLoggerSymbols.api.resourceLinkage, [NSString stringWithFormat:@"%p", self.observationCenter],
-                 [NSString stringWithFormat:@"%p", self.reachability],
-                 (self.cryptoHelper ? [NSString stringWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
-                 (self.messagingChannel ? [NSString stringWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
-                 (self.serviceChannel ? [NSString stringWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
+        return @[PNLoggerSymbols.api.resourceLinkage, [[NSString alloc] initWithFormat:@"%p", self.observationCenter],
+                 [[NSString alloc] initWithFormat:@"%p", self.reachability],
+                 (self.cryptoHelper ? [[NSString alloc] initWithFormat:@"%p", self.cryptoHelper] : [NSNull null]),
+                 (self.messagingChannel ? [[NSString alloc] initWithFormat:@"%p", self.messagingChannel] : [NSNull null]),
+                 (self.serviceChannel ? [[NSString alloc] initWithFormat:@"%p", self.serviceChannel] : [NSNull null])];
     }];
 }
 
@@ -4165,7 +4165,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
         [PNLogger logGeneralMessageFrom:self withParametersFromBlock:^NSArray *{
 
             return @[PNLoggerSymbols.api.shouldCommunicationChannelNotifyDelegate, (channel.name ? channel.name : [NSNull null]),
-                    (channel ? [NSString stringWithFormat:@"%p", channel] : [NSNull null]), @(shouldChannelNotifyAboutEvent),
+                    (channel ? [[NSString alloc] initWithFormat:@"%p", channel] : [NSNull null]), @(shouldChannelNotifyAboutEvent),
                     [self humanReadableStateFrom:self.state]];
         }];
     };

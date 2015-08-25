@@ -336,12 +336,12 @@ static NSObject *_synchronizationObject = nil;
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@(%p) %@", NSStringFromClass([self class]), self, self.name];
+    return [[NSString alloc] initWithFormat:@"%@(%p) %@", NSStringFromClass([self class]), self, self.name];
 }
 
 - (NSString *)logDescription {
     
-    return [NSString stringWithFormat:@"<%@>", self.name];
+    return [[NSString alloc] initWithFormat:@"<%@>", self.name];
 }
 
 - (BOOL)isPresenceObserver {

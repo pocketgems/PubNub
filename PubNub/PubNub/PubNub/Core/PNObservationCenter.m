@@ -508,7 +508,7 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
         else {
 
             // Retrieve list of observing requests with specified observer
-            NSString *filterFormat = [NSString stringWithFormat:@"%@ = %%@", PNObservationObserverData.observer];
+            NSString *filterFormat = [[NSString alloc] initWithFormat:@"%@ = %%@", PNObservationObserverData.observer];
             NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:filterFormat, observer];
 
             NSMutableArray *observers = nil;

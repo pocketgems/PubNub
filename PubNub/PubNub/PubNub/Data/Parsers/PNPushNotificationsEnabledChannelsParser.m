@@ -82,7 +82,7 @@
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@ (%p): <channels: %@>",
+    return [[NSString alloc] initWithFormat:@"%@ (%p): <channels: %@>",
                     NSStringFromClass([self class]),
                     self,
                     self.channels];

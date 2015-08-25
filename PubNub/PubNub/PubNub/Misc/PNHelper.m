@@ -85,7 +85,7 @@
 
 + (dispatch_queue_t)serialQueueWithIdentifier:(NSString *)identifier {
 
-    NSString *queueIdentifier = [NSString stringWithFormat:@"com.pubnub.%@.%@", identifier, [PNHelper UUID]];
+    NSString *queueIdentifier = [[NSString alloc] initWithFormat:@"com.pubnub.%@.%@", identifier, [PNHelper UUID]];
     const char *cQueueIdentifier = [queueIdentifier UTF8String];
 
 

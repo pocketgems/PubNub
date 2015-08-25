@@ -107,7 +107,7 @@
     }
 
 
-    return [NSString stringWithFormat:@"%@ (%p): <action: %@>", NSStringFromClass([self class]), self, action];
+    return [[NSString alloc] initWithFormat:@"%@ (%p): <action: %@>", NSStringFromClass([self class]), self, action];
 }
 
 

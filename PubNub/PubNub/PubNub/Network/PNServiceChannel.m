@@ -1404,7 +1404,7 @@
 
             state = @"disabling";
         }
-        errorMessage = [NSString stringWithFormat:@"Push notification '%@' failed by timeout", state];
+        errorMessage = [[NSString alloc] initWithFormat:@"Push notification '%@' failed by timeout", state];
 
         if ([targetState isEqualToString:PNPushNotificationsState.enable]) {
 

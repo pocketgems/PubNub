@@ -134,12 +134,12 @@ struct PNPushNotificationsStateStruct PNPushNotificationsState = {
 
 - (NSString *)resourcePath {
 
-    return [NSString stringWithFormat:@"/v1/push/sub-key/%@/devices/%@?%@=%@&callback=%@_%@&uuid=%@%@&pnsdk=%@",
+    return [[NSString alloc] initWithFormat:@"/v1/push/sub-key/%@/devices/%@?%@=%@&callback=%@_%@&uuid=%@%@&pnsdk=%@",
                                       [self.subscriptionKey pn_percentEscapedString],
                                       self.pushToken, self.targetState, [[self.channels valueForKey:@"escapedName"] componentsJoinedByString:@","],
                                       [self callbackMethodName], self.shortIdentifier,
                                       [self.clientIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                                      ([self authorizationField] ? [NSString stringWithFormat:@"&%@", [self authorizationField]] : @""),
+                                      ([self authorizationField] ? [[NSString alloc] initWithFormat:@"&%@", [self authorizationField]] : @""),
                                       [self clientInformationField]];
 }
 
@@ -151,7 +151,7 @@ struct PNPushNotificationsStateStruct PNPushNotificationsState = {
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
+    return [[NSString alloc] initWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
 }
 
 #pragma mark -

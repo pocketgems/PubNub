@@ -111,14 +111,14 @@ NSString * const kPNAnonymousParticipantIdentifier = @"unknown";
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"%@", self.participantsMap];
+    return [[NSString alloc] initWithFormat:@"%@", self.participantsMap];
 }
 
 - (NSString *)logDescription {
     
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
-    return [NSString stringWithFormat:@"<%@>", 
+    return [[NSString alloc] initWithFormat:@"<%@>", 
             (self.participantsMap ? [self.participantsMap performSelector:@selector(logDescription)] : [NSNull null])];
     #pragma clang diagnostic pop
 }

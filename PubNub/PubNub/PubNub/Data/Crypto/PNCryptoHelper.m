@@ -188,7 +188,7 @@ typedef enum _PNCryptorType {
     // error message
     if (initStatus != kCCSuccess && cryptorInitError == nil) {
 
-        NSString *errorMessage = [NSString stringWithFormat:@"%@ initalization error",
+        NSString *errorMessage = [[NSString alloc] initWithFormat:@"%@ initalization error",
                                                             isEncryptorCreated ? @"Decryptor" : @"Encryptor"];
         cryptorInitError = [PNError errorWithMessage:errorMessage code:[self errorCodeFromStatus:initStatus]];
     }
@@ -453,7 +453,7 @@ typedef enum _PNCryptorType {
                 }
                 else {
 
-                    processedString = [NSString stringWithUTF8String:[processedData bytes]];
+                    processedString = [[NSString alloc] initWithUTF8String:[processedData bytes]];
                 }
             }
         }

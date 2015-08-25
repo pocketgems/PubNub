@@ -970,7 +970,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                 if ([self isLoggerEnabled] && [self isDebuggerAttached]) {
                     
                     // Composing initial entry prefix
-                    message = [NSString stringWithFormat:@"%@ (%p) %@%@", NSStringFromClass([sender class]), sender,
+                    message = [[NSString alloc] initWithFormat:@"%@ (%p) %@%@", NSStringFromClass([sender class]), sender,
                                (symbolPrefix ? symbolPrefix : @""), [[self sharedInstance] logEntryMessageForSymbol:symbolCode]];
                     message = [NSString pn_stringWithFormat:message argumentsArray:parameters];
                 }
@@ -983,7 +983,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                     [parametersForLog addObject:symbolCode];
                     
                     // Storing sender address
-                    [parametersForLog addObject:[NSString stringWithFormat:@"%p", sender]];
+                    [parametersForLog addObject:[[NSString alloc] initWithFormat:@"%p", sender]];
                     
                     // Transform parameters using description suitable for log
                     [parameters enumerateObjectsUsingBlock:^(id parameter, NSUInteger idx, BOOL *stop) {
@@ -1097,8 +1097,8 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wundeclared-selector"
         NSString *entryTimeToken = [[NSDate date] performSelector:@selector(logDescription)];
-        NSString *baseFileName = [NSString stringWithFormat:@"%@response-%@",
-                                  (!isExpectedResponse ? [NSString stringWithFormat:@"unexpected-"] : @""),
+        NSString *baseFileName = [[NSString alloc] initWithFormat:@"%@response-%@",
+                                  (!isExpectedResponse ? [[NSString alloc] initWithFormat:@"unexpected-"] : @""),
                                   entryTimeToken];
         NSString *packetName = [baseFileName stringByAppendingPathExtension:@"dmp"];
         NSString *packetDetailsName = [baseFileName stringByAppendingString:@"-details.dmp"];
@@ -1434,12 +1434,12 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
         
         if ([baseGroupName rangeOfString:@"CONNECTION"].location != NSNotFound) {
             
-            prefix = [NSString stringWithFormat:@"[%@::%%@%@", baseGroupName,
-                      (subGroupName ? [NSString stringWithFormat:@"::%@] ", subGroupName] : @"] ")];
+            prefix = [[NSString alloc] initWithFormat:@"[%@::%%@%@", baseGroupName,
+                      (subGroupName ? [[NSString alloc] initWithFormat:@"::%@] ", subGroupName] : @"] ")];
         }
         else if ([baseGroupName rangeOfString:@"CHANNEL"].location != NSNotFound) {
             
-            prefix = [NSString stringWithFormat:@"[%@::%%@] ", baseGroupName];
+            prefix = [[NSString alloc] initWithFormat:@"[%@::%%@] ", baseGroupName];
         }
     }
     
@@ -1467,7 +1467,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
             
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Wundeclared-selector"
-            [self.consoleDump appendData:[[NSString stringWithFormat:@";ls;%@;sp;%@;le;\n", [[NSDate date] performSelector:@selector(logDescription)], output]
+            [self.consoleDump appendData:[[[NSString alloc] initWithFormat:@";ls;%@;sp;%@;le;\n", [[NSDate date] performSelector:@selector(logDescription)], output]
                                           dataUsingEncoding:NSUTF8StringEncoding]];
             #pragma clang diagnostic pop
         }
@@ -1533,7 +1533,7 @@ typedef NS_OPTIONS(NSUInteger, PNLoggerConfiguration) {
                         NSString *rotateLogName = nil;
                         NSString *documentsFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
                         do {
-                            rotateLogName = [documentsFolder stringByAppendingPathComponent:[NSString stringWithFormat:kPNLoggerOldDumpFileFormat, rotateLogNumber++]];
+                            rotateLogName = [documentsFolder stringByAppendingPathComponent:[[NSString alloc] initWithFormat:kPNLoggerOldDumpFileFormat, rotateLogNumber++]];
                         } while ([fileManager fileExistsAtPath:rotateLogName]);
 
                         NSError *fileCopyError;

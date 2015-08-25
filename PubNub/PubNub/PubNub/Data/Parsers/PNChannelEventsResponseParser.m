@@ -225,7 +225,7 @@ static NSUInteger const kPNResponseTimeTokenElementIndexForEvent = 1;
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@ (%p) <time token: %@, events: %@>", NSStringFromClass([self class]), self,
+    return [[NSString alloc] initWithFormat:@"%@ (%p) <time token: %@, events: %@>", NSStringFromClass([self class]), self,
                                       self.events.timeToken, self.events.events];
 }
 

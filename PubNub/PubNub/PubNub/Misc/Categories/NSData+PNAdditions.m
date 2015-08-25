@@ -341,7 +341,7 @@ static unsigned char decodeCharTable[256] =
 
 - (NSString *)logDescription {
     
-    return [NSString stringWithFormat:@"<%@>", [self pn_HEXPushToken]];
+    return [[NSString alloc] initWithFormat:@"<%@>", [self pn_HEXPushToken]];
 }
 
 #pragma mark -

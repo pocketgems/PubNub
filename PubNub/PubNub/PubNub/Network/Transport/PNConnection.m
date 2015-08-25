@@ -500,7 +500,7 @@ static NSUInteger const kPNMaximumConnectionRetryCount = 3;
         [PNLogger logConnectionInfoMessageFrom:self withParametersFromBlock:^NSArray *{
             
             return @[PNLoggerSymbols.connection.resourceLinkage, (self.name ? self.name : self),
-                     (self.deserializer ? [NSString stringWithFormat:@"%p", self.deserializer] : [NSNull null])];
+                     (self.deserializer ? [[NSString alloc] initWithFormat:@"%p", self.deserializer] : [NSNull null])];
         }];
 
         // Set initial connection state
@@ -4019,7 +4019,7 @@ void connectionContextInformationReleaseCallBack( void *info ) {
             #else
 
             NSDictionary *systemProxySettings = (__bridge NSDictionary *)CFNetworkCopySystemProxySettings();
-            systemProxySettings = [(NSArray *)CFBridgingRelease(CFNetworkCopyProxiesForURL((__bridge CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", self.configuration.origin]],
+            systemProxySettings = [(NSArray *)CFBridgingRelease(CFNetworkCopyProxiesForURL((__bridge CFURLRef)[NSURL URLWithString:[[NSString alloc] initWithFormat:@"https://%@", self.configuration.origin]],
                                                                                            (__bridge CFDictionaryRef)systemProxySettings)) firstObject];
 
             if (!systemProxySettings[(__bridge NSString *)kCFStreamPropertySOCKSProxyHost] &&

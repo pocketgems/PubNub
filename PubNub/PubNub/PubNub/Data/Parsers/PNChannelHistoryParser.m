@@ -123,7 +123,7 @@
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@ (%p) <channel: %@, from: %@, to: %@, messages: %@>",
+    return [[NSString alloc] initWithFormat:@"%@ (%p) <channel: %@, from: %@, to: %@, messages: %@>",
                                       NSStringFromClass([self class]), self,
                                       self.history.channel,
                                       self.history.startDate,

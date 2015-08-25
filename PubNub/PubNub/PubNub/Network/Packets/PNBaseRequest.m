@@ -174,7 +174,7 @@
     NSString *authorizationKey = self.authorizationKey;
     if ([authorizationKey length] > 0) {
 
-		authorizationKey = [NSString stringWithFormat:@"auth=%@", [authorizationKey pn_percentEscapedString]];
+		authorizationKey = [[NSString alloc] initWithFormat:@"auth=%@", [authorizationKey pn_percentEscapedString]];
     }
     else {
 
@@ -191,7 +191,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        clientInformation = [NSString stringWithFormat:@"PubNub-%@%%2F%@", kPNClientName, kPNLibraryVersion];
+        clientInformation = [[NSString alloc] initWithFormat:@"PubNub-%@%%2F%@", kPNClientName, kPNLibraryVersion];
     });
     
     
@@ -200,7 +200,7 @@
 
 - (NSString *)requestPath {
     
-    return [NSString stringWithFormat:@"http://%@%@", self.origin, [self resourcePath]];
+    return [[NSString alloc] initWithFormat:@"http://%@%@", self.origin, [self resourcePath]];
 }
 
 - (PNRequestHTTPMethod)HTTPMethod {
@@ -266,7 +266,7 @@
 
 - (NSString *)logDescription {
     
-    return [NSString stringWithFormat:@"<%@|%@|%@>", ([self HTTPMethod] == PNRequestPOSTMethod ? @"POST" :@"GET"),
+    return [[NSString alloc] initWithFormat:@"<%@|%@|%@>", ([self HTTPMethod] == PNRequestPOSTMethod ? @"POST" :@"GET"),
             [self debugResourcePath], @([self shouldCompressPOSTBody])];
 }
 

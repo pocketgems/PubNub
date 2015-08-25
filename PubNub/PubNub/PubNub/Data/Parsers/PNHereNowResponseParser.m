@@ -196,7 +196,7 @@
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@ (%p): <presence information: %@>", NSStringFromClass([self class]), self,
+    return [[NSString alloc] initWithFormat:@"%@ (%p): <presence information: %@>", NSStringFromClass([self class]), self,
             self.hereNow];
 }
 

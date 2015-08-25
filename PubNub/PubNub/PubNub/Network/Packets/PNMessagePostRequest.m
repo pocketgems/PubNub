@@ -160,7 +160,7 @@
     }
     
     [resourcePath appendFormat:@"?uuid=%@%@&pnsdk=%@", [self.clientIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                               ([self authorizationField] ? [NSString stringWithFormat:@"&%@", [self authorizationField]] : @""),
+                               ([self authorizationField] ? [[NSString alloc] initWithFormat:@"&%@", [self authorizationField]] : @""),
                                [self clientInformationField]];
     
     if (!self.message.shouldStoreInHistory) {
@@ -189,11 +189,11 @@
     NSString *secretKey = self.secretKey;
     if ([secretKey length] > 0) {
 
-        NSString *signedRequestPath = [NSString stringWithFormat:@"%@/%@/%@/%@/%@%@", self.publishKey, self.subscriptionKey,
+        NSString *signedRequestPath = [[NSString alloc] initWithFormat:@"%@/%@/%@/%@/%@%@", self.publishKey, self.subscriptionKey,
                                        secretKey, [self.message.channel escapedName], self.message.message,
-                        ([self authorizationField] ? [NSString stringWithFormat:@"?%@", [self authorizationField]] : @""),
-                        ([self authorizationField] ? [NSString stringWithFormat:@"&pnsdk=%@", [self clientInformationField]] :
-                                                     [NSString stringWithFormat:@"?pnsdk=%@", [self clientInformationField]])];
+                        ([self authorizationField] ? [[NSString alloc] initWithFormat:@"?%@", [self authorizationField]] : @""),
+                        ([self authorizationField] ? [[NSString alloc] initWithFormat:@"&pnsdk=%@", [self clientInformationField]] :
+                                                     [[NSString alloc] initWithFormat:@"?pnsdk=%@", [self clientInformationField]])];
         
         signature = [PNEncryptionHelper HMACSHA256FromString:signedRequestPath withKey:secretKey];
     }
@@ -204,7 +204,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
+    return [[NSString alloc] initWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
 }
 
 #pragma mark -

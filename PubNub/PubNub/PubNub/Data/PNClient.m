@@ -109,7 +109,7 @@
 
 - (NSString *)description {
 
-    return [NSString stringWithFormat:@"%@(%p) %@ on \"%@\" channel (from group: %@)\n%@",
+    return [[NSString alloc] initWithFormat:@"%@(%p) %@ on \"%@\" channel (from group: %@)\n%@",
             NSStringFromClass([self class]), self,  self.identifier,
             ([self.channels count] ? [[self.channels valueForKey:@"name"] componentsJoinedByString:@","] : self.channel.name),
             (self.group.name ? self.group.name : [NSNull null]), self.clientData];
@@ -121,7 +121,7 @@
     
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wundeclared-selector"
-    return [NSString stringWithFormat:@"<%@|%@|%@|%@>", (self.identifier ? self.identifier : [NSNull null]),
+    return [[NSString alloc] initWithFormat:@"<%@|%@|%@|%@>", (self.identifier ? self.identifier : [NSNull null]),
             (clientLocation ? [clientLocation performSelector:@selector(logDescription)] : [NSNull null]),
             (self.group.name ? self.group.name : [NSNull null]),
             (self.clientData ? [self.clientData performSelector:@selector(logDescription)] : [NSNull null])];

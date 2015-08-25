@@ -278,7 +278,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
         if ([[processedData objectForKey:PNServiceResponseServiceDataKeys.warningState] boolValue]) {
 
             [PNLogger logGeneralMessageFrom:self message:^NSString *{
-                return [NSString stringWithFormat:@"\n\n==================== PubNub PAM ====================\n%@\n====================================================\n\n",
+                return [[NSString alloc] initWithFormat:@"\n\n==================== PubNub PAM ====================\n%@\n====================================================\n\n",
                         self.message];
             }];
             [processedData removeObjectForKey:PNServiceResponseServiceDataKeys.warningState];
@@ -377,7 +377,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"\nHTTP STATUS CODE: %ld\nSTATUS MESSAGE: %@\nIS ERROR RESPONSE? %@"
+    return [[NSString alloc] initWithFormat:@"\nHTTP STATUS CODE: %ld\nSTATUS MESSAGE: %@\nIS ERROR RESPONSE? %@"
                                        "\nCONNECTION WILL BE CLOSE? %@\nRESPONSE SIZE: %ld\nRESPONSE CONTENT SIZE: %ld"
                                        "\nIS JSONP: %@\nCALLBACK METHOD: %@\nSERVICE NAME: %@\nREQUEST IDENTIFIER: %@"
                                        "\nRESPONSE: %@\nADDITIONAL DATA: %@\n",
@@ -397,7 +397,7 @@ struct PNServiceResponseCallbacksStruct PNServiceResponseCallbacks = {
         response = (response ? response : @"");
     }
     
-    return [NSString stringWithFormat:@"<%ld|%@|%@|%@|%ld|%ld|%@|%@|%@|%@>", (long)self.statusCode, (self.message ? self.message : [NSNull null]),
+    return [[NSString alloc] initWithFormat:@"<%ld|%@|%@|%@|%ld|%ld|%@|%@|%@|%@>", (long)self.statusCode, (self.message ? self.message : [NSNull null]),
             @(self.isErrorResponse), @(self.isLastResponseOnConnection), (unsigned long)[self.content length],
             (unsigned long)self.size, (self.callbackMethod ? self.callbackMethod : [NSNull null]),
             (self.serviceName ? self.serviceName : [NSNull null]), (self.requestIdentifier ? self.requestIdentifier : [NSNull null]),

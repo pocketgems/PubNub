@@ -257,12 +257,12 @@
     NSString *heartbeatValue = @"";
     if (self.presenceHeartbeatTimeout > 0.0f) {
         
-        heartbeatValue = [NSString stringWithFormat:@"&heartbeat=%d", (int)self.presenceHeartbeatTimeout];
+        heartbeatValue = [[NSString alloc] initWithFormat:@"&heartbeat=%d", (int)self.presenceHeartbeatTimeout];
     }
     NSString *state = @"";
     if (self.state) {
         
-        state = [NSString stringWithFormat:@"&state=%@",
+        state = [[NSString alloc] initWithFormat:@"&state=%@",
                                            [[PNJSONSerialization stringFromJSONObject:self.state] pn_percentEscapedString]];
     }
     
@@ -283,12 +283,12 @@
         }
     }
     
-    return [NSString stringWithFormat:@"/subscribe/%@/%@/%@_%@/%@?uuid=%@%@%@%@%@&pnsdk=%@",
+    return [[NSString alloc] initWithFormat:@"/subscribe/%@/%@/%@_%@/%@?uuid=%@%@%@%@%@&pnsdk=%@",
             [self.subscriptionKey pn_percentEscapedString], (channelsListParameter ? channelsListParameter : @","),
             [self callbackMethodName], self.shortIdentifier, self.updateTimeToken,
             [self.clientIdentifier stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], heartbeatValue,
-            state, (groupsListParameter ? [NSString stringWithFormat:@"&channel-group=%@", groupsListParameter] : @""),
-            ([self authorizationField] ? [NSString stringWithFormat:@"&%@", [self authorizationField]] : @""),
+            state, (groupsListParameter ? [[NSString alloc] initWithFormat:@"&channel-group=%@", groupsListParameter] : @""),
+            ([self authorizationField] ? [[NSString alloc] initWithFormat:@"&%@", [self authorizationField]] : @""),
             [self clientInformationField]];
 }
 
@@ -300,7 +300,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
+    return [[NSString alloc] initWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
 }
 
 #pragma mark -

@@ -142,9 +142,9 @@
     [parameters appendFormat:@"&include_token=%@", self.shouldIncludeTimeToken?@"true":@"false"];
 
 
-    return [NSString stringWithFormat:@"/v2/history/sub-key/%@/channel/%@%@%@&pnsdk=%@",
+    return [[NSString alloc] initWithFormat:@"/v2/history/sub-key/%@/channel/%@%@%@&pnsdk=%@",
                     [self.subscriptionKey pn_percentEscapedString], [self.channel escapedName],
-                    parameters, ([self authorizationField]?[NSString stringWithFormat:@"&%@", [self authorizationField]]:@""),
+                    parameters, ([self authorizationField]?[[NSString alloc] initWithFormat:@"&%@", [self authorizationField]]:@""),
                     [self clientInformationField]];
 }
 
@@ -156,7 +156,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
+    return [[NSString alloc] initWithFormat:@"<%@|%@>", NSStringFromClass([self class]), [self debugResourcePath]];
 }
 
 #pragma mark -

@@ -131,7 +131,7 @@
 
 - (NSArray *)accessRightsForClientsOn:(id<PNChannelProtocol>)object {
     
-    NSString *keyPortion = [NSString stringWithFormat:@"%@.", object.name];
+    NSString *keyPortion = [[NSString alloc] initWithFormat:@"%@.", object.name];
     NSSet *userInformationKeys = [self.clientsAccessRightsInformation keysOfEntriesPassingTest:^BOOL(id key, id obj, BOOL *stop) {
         
         return [key rangeOfString:keyPortion].location != NSNotFound;
@@ -158,7 +158,7 @@
 - (PNAccessRightsInformation *)accessRightsInformationClientAuthorizationKey:(NSString *)clientAuthorizationKey
                                                                    onChannel:(PNChannel *)channel {
 
-    NSString *userInformationStoreKey = [NSString stringWithFormat:@"%@.%@", channel.name, clientAuthorizationKey];
+    NSString *userInformationStoreKey = [[NSString alloc] initWithFormat:@"%@.%@", channel.name, clientAuthorizationKey];
     PNAccessRightsInformation *clientInformation = [self.clientsAccessRightsInformation valueForKey:userInformationStoreKey];
 
     // Check whether there is no access rights information for specified client or not.
@@ -192,7 +192,7 @@
 
 - (void)storeClientAccessRightsInformation:(PNAccessRightsInformation *)information forChannel:(PNChannel *)channel {
 
-    NSString *userInformationStoreKey = [NSString stringWithFormat:@"%@.%@", channel.name, information.authorizationKey];
+    NSString *userInformationStoreKey = [[NSString alloc] initWithFormat:@"%@.%@", channel.name, information.authorizationKey];
     [self populateAccessRightsFrom:[self accessRightsInformationFor:channel] to:information];
 
     if (![self.clientsAccessRightsInformation objectForKey:userInformationStoreKey]) {
@@ -270,12 +270,12 @@
 
     if ([self.channelsAccessRightsInformation count]) {
 
-        NSString *oldIndent = [NSString stringWithString:indent];
+        NSString *oldIndent = [[NSString alloc] initWithString:indent];
         [descriptionString appendFormat:@"\n%@Channels:\n", indent];
 
         indent = [indent stringByAppendingString:@"    "];
         [descriptionString appendString:indent];
-        NSString *channelsJoinString = [NSString stringWithFormat:@"\n%@", indent];
+        NSString *channelsJoinString = [[NSString alloc] initWithFormat:@"\n%@", indent];
         [descriptionString appendString:[[self.channelsAccessRightsInformation allValues]
                componentsJoinedByString:channelsJoinString]];
 
@@ -288,7 +288,7 @@
 
         indent = [indent stringByAppendingString:@"    "];
         [descriptionString appendString:indent];
-        NSString *clientsJoinString = [NSString stringWithFormat:@"\n%@", indent];
+        NSString *clientsJoinString = [[NSString alloc] initWithFormat:@"\n%@", indent];
         [descriptionString appendString:[[self.clientsAccessRightsInformation allValues]
                componentsJoinedByString:clientsJoinString]];
     }
