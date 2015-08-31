@@ -408,7 +408,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
 
 - (void)cancelAllLongPollingOperations {
     
-    [self.subscriptionNetwork cancelAllRequestsWithCompletion:nil];
+    [self.subscriptionNetwork cancelAllRequests];
 }
 
 
