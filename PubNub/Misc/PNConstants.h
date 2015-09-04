@@ -20,7 +20,7 @@ static NSString * const kPNLibraryVersion = @"4.0.3";
 static NSString * const kPNBranchName = @"master";
 static NSString * const kPNCommit = @"a9c8c4648958b86cac4b59f7092cc6ed06dd7626";
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
 static NSString * const kPNClientName = @"ObjC-iOS";
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
 static NSString * const kPNClientName = @"ObjC-MacOS";

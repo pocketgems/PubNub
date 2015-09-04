@@ -16,6 +16,9 @@
 #import "PNNetwork.h"
 #import "PNHelpers.h"
 
+#ifdef PGDROID
+#import <UIKit/UIKit.h>
+#endif
 
 #pragma mark Static
 
@@ -208,7 +211,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
         _heartbeatManager = [PNHeartbeat heartbeatForClient:self];
         [self addListener:self];
         [self prepareReachability];
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self selector:@selector(handleContextTransition:)
                                    name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -483,7 +486,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
 
 - (void)handleContextTransition:(NSNotification *)notification {
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub> Did enter background execution context.");
@@ -511,7 +514,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
 
 - (void)dealloc {
     
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification
                                 object:nil];
