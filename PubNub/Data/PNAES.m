@@ -6,6 +6,9 @@
 #import "PNAES.h"
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonHMAC.h>
+#ifdef PGDROID
+//#import <CommonCrypto/CommonCryptoError.h>
+#endif
 #import "PubNub+CorePrivate.h"
 #import <libkern/OSAtomic.h>
 #import "PNErrorCodes.h"
@@ -356,8 +359,12 @@ static const void * kPNAESInitializationVector = "0123456789012345";
             errorCode = kPNAESInsufficientMemoryError;
             break;
         case kCCDecodeError:
+#ifdef PGDROID
+#   warning HC SVNT DRACONES! : CommonCrypto is not fully implemented on PGDroid ...
+#else
         case kCCOverflow:
         case kCCRNGFailure:
+#endif
             
             description = @"Provided data can't be processed (data can be not encryped).";
             errorCode = kPNAESDecryptionError;

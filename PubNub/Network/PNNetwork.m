@@ -18,6 +18,9 @@
 #import "PNConstants.h"
 #import "PNHelpers.h"
 
+#ifdef PGDROID
+    #import <UIKit/UIKit.h>
+#endif
 
 #pragma mark CocoaLumberjack logging support
 
@@ -849,7 +852,7 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 - (NSDictionary *)defaultHeaders {
     
     NSString *device = @"iPhone";
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     device = [[UIDevice currentDevice] model];
     NSString *osVersion = [[UIDevice currentDevice] systemVersion];
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
