@@ -347,8 +347,12 @@ NS_ASSUME_NONNULL_END
             errorCode = kPNAESInsufficientMemoryError;
             break;
         case kCCDecodeError:
+#ifdef PGDROID
+#   warning HC SVNT DRACONES! : CommonCrypto is not fully implemented on PGDroid ...
+#else
         case kCCOverflow:
         case kCCRNGFailure:
+#endif
             
             description = @"Provided data can't be processed (data can be not encryped).";
             errorCode = kPNAESDecryptionError;

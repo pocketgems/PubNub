@@ -30,6 +30,9 @@
 #import "PNNetwork.h"
 #import "PNHelpers.h"
 
+#ifdef PGDROID
+#import <UIKit/UIKit.h>
+#endif
 
 #pragma mark Static
 
@@ -242,7 +245,7 @@ NS_ASSUME_NONNULL_END
                                    name:NSExtensionHostWillEnterForegroundNotification object:nil];
         [notificationCenter addObserver:self selector:@selector(handleContextTransition:)
                                    name:NSExtensionHostDidEnterBackgroundNotification object:nil];
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self selector:@selector(handleContextTransition:)
                                    name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -513,7 +516,7 @@ NS_ASSUME_NONNULL_END
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub> Will enter foreground execution context.");
     }
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     if ([notification.name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub> Did enter background execution context.");
@@ -545,7 +548,7 @@ NS_ASSUME_NONNULL_END
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self name:NSExtensionHostDidEnterBackgroundNotification object:nil];
     [notificationCenter removeObserver:self name:NSExtensionHostWillEnterForegroundNotification object:nil];
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [notificationCenter removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];

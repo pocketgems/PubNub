@@ -22,7 +22,7 @@ static NSString * const kPNCommit = @"91a5176363d10d9e0c121e93aff23dce61a0f8e9";
 
 #if TARGET_OS_WATCH
     static NSString * const kPNClientName = @"ObjC-watchOS";
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     static NSString * const kPNClientName = @"ObjC-iOS";
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     static NSString * const kPNClientName = @"ObjC-MacOS";

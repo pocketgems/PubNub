@@ -4,7 +4,7 @@
  @copyright © 2009-2016 PubNub, Inc.
  */
 #import <Foundation/Foundation.h>
-#if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)) && !TARGET_OS_WATCH
     #import <UIKit/UIKit.h>
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     #import <IOKit/IOKitLib.h>
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_END
 - (nullable NSString *)generateUniqueDeviceIdentifier {
     
     NSString *identifier = nil;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED && !TARGET_OS_WATCH
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)) && !TARGET_OS_WATCH
     identifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     identifier = ([self serialNumber]?: [self macAddress]);

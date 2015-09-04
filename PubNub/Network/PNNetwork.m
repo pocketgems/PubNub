@@ -20,6 +20,9 @@
 #import "PNLogMacro.h"
 #import "PNHelpers.h"
 
+#ifdef PGDROID
+    #import <UIKit/UIKit.h>
+#endif
 
 #pragma mark CocoaLumberjack logging support
 
