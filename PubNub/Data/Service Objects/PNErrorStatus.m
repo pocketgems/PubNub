@@ -23,8 +23,14 @@
 }
 
 - (NSString *)information {
-    
-    return self.serviceData[@"information"];
+
+    if ([self.serviceData isKindOfClass:[NSDictionary class]]) {
+        return self.serviceData[@"information"];
+    } else if ([self.serviceData isKindOfClass:[NSString class]]) {
+        return (NSString *)self.serviceData;
+    } else {
+        return nil;
+    }
 }
 
 - (id)data {
