@@ -23,8 +23,15 @@
 }
 
 - (NSString *)information {
-    
-    return (self.serviceData[@"information"]?: @"No Error Information");
+    if ([self.serviceData isKindOfClass:[NSDictionary class]]) {
+        return self.serviceData[@"information"];
+    } else if ([self.serviceData isKindOfClass:[NSString class]]) {
+        return (NSString *)self.serviceData;
+    } else if (self.serviceData) {
+        return [self.serviceData description];
+    } else {
+        return @"No Error Information";
+    }
 }
 
 - (nullable id)data {
