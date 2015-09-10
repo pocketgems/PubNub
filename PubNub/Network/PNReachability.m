@@ -168,9 +168,13 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNReachabilityLogLevel;
 - (void)startServicePing {
     
     if (!self.pingingRemoteService) {
-        
         self.pingRemoteService = YES;
-        
+        [self performServicePing];
+    }
+}
+
+- (void)performServicePing {
+    if (self.pingingRemoteService) {
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object method.
         // In most cases if referenced object become 'nil' it mean what there is no more need in
@@ -181,6 +185,9 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNReachabilityLogLevel;
         // Try to request 'time' API to ensure what network really available.
         __weak __typeof(self) weakSelf = self;
         [self.client timeWithCompletion:^(PNTimeResult *result, __unused PNErrorStatus *status) {
+            if (!self.pingingRemoteService) {
+                return;
+            }
             
             __strong __typeof(self) strongSelf = weakSelf;
             BOOL successfulPing = (result.data != nil);
@@ -201,9 +208,7 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNReachabilityLogLevel;
                 NSTimeInterval delay = ((strongSelf.reachable && !successfulPing) ? 1.f : 10.0f);
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
                                dispatch_get_main_queue(), ^{
-                                   
-                                   strongSelf.pingRemoteService = NO;
-                                   [strongSelf startServicePing];
+                                   [strongSelf performServicePing];
                                });
             }
             strongSelf.reachable = successfulPing;

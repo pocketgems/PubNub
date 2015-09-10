@@ -566,7 +566,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
                                       currentState == PNConnectedSubscriberState);
             category = ((targetState == PNDisconnectedSubscriberState) ? PNDisconnectedCategory :
                         PNUnexpectedDisconnectCategory);
-            self.mayRequireSubscriptionRestore = shouldHandleTransition;
+            self.mayRequireSubscriptionRestore = YES;
         }
         // Check whether transit to 'access denied' state.
         else if (targetState == PNAccessRightsErrorSubscriberState) {
