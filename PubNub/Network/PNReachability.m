@@ -164,11 +164,26 @@ NS_ASSUME_NONNULL_END
 - (void)startServicePing {
     
     if (!self.pingingRemoteService) {
-        
         self.pingRemoteService = YES;
+        [self performServicePing];
+    }
+}
+
+- (void)performServicePing {
+    if (self.pingingRemoteService) {
+        // Silence static analyzer warnings.
+        // Code is aware about this case and at the end will simply call on 'nil' object method.
+        // In most cases if referenced object become 'nil' it mean what there is no more need in
+        // it and probably whole client instance has been deallocated.
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+        #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
         // Try to request 'time' API to ensure what network really available.
         __weak __typeof(self) weakSelf = self;
         [self.client timeWithCompletion:^(PNTimeResult *result, __unused PNErrorStatus *status) {
+            if (!self.pingingRemoteService) {
+                return;
+            }
             
             [weakSelf handleServicePingResult:result];
         }];
@@ -200,10 +215,8 @@ NS_ASSUME_NONNULL_END
         NSTimeInterval delay = ((self.reachable && !successfulPing) ? 1.f : 10.0f);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{
-
-           self.pingRemoteService = NO;
-           [self startServicePing];
-       });
+                           [self performServicePing];
+                       });
     }
     self.reachable = successfulPing;
 }
