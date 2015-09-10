@@ -295,7 +295,6 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
     
     // Check whether previous client state reported unexpected disconnection from remote data
     // objects live feed or not.
-    PNStatusCategory previousState = self.recentClientStatus;
     PNStatusCategory currentState = recentClientStatus;
     
     // In case if client disconnected only from one of it's channels it should keep 'connected'
@@ -310,25 +309,23 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
     // Check whether client reported unexpected disconnection.
     if (currentState == PNUnexpectedDisconnectCategory) {
         
-        // Check whether client unexpectedly disconnected while tried to subscribe or not.
-        if (previousState != PNDisconnectedCategory) {
-            
-            // Dispatching check block with small delay, which will allow to fire reachability
-            // change event.
-            __weak __typeof(self) weakSelf = self;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
-                           dispatch_get_main_queue(), ^{
-                               
-                // Silence static analyzer warnings.
-                // Code is aware about this case and at the end will simply call on 'nil' object
-                // method. In most cases if referenced object become 'nil' it mean what there is no
-                // more need in it and probably whole client instance has been deallocated.
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wreceiver-is-weak"
-                [weakSelf.reachability startServicePing];
-                #pragma clang diagnostic pop
-            });
-        }
+        // Dispatching check block with small delay, which will allow to fire reachability
+        // change event.
+        __weak __typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+                           
+            // Silence static analyzer warnings.
+            // Code is aware about this case and at the end will simply call on 'nil' object
+            // method. In most cases if referenced object become 'nil' it mean what there is no
+            // more need in it and probably whole client instance has been deallocated.
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+            [weakSelf.reachability startServicePing];
+            #pragma clang diagnostic pop
+        });
+    } else {
+        [self.reachability stopServicePing];
     }
 }
 
@@ -350,7 +347,6 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Wreceiver-is-weak"
             #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
-            [weakSelf.reachability stopServicePing];
             [weakSelf.subscriberManager restoreSubscriptionCycleIfRequiredWithCompletion:nil];
             #pragma clang diagnostic pop
         }
@@ -476,7 +472,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
 - (void)client:(PubNub *)__unused client didReceiveStatus:(PNSubscribeStatus *)status {
     
     if (status.category == PNConnectedCategory || status.category == PNDisconnectedCategory ||
-        status.category == PNUnexpectedDisconnectCategory) {
+        status.category == PNUnexpectedDisconnectCategory || status.category == PNReconnectedCategory) {
         
         self.recentClientStatus = status.category;
     }
