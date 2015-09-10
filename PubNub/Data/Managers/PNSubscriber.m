@@ -669,7 +669,7 @@ NS_ASSUME_NONNULL_END
                                        targetState == currentState));
             category = ((targetState == PNDisconnectedSubscriberState) ? PNDisconnectedCategory :
                         PNUnexpectedDisconnectCategory);
-            self.mayRequireSubscriptionRestore = shouldHandleTransition;
+            self.mayRequireSubscriptionRestore = YES;
         }
         // Check whether transit to 'access denied' state.
         else if (targetState == PNAccessRightsErrorSubscriberState) {
