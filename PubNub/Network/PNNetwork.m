@@ -882,7 +882,8 @@ NS_ASSUME_NONNULL_END
         if (errorData) {
             
             errorDetails = [NSJSONSerialization JSONObjectWithData:errorData
-                                                           options:(NSJSONReadingOptions)0 error:NULL];
+                                                           options:NSJSONReadingMutableContainers
+                                                             error:NULL];
         }
         [self parseData:errorDetails withParser:[PNErrorParser class]
              completion:^(NSDictionary *parsedData, __unused BOOL parseError) {

@@ -300,7 +300,7 @@
         NSError *deSerializationError;
         NSData *errorData = error.userInfo[kPNNetworkErrorResponseDataKey];
         errorDetails = [NSJSONSerialization JSONObjectWithData:errorData
-                                                       options:(NSJSONReadingOptions)0
+                                                       options:NSJSONReadingMutableContainers
                                                          error:&deSerializationError];
         
         // Check whether JSON de-serialization failed and try to pull regular string from response.
