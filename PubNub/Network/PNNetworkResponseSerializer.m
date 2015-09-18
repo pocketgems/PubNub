@@ -86,7 +86,7 @@ NSString * const kPNNetworkErrorResponseDataKey = @"PNNetworkErrorResponseDataKe
                 
                 NSError *JSONSerializationError = nil;
                 serializedResponse = [NSJSONSerialization JSONObjectWithData:data
-                                                                     options:(NSJSONReadingOptions)0
+                                                                     options:NSJSONReadingMutableContainers
                                                                        error:&JSONSerializationError];
             }
         }

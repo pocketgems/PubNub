@@ -59,7 +59,7 @@
 
             NSData *JSONData = [object dataUsingEncoding:NSUTF8StringEncoding];
             JSONObject = [NSJSONSerialization JSONObjectWithData:JSONData
-                                                         options:NSJSONReadingAllowFragments
+                                                         options:NSJSONReadingAllowFragments|NSJSONReadingMutableContainers
                                                            error:&parsingError];
         }
 
