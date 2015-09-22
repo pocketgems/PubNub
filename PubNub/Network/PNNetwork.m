@@ -830,7 +830,9 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
     configuration.HTTPShouldUsePipelining = !self.forLongPollRequests;
     configuration.HTTPAdditionalHeaders = _additionalHeaders;
     configuration.timeoutIntervalForRequest = timeout;
-    configuration.HTTPMaximumConnectionsPerHost = maximumConnections;
+    if (!self.forLongPollRequests) {
+        configuration.HTTPMaximumConnectionsPerHost = maximumConnections;
+    }
     
     return configuration;
 }
