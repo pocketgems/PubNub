@@ -18,6 +18,9 @@
  */
 @interface PNNetwork : NSObject
 
+// hack for debug only ATM
+@property (nonatomic, readonly) NSURLSession *session;
+@property (nonatomic, readonly) NSOperationQueue *delegateQueue;
 
 ///------------------------------------------------
 /// @name Initialization and Configuration

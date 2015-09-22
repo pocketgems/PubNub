@@ -5,7 +5,7 @@
 #pragma mark Class forward
 
 @class PNConfiguration;
-
+@class PNNetwork;
 
 /**
  @brief      PubNub client core class which is responsible for communication with \b PubNub 
@@ -19,6 +19,9 @@
  */
 @interface PubNub : NSObject
 
+// hack for debug only ATM
+@property (nonatomic, readonly, strong) PNNetwork *subscriptionNetwork;
+@property (nonatomic, readonly, strong) PNNetwork *serviceNetwork;
 
 ///------------------------------------------------
 /// @name Information
