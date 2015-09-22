@@ -791,7 +791,9 @@ NS_ASSUME_NONNULL_END
     configuration = [NSURLSessionConfiguration pn_ephemeralSessionConfigurationWithIdentifier:self.identifier];
     configuration.HTTPShouldUsePipelining = !self.forLongPollRequests;
     configuration.timeoutIntervalForRequest = timeout;
-    configuration.HTTPMaximumConnectionsPerHost = maximumConnections;
+    if (!self.forLongPollRequests) {
+        configuration.HTTPMaximumConnectionsPerHost = maximumConnections;
+    }
     
     return configuration;
 }
