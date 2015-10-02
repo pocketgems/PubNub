@@ -360,7 +360,7 @@ void pn_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
     
     _subscriptionNetwork = [PNNetwork networkForClient:self
                                         requestTimeout:_configuration.subscribeMaximumIdleTime
-                                    maximumConnections:1 longPoll:YES];
+                                    maximumConnections:2 longPoll:YES];
     _serviceNetwork = [PNNetwork networkForClient:self
                                    requestTimeout:_configuration.nonSubscribeRequestTimeout
                                maximumConnections:3 longPoll:NO];
