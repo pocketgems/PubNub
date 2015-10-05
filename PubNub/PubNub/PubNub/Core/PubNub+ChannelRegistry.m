@@ -1300,16 +1300,15 @@ withCompletionHandlingBlock:(PNClientChannelsRemovalFromGroupHandlingBlock)handl
         }];
 
         // Check whether delegate us able to handle channels list change error or not
-        if ([self.clientDelegate respondsToSelector:selector]) {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            dispatch_async(dispatch_get_main_queue(), ^{
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self.clientDelegate respondsToSelector:selector]) {
                 [self.clientDelegate performSelector:selector withObject:self withObject:error];
-            });
+            }
+        });
 #pragma clang diagnostic pop
-        }
 
         [self sendNotification:notification withObject:error andCallbackToken:callbackToken];
     }                           shouldStartNext:YES burstExecutionLockingOperation:NO];
