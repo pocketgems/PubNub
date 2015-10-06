@@ -1564,13 +1564,21 @@ static struct PNObservationObserverDataStruct PNObservationObserverData = {
                 id block = [observerData valueForKey:PNObservationObserverData.observerCallbackBlock];
                 if (block) {
 
+                    // Sometimes change isn't a PNChannelGroupChange, which causes a crash. This is a fix
+                    PNChannelGroupChange *changeToSend;
+                    if ([change isKindOfClass:[PNChannelGroupChange class]]) {
+                        changeToSend = change;
+                    } else {
+                        changeToSend = nil;
+                    }
+
                     if (addingChannels) {
 
-                        ((PNClientChannelsAdditionToGroupHandlingBlock) block)(change.group, change.channels, error);
+                        ((PNClientChannelsAdditionToGroupHandlingBlock) block)(changeToSend.group, changeToSend.channels, error);
                     }
                     else {
 
-                        ((PNClientChannelsRemovalFromGroupHandlingBlock) block)(change.group, change.channels, error);
+                        ((PNClientChannelsRemovalFromGroupHandlingBlock) block)(changeToSend.group, changeToSend.channels, error);
                     }
                 }
             }];
