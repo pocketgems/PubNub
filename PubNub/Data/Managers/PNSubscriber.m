@@ -859,6 +859,8 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     if (!status.isError && status.category != PNCancelledCategory) {
         
         [self handleSuccessSubscriptionStatus:status];
+    } else if (status.isError && status.category == PNTimeoutCategory) {
+        [self handleSuccessSubscriptionStatus:status];
     }
     else {
         
