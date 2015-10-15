@@ -827,6 +827,7 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
     // Prepare base configuration with predefined timeout values and maximum connections
     // to same host (basically how many requests can be handled at once).
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.URLCache = nil;
     configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configuration.HTTPShouldUsePipelining = !self.forLongPollRequests;
     configuration.HTTPAdditionalHeaders = _additionalHeaders;
