@@ -794,6 +794,7 @@ NS_ASSUME_NONNULL_END
     // Prepare base configuration with predefined timeout values and maximum connections
     // to same host (basically how many requests can be handled at once).
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.URLCache = nil;
     configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     configuration.URLCache = nil;
     configuration.HTTPShouldUsePipelining = !self.forLongPollRequests;
