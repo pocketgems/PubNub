@@ -576,6 +576,7 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
     
     __block NSURLSessionDataTask *task = nil;
     __weak __typeof(self) weakSelf = self;
+    NSURL *requestURL = request.URL;
     NSURLSessionDataTaskCompletion handler = ^(NSData *data, NSURLResponse *response, NSError *error) {
         
         // Silence static analyzer warnings.
@@ -584,18 +585,18 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
         // it and probably whole client instance has been deallocated.
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wreceiver-is-weak"
-        DDLogRequest([[weakSelf class] ddLogLevel], @"Completion handler for %@", request.URL);
+        DDLogRequest([[weakSelf class] ddLogLevel], @"Completion handler for %@", requestURL);
 
         [weakSelf handleData:data loadedWithTask:task error:(error?: task.error)
                 usingSuccess:success failure:failure];
         #pragma clang diagnostic pop
     };
-    DDLogRequest([[self class] ddLogLevel], @"Trying lock in dataTaskWithRequest: %@", request.URL);
+    DDLogRequest([[self class] ddLogLevel], @"Trying lock in dataTaskWithRequest: %@", requestURL);
     OSSpinLockLock(&_lock);
-    DDLogRequest([[self class] ddLogLevel], @"Locked in dataTaskWithRequest: %@", request.URL);
+    DDLogRequest([[self class] ddLogLevel], @"Locked in dataTaskWithRequest: %@", requestURL);
     task = [self.session dataTaskWithRequest:request completionHandler:[handler copy]];
     OSSpinLockUnlock(&_lock);
-    DDLogRequest([[self class] ddLogLevel], @"Unlocked in dataTaskWithRequest: %@", request.URL);
+    DDLogRequest([[self class] ddLogLevel], @"Unlocked in dataTaskWithRequest: %@", requestURL);
     
     return task;
 }
