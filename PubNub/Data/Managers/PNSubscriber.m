@@ -1063,6 +1063,8 @@ NS_ASSUME_NONNULL_END
     if (!status.isError && status.category != PNCancelledCategory) {
         
         [self handleSuccessSubscriptionStatus:status];
+    } else if (status.isError && status.category == PNTimeoutCategory) {
+        [self handleSuccessSubscriptionStatus:status];
     }
     else { [self handleFailedSubscriptionStatus:status]; }
 }
