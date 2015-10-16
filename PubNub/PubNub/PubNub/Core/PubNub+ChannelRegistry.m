@@ -1303,9 +1303,10 @@ withCompletionHandlingBlock:(PNClientChannelsRemovalFromGroupHandlingBlock)handl
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        __weak PubNub *weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ([self.clientDelegate respondsToSelector:selector]) {
-                [self.clientDelegate performSelector:selector withObject:self withObject:error];
+            if ([weakSelf.clientDelegate respondsToSelector:selector]) {
+                [weakSelf.clientDelegate performSelector:selector withObject:weakSelf withObject:error];
             }
         });
 #pragma clang diagnostic pop
