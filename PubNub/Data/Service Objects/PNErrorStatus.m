@@ -29,7 +29,7 @@
     } else if ([self.serviceData isKindOfClass:[NSString class]]) {
         return (NSString *)self.serviceData;
     } else {
-        return nil;
+        return [self.serviceData description];
     }
 }
 
