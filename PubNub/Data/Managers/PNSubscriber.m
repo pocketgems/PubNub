@@ -722,11 +722,12 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 
     __weak __typeof(self) weakSelf = self;
     dispatch_sync(self.resourceAccessQueue, ^{
-        DDLogAPICall([[weakSelf class] ddLogLevel], @"Checking if should and able to restore subscription cycle with block: %@", block);
-        shouldRestore = (weakSelf.currentState == PNDisconnectedUnexpectedlySubscriberState &&
-                         weakSelf.mayRequireSubscriptionRestore);
-        ableToRestore = ([weakSelf.channelsSet count] || [weakSelf.channelGroupsSet count] ||
-                         [weakSelf.presenceChannelsSet count]);
+        __strong __typeof(self) self = weakSelf;
+        DDLogAPICall([[self class] ddLogLevel], @"Checking if should and able to restore subscription cycle with block: %@", block);
+        shouldRestore = (self.currentState == PNDisconnectedUnexpectedlySubscriberState &&
+                         self.mayRequireSubscriptionRestore);
+        ableToRestore = ([self.channelsSet count] || [self.channelGroupsSet count] ||
+                         [self.presenceChannelsSet count]);
     });
     if (shouldRestore && ableToRestore) {
         DDLogAPICall([[self class] ddLogLevel], @"Restoring subscription cycle with block: %@", block);
