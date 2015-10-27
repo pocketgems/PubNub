@@ -887,8 +887,9 @@ NS_ASSUME_NONNULL_END
     
     __block BOOL shouldRestore;
     __block BOOL ableToRestore;
+    __weak __typeof(self) weakSelf = self;
     pn_safe_property_read(self.resourceAccessQueue, ^{
-        
+        __strong __typeof(self) self = weakSelf;
         shouldRestore = (self.currentState == PNDisconnectedUnexpectedlySubscriberState &&
                          self.mayRequireSubscriptionRestore);
         ableToRestore = ([self.channelsSet count] || [self.channelGroupsSet count] ||
