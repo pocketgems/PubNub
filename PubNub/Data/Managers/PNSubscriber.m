@@ -719,7 +719,10 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     __block BOOL shouldRestore;
     __block BOOL ableToRestore;
     DDLogAPICall([[self class] ddLogLevel], @"Called restore subscription cycle with block: %@", block);
+
+    __weak __typeof(self) weakSelf = self;
     dispatch_sync(self.resourceAccessQueue, ^{
+        __strong __typeof(self) self = weakSelf;
         DDLogAPICall([[self class] ddLogLevel], @"Checking if should and able to restore subscription cycle with block: %@", block);
         shouldRestore = (self.currentState == PNDisconnectedUnexpectedlySubscriberState &&
                          self.mayRequireSubscriptionRestore);
