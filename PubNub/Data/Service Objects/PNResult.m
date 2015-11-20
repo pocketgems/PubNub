@@ -67,7 +67,7 @@
             processedData = [dataForUpdate copy];
             _statusCode = (([statusCode integerValue] > 200) ? [statusCode integerValue] : _statusCode);
         }
-        _serviceData = [processedData copy];
+        _serviceData = [PNResult normalizeServiceData:processedData];
     }
     
     return self;
@@ -83,22 +83,35 @@
     result.authKey = self.authKey;
     result.origin = self.origin;
     result.clientRequest = self.clientRequest;
-    result.serviceData = self.serviceData;
-    
+    [result updateData:self.serviceData];
+
     return result;
 }
 
 - (instancetype)copyWithMutatedData:(id)data {
     
     PNResult *result = [self copy];
-    result->_serviceData = [data copy];
-    
+    [result updateData:data];
+
     return result;
+}
+
++ (NSDictionary *)normalizeServiceData:(id)serviceData {
+    if (serviceData && ![serviceData isKindOfClass:[NSDictionary class]]) {
+        id copyableServiceData;
+        if ([serviceData respondsToSelector:@selector(copy)]) {
+            copyableServiceData = serviceData;
+        } else {
+            copyableServiceData = [serviceData description];
+        }
+        return @{@"information": [copyableServiceData copy]};
+    }
+    return [serviceData copy];
 }
 
 - (void)updateData:(id)data {
     
-    _serviceData = [data copy];
+    _serviceData = [PNResult normalizeServiceData:data];
 }
 
 
