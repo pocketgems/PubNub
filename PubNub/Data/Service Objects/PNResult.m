@@ -74,8 +74,20 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
+
+    return [self copyWithServiceData:YES];
+}
+
+- (instancetype)copyWithMutatedData:(id)data {
     
-    PNResult *result = [[[self class] allocWithZone:zone] init];
+    PNResult *result = [self copyWithServiceData:NO];
+    [result updateData:data];
+
+    return result;
+}
+
+- (id)copyWithServiceData:(BOOL)shouldCopyServiceData {
+    PNResult *result = [[[self class] alloc] init];
     result.statusCode = self.statusCode;
     result.operation = self.operation;
     result.TLSEnabled = self.isTLSEnabled;
@@ -83,15 +95,10 @@
     result.authKey = self.authKey;
     result.origin = self.origin;
     result.clientRequest = self.clientRequest;
-    [result updateData:self.serviceData];
 
-    return result;
-}
-
-- (instancetype)copyWithMutatedData:(id)data {
-    
-    PNResult *result = [self copy];
-    [result updateData:data];
+    if (shouldCopyServiceData) {
+        [result updateData:self.serviceData];
+    }
 
     return result;
 }
