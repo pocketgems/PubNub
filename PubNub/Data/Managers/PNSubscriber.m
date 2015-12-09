@@ -1307,6 +1307,7 @@ NS_ASSUME_NONNULL_END
         // it and probably whole client instance has been deallocated.
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+        PNSubscribeStatus *copiedStatus = [status copy];
         [self.client.listenersManager notifyWithBlock:^{
             
             // Iterate through array with notifications and report back using callback blocks to the
@@ -1328,7 +1329,7 @@ NS_ASSUME_NONNULL_END
                     }
                 }
                 
-                id eventResultObject = [status copyWithMutatedData:event];
+                id eventResultObject = [copiedStatus copyWithMutatedData:event];
                 if (isPresenceEvent) {
                     
                     object_setClass(eventResultObject, [PNPresenceEventResult class]);
