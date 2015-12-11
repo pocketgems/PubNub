@@ -74,8 +74,21 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    
     PNResult *result = [[[self class] allocWithZone:zone] init];
+    [self fillCopy:result shouldCopyServiceData:YES];
+    return result;
+}
+
+- (instancetype)copyWithMutatedData:(id)data {
+    
+    PNResult *result = [[[self class] alloc] init];
+    [self fillCopy:result shouldCopyServiceData:NO];
+    [result updateData:data];
+
+    return result;
+}
+
+- (void)fillCopy:(PNResult *)result shouldCopyServiceData:(BOOL)shouldCopyServiceData {
     result.statusCode = self.statusCode;
     result.operation = self.operation;
     result.TLSEnabled = self.isTLSEnabled;
@@ -83,17 +96,10 @@
     result.authKey = self.authKey;
     result.origin = self.origin;
     result.clientRequest = self.clientRequest;
-    [result updateData:self.serviceData];
 
-    return result;
-}
-
-- (instancetype)copyWithMutatedData:(id)data {
-    
-    PNResult *result = [self copy];
-    [result updateData:data];
-
-    return result;
+    if (shouldCopyServiceData) {
+        [result updateData:self.serviceData];
+    }
 }
 
 + (NSDictionary *)normalizeServiceData:(id)serviceData {
