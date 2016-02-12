@@ -55,3 +55,13 @@ Icon?
 ehthumbs.db
 Thumbs.db
 .idea/
+
+# Removed because it has some weird file names that Windows can't handle #
+##########################################################################
+iOS/tests/*
+
+# Android #
+###########
+**/*.approj/configuration.json
+**/*.approj/Headers
+**/*.approj/targets

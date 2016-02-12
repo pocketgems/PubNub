@@ -3,7 +3,7 @@
  @since 4.0
  @copyright © 2009-2015 PubNub, Inc.
  */
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
 #import <UIKit/UIKit.h>
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
 #import <IOKit/IOKitLib.h>
@@ -149,7 +149,7 @@
 #pragma mark - Misc
 
 - (NSString *)uniqueDeviceIdentifier {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED
+#if __IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)
     return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     return ([self serialNumber]?: [self macAddress]);
