@@ -1065,11 +1065,15 @@ NS_ASSUME_NONNULL_END
     [self stopRetryTimer];
     if (!status.isError && status.category != PNCancelledCategory) {
         [self handleSuccessSubscriptionStatus:status];
+#ifdef PGDROID
+        // 2016/02/16 : this PG addition is causing crashes on Android ... Sending an instance of PNErrorStatus to -handleSuccessSubscriptionStatus: is not valid since it references properties specific to PNSubscribeStatus ... unsure why we're not seeing this in crash groups on iOS ...  LONG TERM solution is to probably revert both of the commits around this and roll forward to the latest PubNub and run full QA ;-)
+#else
     } else if (status.isError && status.category == PNTimeoutCategory) {
         // Treat timeouts as successful because there isn't a good way of knowing
         // why we are disconnecting. This was cherry-picked from here:
         // https://github.com/pocketgems/PubNub/commit/05eb350b448e12b746ea94b480abc753da162021
         [self handleSuccessSubscriptionStatus:status];
+#endif
     }
     else { [self handleFailedSubscriptionStatus:status]; }
 }
