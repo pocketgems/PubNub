@@ -859,8 +859,12 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     if (!status.isError && status.category != PNCancelledCategory) {
         
         [self handleSuccessSubscriptionStatus:status];
+#ifdef PGDROID
+        // 2016/02/16 : this PG addition is causing crashes on Android ... Sending an instance of PNErrorStatus to -handleSuccessSubscriptionStatus: is not valid since it references properties specific to PNSubscribeStatus ... unsure why we're not seeing this in crash groups on iOS ...  LONG TERM solution is to probably revert both of the commits around this and roll forward to the latest PubNub and run full QA ;-)
+#else
     } else if (status.isError && status.category == PNTimeoutCategory) {
         [self handleSuccessSubscriptionStatus:status];
+#endif
     }
     else {
         
