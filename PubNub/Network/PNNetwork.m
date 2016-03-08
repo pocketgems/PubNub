@@ -845,8 +845,8 @@ typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *task, NSError *
 
 - (NSURL *)requestBaseURL {
     
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http%@://%@",
-                                 (_configuration.TLSEnabled ? @"s" : @""), _configuration.origin]];
+    return [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http%@://%@:%ld",
+                                 (_configuration.TLSEnabled ? @"s" : @""), _configuration.origin, _configuration.port]];
 }
 
 - (NSDictionary *)defaultHeaders {
