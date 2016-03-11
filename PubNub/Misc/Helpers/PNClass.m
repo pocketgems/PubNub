@@ -65,21 +65,25 @@
 #pragma mark - Misc
 
 + (nullable NSArray<Class> *)classes {
-    
-    NSMutableArray *classesList = [NSMutableArray new];
-    unsigned int visibleClassesCount;
-    Class *classes = objc_copyClassList(&visibleClassesCount);
-    for (unsigned int classIdx = 0; classIdx < visibleClassesCount; classIdx++) {
-        
-        NSString *className = NSStringFromClass(classes[classIdx]);
-        if ([className hasPrefix:@"PN"] || [className isEqualToString:@"PubNub"]) {
-            
-            [classesList addObject:classes[classIdx]];
+    static NSMutableArray *classesList;
+    static dispatch_once_t dispatchToken;
+    dispatch_once(&dispatchToken, ^{
+
+        classesList = [NSMutableArray new];
+        unsigned int visibleClassesCount;
+        Class *classes = objc_copyClassList(&visibleClassesCount);
+        for (unsigned int classIdx = 0; classIdx < visibleClassesCount; classIdx++) {
+
+            if ([NSStringFromClass(classes[classIdx]) hasPrefix:@"PN"] ||
+                [NSStringFromClass(classes[classIdx]) isEqualToString:@"PubNub"]) {
+
+                [classesList addObject:classes[classIdx]];
+            }
         }
-    }
-    free(classes);
-    
-    return (classesList.count ? [classesList copy] : nil);
+        free(classes);
+    });
+
+    return ([classesList count] ? [classesList copy] : nil);
 }
 
 #pragma mark -
