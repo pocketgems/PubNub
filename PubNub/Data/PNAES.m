@@ -6,9 +6,6 @@
 #import "PNAES.h"
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonHMAC.h>
-#ifdef PGDROID
-//#import <CommonCrypto/CommonCryptoError.h>
-#endif
 #import "PubNub+CorePrivate.h"
 #import <libkern/OSAtomic.h>
 #import "PNErrorCodes.h"
