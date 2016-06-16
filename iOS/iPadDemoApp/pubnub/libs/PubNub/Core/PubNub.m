@@ -864,7 +864,7 @@ shouldObserveProcessing:(BOOL)shouldObserveProcessing;
                 ERROR(@"Had 2 errors in a row in pubnub");
             }
         }
-        lastStack = [CrashReporter stackTrace];
+        lastStack = [CrashReporter stackTraceString];
         self.methodCallRescheduleDate = [NSDate new];
         self.asyncLockingOperationInProgress = NO;
 
