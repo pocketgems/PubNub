@@ -117,6 +117,7 @@
         _keepTimeTokenOnListChange = kPNDefaultShouldKeepTimeTokenOnListChange;
         _restoreSubscription = kPNDefaultShouldRestoreSubscription;
         _catchUpOnSubscriptionRestore = kPNDefaultShouldTryCatchUpOnSubscriptionRestore;
+        _port = _TLSEnabled ? 443 : 80;
     }
     
     return self;
@@ -141,6 +142,7 @@
     configuration.keepTimeTokenOnListChange = self.shouldKeepTimeTokenOnListChange;
     configuration.restoreSubscription = self.shouldRestoreSubscription;
     configuration.catchUpOnSubscriptionRestore = self.shouldTryCatchUpOnSubscriptionRestore;
+    configuration.port = self.port;
     
     return configuration;
 }

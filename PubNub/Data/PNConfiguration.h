@@ -189,6 +189,8 @@
  */
 @property (nonatomic, assign, getter = shouldTryCatchUpOnSubscriptionRestore) BOOL catchUpOnSubscriptionRestore;
 
+@property (nonatomic, assign) long port;
+
 /**
  @brief  Construct configuration instance using minimal required data.
  
