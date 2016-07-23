@@ -178,6 +178,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) NSNumber *lastTimeToken;
 
+@property (nonatomic, strong) NSNumber *debugLatestPublishTimeTokenForLatestSubscribe;
+@property (nonatomic, strong) NSNumber *debugLatestPublishTimeToken;
+
 /**
  @brief      Stores reference on \b PubNub server region identifier (which generated \c currentTimeToken value).
  @discussion \b 0 for initial subscription loop and non-zero for long-poll requests.
@@ -1086,6 +1089,9 @@ NS_ASSUME_NONNULL_END
     }
     
     [self handleLiveFeedEvents:status];
+
+    self.debugLatestPublishTimeToken = self.debugLatestPublishTimeTokenForLatestSubscribe;
+
     [self continueSubscriptionCycleIfRequiredWithCompletion:nil];
     
     // Because client received new event from service, it can restart reachability timer with
@@ -1329,7 +1335,33 @@ NS_ASSUME_NONNULL_END
                     [self handleNewPresenceEvent:((PNPresenceEventResult *)eventResultObject)];
                 }
                 else {
-                    
+                    /**
+                     Pocket Gem's assumption of PubNub's behavior.  We assume that their servers
+                     are fast enough to have publish time tokens close to each other.
+                     
+                     We assume that for all the messages in this subscribe, there wouldn't be
+                     any messages with a time token that is more than 1 second older than any messages
+                     in the previous messages received in a previous subscribe request.
+                     
+                     We throw a notification to catch these problems.
+                     */
+                    NSNumber *timeToken = ((PNMessageResult *)eventResultObject).data.timetoken;
+                    long long timeTokenLong = [timeToken longLongValue];
+
+                    long long debugLatestPublishTimeTokenForLatestSubscribe = [self.debugLatestPublishTimeTokenForLatestSubscribe longLongValue];
+                    if (!self.debugLatestPublishTimeTokenForLatestSubscribe || debugLatestPublishTimeTokenForLatestSubscribe < timeTokenLong) {
+                        self.debugLatestPublishTimeTokenForLatestSubscribe = timeToken;
+                    }
+
+                    if (self.debugLatestPublishTimeToken) {
+                        long long debugLatestPublishTimeToken = [self.debugLatestPublishTimeToken longLongValue];
+                        long long diff = (debugLatestPublishTimeToken - timeTokenLong) / (kPNNotificationAssumptionMillis * 10);
+                        if (diff > 1000) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:kPNNotificationBrokenAssumption
+                                                                                object:@(diff)];
+                        }
+                    }
+
                     object_setClass(eventResultObject, [PNMessageResult class]);
                     [self handleNewMessage:(PNMessageResult *)eventResultObject];
                 }
