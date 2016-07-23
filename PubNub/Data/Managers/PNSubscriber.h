@@ -3,6 +3,8 @@
 #import "PNStructures.h"
 
 
+#define kPNNotificationBrokenAssumption @"PubNubBrokenAssumption"
+
 #pragma mark Class forward
 
 @class PubNub;
