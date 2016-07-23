@@ -178,6 +178,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) NSNumber *lastTimeToken;
 
+@property (nonatomic, strong) NSNumber *tempLatestMesssageTimeToken;
+@property (nonatomic, strong) NSNumber *latestMesssageTimeToken;
+
 /**
  @brief      Stores reference on \b PubNub server region identifier (which generated \c currentTimeToken value).
  @discussion \b 0 for initial subscription loop and non-zero for long-poll requests.
@@ -1088,6 +1091,9 @@ NS_ASSUME_NONNULL_END
     }
     
     [self handleLiveFeedEvents:status];
+
+    self.latestMesssageTimeToken = self.tempLatestMesssageTimeToken;
+
     [self continueSubscriptionCycleIfRequiredWithCompletion:nil];
     
     // Because client received new event from service, it can restart reachability timer with
@@ -1334,6 +1340,36 @@ NS_ASSUME_NONNULL_END
                     
                     object_setClass(eventResultObject, [PNMessageResult class]);
                     [self handleNewMessage:(PNMessageResult *)eventResultObject];
+
+                    // assumption of pubnub's behavior
+                    NSNumber *timeToken = ((PNMessageResult *)eventResultObject).data.timetoken;
+                    long long timeTokenLong = [timeToken longLongValue];
+
+                    if ([self->_currentTimeToken longLongValue] < timeTokenLong) {
+                        NSLog(@"UH OH: DIFF %lld", timeTokenLong - [self->_currentTimeToken longLongValue]);
+                    }
+                    if ([self->_lastTimeToken longLongValue] > timeTokenLong) {
+                        NSLog(@"UH OH 2: DIFF %lld", [self->_lastTimeToken longLongValue] - timeTokenLong);
+                        if (([self->_lastTimeToken longLongValue] - timeTokenLong) > 1000000) {
+                            // 100 ms diff
+                            NSLog(@"VERY UH OH");
+                        }
+                    }
+
+                    long long tempLatestMesssageTimeTokenLong = [self.tempLatestMesssageTimeToken longLongValue];
+                    if (!self.tempLatestMesssageTimeToken || tempLatestMesssageTimeTokenLong < timeTokenLong) {
+                        self.tempLatestMesssageTimeToken = timeToken;
+                    }
+                    
+                    long long latestMessageTimeToken = [self.latestMesssageTimeToken longLongValue];
+                    if (self.latestMesssageTimeToken) {
+                        if (latestMessageTimeToken > timeTokenLong) {
+                            NSLog(@"DOUBLE UH OH");
+                        }
+                    }
+
+//                    NSAssert([self->_currentTimeToken longLongValue] > [((PNMessageResult *)eventResultObject).data.timetoken longLongValue],
+//                             @"PN Time Token Assumption");
                 }
             }
         }];
