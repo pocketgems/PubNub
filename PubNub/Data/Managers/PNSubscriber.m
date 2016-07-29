@@ -1345,19 +1345,6 @@ NS_ASSUME_NONNULL_END
                     NSNumber *timeToken = ((PNMessageResult *)eventResultObject).data.timetoken;
                     long long timeTokenLong = [timeToken longLongValue];
 
-                    /*
-                    if ([self->_currentTimeToken longLongValue] < timeTokenLong) {
-                        NSLog(@"UH OH: DIFF %lld", timeTokenLong - [self->_currentTimeToken longLongValue]);
-                    }
-                    if ([self->_lastTimeToken longLongValue] > timeTokenLong) {
-                        NSLog(@"UH OH 2: DIFF %lld", [self->_lastTimeToken longLongValue] - timeTokenLong);
-                        if (([self->_lastTimeToken longLongValue] - timeTokenLong) > 1000000) {
-                            // 100 ms diff
-                            NSLog(@"VERY UH OH");
-                        }
-                    }
-                     */
-
                     long long tempLatestMesssageTimeTokenLong = [self.tempLatestMesssageTimeToken longLongValue];
                     if (!self.tempLatestMesssageTimeToken || tempLatestMesssageTimeTokenLong < timeTokenLong) {
                         self.tempLatestMesssageTimeToken = timeToken;
@@ -1365,18 +1352,15 @@ NS_ASSUME_NONNULL_END
 
                     if (self.latestMesssageTimeToken) {
                         long long latestMessageTimeToken = [self.latestMesssageTimeToken longLongValue];
-                        long long diff = latestMessageTimeToken - timeTokenLong;
+                        long long diff = (latestMessageTimeToken - timeTokenLong) / 10000;
                         if (diff > 0) {
-                            NSLog(@"MSG BEHIND UH OH %lld", latestMessageTimeToken - timeTokenLong);
-                            if (diff > 1000000) {
+                            NSLog(@"MSG BEHIND UH OH %lld", diff);
+                            if (diff > 100) {
                                 NSLog(@"VERY LONG");
                             }
-                            NSAssert(diff < 10000000, @"ASSUMPTION BROKE! 1 SECOND!");
+                            NSAssert(diff < 1000, @"ASSUMPTION BROKE! 1 SECOND!");
                         }
                     }
-
-//                    NSAssert([self->_currentTimeToken longLongValue] > [((PNMessageResult *)eventResultObject).data.timetoken longLongValue],
-//                             @"PN Time Token Assumption");
                 }
             }
         }];
