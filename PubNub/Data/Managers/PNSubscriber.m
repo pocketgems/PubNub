@@ -15,6 +15,10 @@
 #import <objc/runtime.h>
 #import "PNHelpers.h"
 
+#ifdef PGDROID
+#import <UIKit/UIKit.h>
+#endif
+
 
 #pragma mark Static
 
@@ -628,6 +632,10 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
         _presenceChannelsSet = [NSMutableSet new];
         _resourceAccessQueue = dispatch_queue_create("com.pubnub.subscriber",
                                                      DISPATCH_QUEUE_CONCURRENT);
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didEnterBackground)
+                                                     name:UIApplicationDidEnterBackgroundNotification
+                                                   object:nil];
     }
     
     return self;
@@ -900,7 +908,6 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 }
 
 - (void)handleFailedSubscriptionStatus:(PNSubscribeStatus *)status {
-    
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
     // In most cases if referenced object become 'nil' it mean what there is no more need in
@@ -1219,7 +1226,11 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     status.subscribedChannelGroups = [_channelGroupsSet allObjects];
 }
 
-#pragma mark -
+#pragma mark - Internal
+- (void)didEnterBackground {
+    [self.client.heartbeatManager stopHeartbeatIfPossible];
+    [self stopRetryTimer];
+}
 
 
 @end
