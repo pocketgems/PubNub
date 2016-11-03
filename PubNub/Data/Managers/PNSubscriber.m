@@ -1061,10 +1061,14 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Handlers
 
 - (void)handleSubscriptionStatus:(PNSubscribeStatus *)status {
-
+    
     [self stopRetryTimer];
     if (!status.isError && status.category != PNCancelledCategory) {
-        
+        [self handleSuccessSubscriptionStatus:status];
+    } else if (status.isError && status.category == PNTimeoutCategory) {
+        // Treat timeouts as successful because there isn't a good way of knowing
+        // why we are disconnecting. This was cherry-picked from here:
+        // https://github.com/pocketgems/PubNub/commit/05eb350b448e12b746ea94b480abc753da162021
         [self handleSuccessSubscriptionStatus:status];
     }
     else { [self handleFailedSubscriptionStatus:status]; }
