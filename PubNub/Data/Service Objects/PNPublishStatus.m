@@ -10,13 +10,13 @@
 #pragma mark - Information
 
 - (NSNumber *)timetoken {
-    
-    return (self.serviceData[@"timetoken"]?: @0);
+
+return (self.serviceData[@"timetoken"]?: @0);
 }
 
 - (NSString *)information {
-    
-    return (self.serviceData[@"information"]?: @"No Information");
+
+return (self.serviceData[@"information"]?: @"No Information");
 }
 
 #pragma mark -
@@ -33,7 +33,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNPublishData *data;
+@property (nonatomic, strong) PNPublishData *data;
 
 #pragma mark -
 
@@ -49,9 +49,9 @@
 #pragma mark - Information
 
 - (PNPublishData *)data {
-    
-    if (!_data) { _data = [PNPublishData dataWithServiceResponse:self.serviceData]; }
-    return _data;
+
+if (!_data) { _data = [PNPublishData dataWithServiceResponse:self.serviceData]; }
+return _data;
 }
 
 #pragma mark -

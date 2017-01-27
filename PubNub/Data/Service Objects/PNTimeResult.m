@@ -1,8 +1,8 @@
 /**
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 #import "PNTimeResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -16,8 +16,8 @@
 #pragma mark - Information
 
 - (NSNumber *)timetoken {
-    
-    return (self.serviceData[@"timetoken"]?: @0);
+
+return (self.serviceData[@"timetoken"]?: @0);
 }
 
 #pragma mark -
@@ -49,9 +49,9 @@
 #pragma mark - Information
 
 - (PNTimeData *)data {
-    
-    if (!_data) { _data = [PNTimeData dataWithServiceResponse:self.serviceData]; }
-    return _data;
+
+if (!_data) { _data = [PNTimeData dataWithServiceResponse:self.serviceData]; }
+return _data;
 }
 
 #pragma mark -

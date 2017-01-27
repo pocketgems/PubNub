@@ -11,17 +11,17 @@
 @implementation NSDictionary (PNTest)
 
 - (NSString *)jsonDescription {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:nil];
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:nil];
+return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 - (NSString *)testAssertionFormat {
-    NSString *res = [self jsonDescription];
-    
-    res = [res stringByReplacingOccurrencesOfString:@" \"" withString:@" @\""];
-    res = [res stringByReplacingOccurrencesOfString:@" [" withString:@" @["];
-    res = [res stringByReplacingOccurrencesOfString:@" {" withString:@" @{"];
-    return res;
+NSString *res = [self jsonDescription];
+
+res = [res stringByReplacingOccurrencesOfString:@" \"" withString:@" @\""];
+res = [res stringByReplacingOccurrencesOfString:@" [" withString:@" @["];
+res = [res stringByReplacingOccurrencesOfString:@" {" withString:@" @{"];
+return res;
 }
 
 @end

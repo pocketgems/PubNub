@@ -50,7 +50,7 @@
 
 // Fabric
 #ifdef FABRIC_SUPPORT
-    #import "PubNub+FAB.h"
+#import "PubNub+FAB.h"
 #endif
 
 #endif

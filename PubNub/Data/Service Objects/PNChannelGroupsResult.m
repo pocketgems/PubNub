@@ -10,9 +10,9 @@
 
 #pragma mark - Information
 
-- (NSArray<NSString *> *)groups {
-    
-    return (self.serviceData[@"groups"]?: @[]);
+- (NSArray *)groups {
+
+return (self.serviceData[@"groups"]?: @[]);
 }
 
 #pragma mark -
@@ -28,7 +28,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNChannelGroupsData *data;
+@property (nonatomic, strong) PNChannelGroupsData *data;
 
 #pragma mark -
 
@@ -41,12 +41,12 @@
 @implementation PNChannelGroupsResult
 
 
-#pragma mark - Information 
+#pragma mark - Information
 
 - (PNChannelGroupsData *)data {
-    
-    if (!_data) { _data = [PNChannelGroupsData dataWithServiceResponse:self.serviceData]; }
-    return _data;
+
+if (!_data) { _data = [PNChannelGroupsData dataWithServiceResponse:self.serviceData]; }
+return _data;
 }
 
 #pragma mark -

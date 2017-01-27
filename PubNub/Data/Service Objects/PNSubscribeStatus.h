@@ -2,15 +2,15 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
- @brief  Base class which allow to get access to general information about subscribe loop.
- 
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@brief  Base class which allow to get access to general information about subscribe loop.
+
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 @interface PNSubscriberData : PNServiceData
 
 
@@ -19,32 +19,32 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 
 /**
- @brief  Name of regular channel or channel group.
- 
- @since 4.0
- */
-@property (nonatomic, nullable, readonly, strong) NSString *subscribedChannel;
+@brief  Name of regular channel or channel group.
+
+@since 4.0
+*/
+@property (nonatomic, readonly, strong) NSString *subscribedChannel;
 
 /**
- @brief  Name of channel in case if \c -subscribedChannel represent channel group.
- 
- @since 4.0
- */
-@property (nonatomic, nullable, readonly, strong) NSString *actualChannel;
+@brief  Name of channel in case if \c -subscribedChannel represent channel group.
+
+@since 4.0
+*/
+@property (nonatomic, readonly, strong) NSString *actualChannel;
 
 /**
- @brief  Time at which event arrived.
- 
- @since 4.0
- */
+@brief  Time at which event arrived.
+
+@since 4.0
+*/
 @property (nonatomic, readonly, strong) NSNumber *timetoken;
 
 /**
- @brief  Stores reference on metadata information which has been passed along with received event.
- 
- @since 4.3.0
- */
-@property (nonatomic, nullable, readonly, strong) NSDictionary<NSString *, id> *userMetadata;
+@brief  Stores reference on metadata information which has been passed along with received event.
+
+@since 4.3.0
+*/
+@property (nonatomic, readonly, strong) NSDictionary *userMetadata;
 
 #pragma mark -
 
@@ -53,12 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- @brief  Class which is used to provide access to request processing results.
- 
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@brief  Class which is used to provide access to request processing results.
+
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 @interface PNSubscribeStatus : PNErrorStatus
 
 
@@ -67,39 +67,39 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 
 /**
- @brief  Time token which has been used to establish current subscription cycle.
- 
- @since 4.0
- */
+@brief  Time token which has been used to establish current subscription cycle.
+
+@since 4.0
+*/
 @property (nonatomic, readonly, strong) NSNumber *currentTimetoken;
 
 /**
- @brief  Stores reference on previous key which has been used in subscription cycle to receive
-         \c currentTimetoken along with other events.
- 
- @since 4.0
- */
+@brief  Stores reference on previous key which has been used in subscription cycle to receive
+\c currentTimetoken along with other events.
+
+@since 4.0
+*/
 @property (nonatomic, readonly, strong) NSNumber *lastTimeToken;
 
 /**
- @brief  List of channels on which client currently subscribed.
- 
- @since 4.0
- */
-@property (nonatomic, readonly, copy) NSArray<NSString *> *subscribedChannels;
+@brief  List of channels on which client currently subscribed.
+
+@since 4.0
+*/
+@property (nonatomic, readonly, copy) NSArray *subscribedChannels;
 
 /**
- @brief  List of channel group names on which client currently subscribed.
- 
- @since 4.0
- */
-@property (nonatomic, readonly, copy) NSArray<NSString *> *subscribedChannelGroups;
+@brief  List of channel group names on which client currently subscribed.
+
+@since 4.0
+*/
+@property (nonatomic, readonly, copy) NSArray *subscribedChannelGroups;
 
 /**
- @brief  Structured \b PNResult \c data field information.
- 
- @since 4.0
- */
+@brief  Structured \b PNResult \c data field information.
+
+@since 4.0
+*/
 @property (nonatomic, readonly, strong) PNSubscriberData *data;
 
 #pragma mark -
@@ -107,4 +107,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

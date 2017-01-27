@@ -1,8 +1,8 @@
 /**
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 #import "PNChannel.h"
 #import "PNString.h"
 #import "PNArray.h"
@@ -11,10 +11,10 @@
 #pragma mark Static
 
 /**
- @brief  Reference on suffix which is used to mark channel as presence channel.
- 
- @since 4.0
- */
+@brief  Reference on suffix which is used to mark channel as presence channel.
+
+@since 4.0
+*/
 static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
 
 
@@ -25,77 +25,77 @@ static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
 
 #pragma mark - Lists encoding
 
-+ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names {
-    
-    return [self namesForRequest:names defaultString:nil];
++ ( NSString *)namesForRequest:(NSArray *)names {
+
+return [self namesForRequest:names defaultString:nil];
 }
 
-+ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names
-                         defaultString:(nullable NSString *)defaultString {
-    
-    NSString *namesForRequest = defaultString;
-    if (names.count) {
-        
-        NSArray *escapedNames = [PNArray mapObjects:names usingBlock:^NSString *(NSString *object){
-            
-            return [PNString percentEscapedString:object];
-        }];
-        namesForRequest = [escapedNames componentsJoinedByString:@","];
-    }
-    
-    return namesForRequest;
++ ( NSString *)namesForRequest:(NSArray *)names
+defaultString:( NSString *)defaultString {
+
+NSString *namesForRequest = defaultString;
+if (names.count) {
+
+NSArray *escapedNames = [PNArray mapObjects:names usingBlock:^NSString *(NSString *object){
+
+return [PNString percentEscapedString:object];
+}];
+namesForRequest = [escapedNames componentsJoinedByString:@","];
+}
+
+return namesForRequest;
 }
 
 
 #pragma mark - Lists decoding
 
-+ (NSArray<NSString *> *)namesFromRequest:(NSString *)response {
++ (NSArray *)namesFromRequest:(NSString *)response {
 
-    return [response componentsSeparatedByString:@","];
+return [response componentsSeparatedByString:@","];
 }
 
 
 #pragma mark - Subscriber helper
 
 + (BOOL)isPresenceObject:(NSString *)object {
-    
-    return [object hasSuffix:kPubNubPresenceChannelNameSuffix];
+
+return [object hasSuffix:kPubNubPresenceChannelNameSuffix];
 }
 
 + (NSString *)channelForPresence:(NSString *)presenceChannel {
-    
-    return [presenceChannel stringByReplacingOccurrencesOfString:kPubNubPresenceChannelNameSuffix
-                                                      withString:@""];
+
+return [presenceChannel stringByReplacingOccurrencesOfString:kPubNubPresenceChannelNameSuffix
+withString:@""];
 }
 
-+ (NSArray<NSString *> *)presenceChannelsFrom:(NSArray<NSString *> *)names {
-    
-    NSMutableSet *presenceNames = [[NSMutableSet alloc] initWithCapacity:names.count];
-    for (NSString *name in names) {
-        
-        NSString *targetName = name;
-        if (![name hasSuffix:kPubNubPresenceChannelNameSuffix]) {
-            
-            targetName = [name stringByAppendingString:kPubNubPresenceChannelNameSuffix];
-        }
-        [presenceNames addObject:targetName];
-    }
-    
-    return [presenceNames.allObjects copy];
++ (NSArray *)presenceChannelsFrom:(NSArray *)names {
+
+NSMutableSet *presenceNames = [[NSMutableSet alloc] initWithCapacity:names.count];
+for (NSString *name in names) {
+
+NSString *targetName = name;
+if (![name hasSuffix:kPubNubPresenceChannelNameSuffix]) {
+
+targetName = [name stringByAppendingString:kPubNubPresenceChannelNameSuffix];
+}
+[presenceNames addObject:targetName];
 }
 
-+ (NSArray<NSString *> *)objectsWithOutPresenceFrom:(NSArray<NSString *> *)names {
-    
-    NSMutableSet *filteredNames = [[NSMutableSet alloc] initWithCapacity:names.count];
-    for (NSString *name in names) {
-        
-        if (![name hasSuffix:kPubNubPresenceChannelNameSuffix]) {
-            
-            [filteredNames addObject:name];
-        }
-    }
-    
-    return [filteredNames.allObjects copy];
+return [presenceNames.allObjects copy];
+}
+
++ (NSArray *)objectsWithOutPresenceFrom:(NSArray *)names {
+
+NSMutableSet *filteredNames = [[NSMutableSet alloc] initWithCapacity:names.count];
+for (NSString *name in names) {
+
+if (![name hasSuffix:kPubNubPresenceChannelNameSuffix]) {
+
+[filteredNames addObject:name];
+}
+}
+
+return [filteredNames.allObjects copy];
 }
 
 #pragma mark -

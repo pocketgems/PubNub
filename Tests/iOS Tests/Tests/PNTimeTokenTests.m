@@ -17,22 +17,22 @@
 @implementation PNTimeTokenTests
 
 - (BOOL)isRecording{
-    return NO;
+return NO;
 }
 
 - (void)testTimeToken {
-    XCTestExpectation *timeTokenExpectation = [self expectationWithDescription:@"timeToken"];
-    [self.client timeWithCompletion:^(PNTimeResult *result, PNErrorStatus *status) {
-        XCTAssertNil(status.errorData.information);
-        XCTAssertNotNil(result);
-        XCTAssertEqual(result.operation, PNTimeOperation);
-        XCTAssertEqual(result.statusCode, 200);
-        XCTAssertEqualObjects(result.data.timetoken, @14583231369024013);
-        [timeTokenExpectation fulfill];
-    }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
-        XCTAssertNil(error);
-    }];
+XCTestExpectation *timeTokenExpectation = [self expectationWithDescription:@"timeToken"];
+[self.client timeWithCompletion:^(PNTimeResult *result, PNErrorStatus *status) {
+XCTAssertNil(status.errorData.information);
+XCTAssertNotNil(result);
+XCTAssertEqual(result.operation, PNTimeOperation);
+XCTAssertEqual(result.statusCode, 200);
+XCTAssertEqualObjects(result.data.timetoken, @14583231369024013);
+[timeTokenExpectation fulfill];
+}];
+[self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+XCTAssertNil(error);
+}];
 }
 
 @end

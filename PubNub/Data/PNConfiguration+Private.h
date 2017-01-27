@@ -1,12 +1,12 @@
 /**
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 #import "PNConfiguration.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark Private interface declaration
 
@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Configuration
 
 /**
- @brief Stores reference on unique device identifier based on bundle identifier used by software vendor.
+@brief Stores reference on unique device identifier based on bundle identifier used by software vendor.
 
- @since 4.0
- */
+@since 4.0
+*/
 @property (nonatomic, readonly, copy) NSString *deviceID;
 
 #pragma mark -
@@ -27,4 +27,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

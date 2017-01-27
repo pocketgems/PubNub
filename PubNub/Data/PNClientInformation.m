@@ -1,8 +1,8 @@
 /**
- @author Sergey Mamontov
- @since 4.0.5
- @copyright © 2009-2016 PubNub, Inc.
- */
+@author Sergey Mamontov
+@since 4.0.5
+@copyright © 2009-2016 PubNub, Inc.
+*/
 #import "PNClientInformation.h"
 #import "PNConstants.h"
 
@@ -15,13 +15,13 @@
 #pragma mark - Information
 
 - (NSString *)version {
-    
-    return kPNLibraryVersion;
+
+return kPNLibraryVersion;
 }
 
 - (NSString *)commit {
-    
-    return kPNCommit;
+
+return kPNCommit;
 }
 
 #pragma mark -

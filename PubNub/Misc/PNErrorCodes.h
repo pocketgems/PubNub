@@ -1,10 +1,10 @@
 /**
- @brief Reference header for list of error domains and error codes constants.
+@brief Reference header for list of error domains and error codes constants.
 
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 #import <Foundation/Foundation.h>
 
 
@@ -27,10 +27,10 @@ static NSString * const kPNAPIErrorDomain = @"PNAPIErrorDomain";
 static NSInteger const kPNUnknownErrorCode = -1;
 
 /**
- @brief Incomplete or unacceptable set of parameters.
+@brief Incomplete or unacceptable set of parameters.
 
- @since 4.0
- */
+@since 4.0
+*/
 static NSInteger const kPNAPIUnacceptableParameters = 100;
 
 ///------------------------------------------------

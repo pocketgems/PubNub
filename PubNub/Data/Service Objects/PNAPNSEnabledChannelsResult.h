@@ -2,15 +2,15 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
- @brief  Class which allow to get access to APNS enabled channels processed result.
- 
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@brief  Class which allow to get access to APNS enabled channels processed result.
+
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 @interface PNAPNSEnabledChannelsData : PNServiceData
 
 
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 
 /**
- @brief  Channels with active push notifications.
- 
- @since 4.0
- */
-@property (nonatomic, readonly, strong) NSArray<NSString *> *channels;
+@brief  Channels with active push notifications.
+
+@since 4.0
+*/
+@property (nonatomic, readonly, strong) NSArray *channels;
 
 #pragma mark -
 
@@ -32,12 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- @brief  Class which is used to provide access to request processing results.
- 
- @author Sergey Mamontov
- @since 4.0
- @copyright © 2009-2016 PubNub, Inc.
- */
+@brief  Class which is used to provide access to request processing results.
+
+@author Sergey Mamontov
+@since 4.0
+@copyright © 2009-2016 PubNub, Inc.
+*/
 @interface PNAPNSEnabledChannelsResult : PNResult
 
 
@@ -46,10 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 ///------------------------------------------------
 
 /**
- @brief  Stores reference on APNS enabled channels audit request processing information.
- 
- @since 4.0
- */
+@brief  Stores reference on APNS enabled channels audit request processing information.
+
+@since 4.0
+*/
 @property (nonatomic, readonly, strong) PNAPNSEnabledChannelsData *data;
 
 #pragma mark -
@@ -57,4 +57,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
