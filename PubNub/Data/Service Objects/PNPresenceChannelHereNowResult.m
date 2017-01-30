@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNPresenceChannelHereNowResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -15,14 +15,14 @@
 
 #pragma mark - Information
 
-- ( id)uuids {
-
-return self.serviceData[@"uuids"];
+- (nullable id)uuids {
+    
+    return self.serviceData[@"uuids"];
 }
 
 - (NSNumber *)occupancy {
-
-return (self.serviceData[@"occupancy"]?: @0);
+    
+    return (self.serviceData[@"occupancy"]?: @0);
 }
 
 #pragma mark -
@@ -38,7 +38,7 @@ return (self.serviceData[@"occupancy"]?: @0);
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNPresenceChannelHereNowData *data;
+@property (nonatomic, nonnull, strong) PNPresenceChannelHereNowData *data;
 
 #pragma mark -
 
@@ -54,9 +54,9 @@ return (self.serviceData[@"occupancy"]?: @0);
 #pragma mark - Information
 
 - (PNPresenceChannelHereNowData *)data {
-
-if (!_data) { _data = [PNPresenceChannelHereNowData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNPresenceChannelHereNowData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

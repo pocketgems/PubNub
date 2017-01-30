@@ -11,11 +11,11 @@
 @implementation PNDeviceIndependentMatcher
 
 - (NSDictionary *)requestComparisonOptions {
-NSMutableDictionary *superComparisonOptions = [super requestComparisonOptions].mutableCopy;
-superComparisonOptions[kBKRIgnoreQueryItemNamesOptionsKey] = @[
-@"pnsdk"
-];
-return superComparisonOptions.copy;
+    NSMutableDictionary *superComparisonOptions = [super requestComparisonOptions].mutableCopy;
+    superComparisonOptions[kBKRIgnoreQueryItemNamesOptionsKey] = @[
+                                                         @"pnsdk"
+                                                         ];
+    return superComparisonOptions.copy;
 }
 
 @end

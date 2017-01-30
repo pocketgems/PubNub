@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNChannelClientStateResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -15,9 +15,9 @@
 
 #pragma mark - Information
 
-- (NSDictionary *)state {
-
-return (self.serviceData[@"state"]?: @{});
+- (NSDictionary<NSString *, id> *)state {
+    
+    return (self.serviceData[@"state"]?: @{});
 }
 
 #pragma mark -
@@ -33,7 +33,7 @@ return (self.serviceData[@"state"]?: @{});
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNChannelClientStateData *data;
+@property (nonatomic, nonnull, strong) PNChannelClientStateData *data;
 
 #pragma mark -
 
@@ -49,9 +49,9 @@ return (self.serviceData[@"state"]?: @{});
 #pragma mark - Information
 
 - (PNChannelClientStateData *)data {
-
-if (!_data) { _data = [PNChannelClientStateData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNChannelClientStateData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

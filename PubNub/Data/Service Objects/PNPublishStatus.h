@@ -2,16 +2,16 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
-@brief  Class which is used to provide access to additional data available to describe publish
-status.
-
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @brief  Class which is used to provide access to additional data available to describe publish 
+         status.
+ 
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 @interface PNPublishData : PNServiceData
 
 
@@ -20,17 +20,17 @@ status.
 ///------------------------------------------------
 
 /**
-@brief  Service-provided time stamp at which message has been pushed to remote data object live feed.
-
-@since 4.0
-*/
+ @brief  Service-provided time stamp at which message has been pushed to remote data object live feed.
+ 
+ @since 4.0
+ */
 @property (nonatomic, readonly, strong) NSNumber *timetoken;
 
 /**
-@brief  Service-provide information about service response message.
-
-@since 4.0
-*/
+ @brief  Service-provide information about service response message.
+ 
+ @since 4.0
+ */
 @property (nonatomic, readonly, strong) NSString *information;
 
 #pragma mark -
@@ -40,12 +40,12 @@ status.
 
 
 /**
-@brief  Class which is used to provide information about request processing.
-
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @brief  Class which is used to provide information about request processing.
+ 
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 @interface PNPublishStatus : PNAcknowledgmentStatus
 
 
@@ -54,10 +54,10 @@ status.
 ///------------------------------------------------
 
 /**
-@brief  Stores reference on publish request processing status information.
-
-@since 4.0
-*/
+ @brief  Stores reference on publish request processing status information.
+ 
+ @since 4.0
+ */
 @property (nonatomic, readonly, strong) PNPublishData *data;
 
 #pragma mark -
@@ -65,3 +65,4 @@ status.
 
 @end
 
+NS_ASSUME_NONNULL_END

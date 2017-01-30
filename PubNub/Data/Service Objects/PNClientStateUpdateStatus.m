@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNClientStateUpdateStatus.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -26,7 +26,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNClientStateUpdateData *data;
+@property (nonatomic, nonnull, strong) PNClientStateUpdateData *data;
 
 #pragma mark -
 
@@ -42,9 +42,9 @@
 #pragma mark - Information
 
 - (PNClientStateUpdateData *)data {
-
-if (!_data) { _data = [PNClientStateUpdateData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNClientStateUpdateData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNAPNSEnabledChannelsResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -14,9 +14,9 @@
 
 #pragma mark - Information
 
-- (NSArray *)channels {
-
-return (self.serviceData[@"channels"]?: @[]);
+- (NSArray<NSString *> *)channels {
+    
+    return (self.serviceData[@"channels"]?: @[]);
 }
 
 #pragma mark -
@@ -32,7 +32,7 @@ return (self.serviceData[@"channels"]?: @[]);
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNAPNSEnabledChannelsData *data;
+@property (nonatomic, nonnull, strong) PNAPNSEnabledChannelsData *data;
 
 #pragma mark -
 
@@ -48,12 +48,12 @@ return (self.serviceData[@"channels"]?: @[]);
 #pragma mark - Information
 
 - (PNAPNSEnabledChannelsData *)data {
-
-if (!_data) { _data = [PNAPNSEnabledChannelsData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNAPNSEnabledChannelsData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
-#pragma mark -
+#pragma mark - 
 
 
 @end

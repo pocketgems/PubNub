@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNPresenceGlobalHereNowResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -15,19 +15,19 @@
 
 #pragma mark - Information
 
-- (NSDictionary *)channels {
-
-return (self.serviceData[@"channels"]?: @{});
+- (NSDictionary<NSString *, NSDictionary *> *)channels {
+    
+    return (self.serviceData[@"channels"]?: @{});
 }
 
 - (NSNumber *)totalChannels {
-
-return (self.serviceData[@"totalChannels"]?: @0);
+    
+    return (self.serviceData[@"totalChannels"]?: @0);
 }
 
 - (NSNumber *)totalOccupancy {
-
-return (self.serviceData[@"totalOccupancy"]?: @0);
+    
+    return (self.serviceData[@"totalOccupancy"]?: @0);
 }
 
 #pragma mark -
@@ -43,7 +43,7 @@ return (self.serviceData[@"totalOccupancy"]?: @0);
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNPresenceGlobalHereNowData *data;
+@property (nonatomic, nonnull, strong) PNPresenceGlobalHereNowData *data;
 
 #pragma mark -
 
@@ -59,9 +59,9 @@ return (self.serviceData[@"totalOccupancy"]?: @0);
 #pragma mark - Information
 
 - (PNPresenceGlobalHereNowData *)data {
-
-if (!_data) { _data = [PNPresenceGlobalHereNowData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNPresenceGlobalHereNowData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

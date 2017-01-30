@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNPresenceWhereNowResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -15,9 +15,9 @@
 
 #pragma mark - Information
 
-- (NSArray *)channels {
-
-return (self.serviceData[@"channels"]?: @[]);
+- (NSArray<NSString *> *)channels {
+    
+    return (self.serviceData[@"channels"]?: @[]);
 }
 
 #pragma mark -
@@ -33,7 +33,7 @@ return (self.serviceData[@"channels"]?: @[]);
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNPresenceWhereNowData *data;
+@property (nonatomic, nonnull, strong) PNPresenceWhereNowData *data;
 
 #pragma mark -
 
@@ -49,9 +49,9 @@ return (self.serviceData[@"channels"]?: @[]);
 #pragma mark - Information
 
 - (PNPresenceWhereNowData *)data {
-
-if (!_data) { _data = [PNPresenceWhereNowData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNPresenceWhereNowData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

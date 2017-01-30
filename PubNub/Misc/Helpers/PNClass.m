@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNClass.h"
 #import <objc/runtime.h>
 
@@ -15,13 +15,13 @@
 #pragma mark - Misc
 
 /**
-@brief  Registered classes.
-
-@return List of PubNub SDK classes which has been loaded to the memory.
-
-@since 4.0
-*/
-+ (NSArray *)classes;
+ @brief  Registered classes.
+ 
+ @return List of PubNub SDK classes which has been loaded to the memory.
+ 
+ @since 4.0
+ */
++ (NSArray<Class> *)classes;
 
 #pragma mark -
 
@@ -36,54 +36,54 @@
 
 #pragma mark - Class filtering
 
-+ ( NSArray *)classesConformingToProtocol:(Protocol *)protocol {
-
-NSMutableArray *classesList = [NSMutableArray new];
-for (Class class in [self classes]) {
-
-if (class_conformsToProtocol(class, protocol)) { [classesList addObject:class]; }
++ (nullable NSArray<Class> *)classesConformingToProtocol:(Protocol *)protocol {
+    
+    NSMutableArray *classesList = [NSMutableArray new];
+    for (Class class in [self classes]) {
+        
+        if (class_conformsToProtocol(class, protocol)) { [classesList addObject:class]; }
+    }
+    
+    return (classesList.count ? [classesList copy] : nil);
 }
 
-return (classesList.count ? [classesList copy] : nil);
-}
-
-+ ( NSArray *)classesRespondingToSelector:(SEL)selector {
-
-NSMutableArray *classesList = [NSMutableArray new];
-for (Class class in [self classes]) {
-
-if (class_getClassMethod(class, selector) || class_getInstanceMethod(class, selector)) {
-
-[classesList addObject:class];
-}
-}
-
-return (classesList.count ? [classesList copy] : nil);
++ (nullable NSArray<Class> *)classesRespondingToSelector:(SEL)selector {
+    
+    NSMutableArray *classesList = [NSMutableArray new];
+    for (Class class in [self classes]) {
+        
+        if (class_getClassMethod(class, selector) || class_getInstanceMethod(class, selector)) {
+            
+            [classesList addObject:class];
+        }
+    }
+    
+    return (classesList.count ? [classesList copy] : nil);
 }
 
 
 #pragma mark - Misc
 
-+ ( NSArray *)classes {
-static NSMutableArray *classesList;
-static dispatch_once_t dispatchToken;
-dispatch_once(&dispatchToken, ^{
++ (nullable NSArray<Class> *)classes {
+    static NSMutableArray *classesList;
+    static dispatch_once_t dispatchToken;
+    dispatch_once(&dispatchToken, ^{
 
-classesList = [NSMutableArray new];
-unsigned int visibleClassesCount;
-Class *classes = objc_copyClassList(&visibleClassesCount);
-for (unsigned int classIdx = 0; classIdx < visibleClassesCount; classIdx++) {
+        classesList = [NSMutableArray new];
+        unsigned int visibleClassesCount;
+        Class *classes = objc_copyClassList(&visibleClassesCount);
+        for (unsigned int classIdx = 0; classIdx < visibleClassesCount; classIdx++) {
 
-if ([NSStringFromClass(classes[classIdx]) hasPrefix:@"PN"] ||
-[NSStringFromClass(classes[classIdx]) isEqualToString:@"PubNub"]) {
+            if ([NSStringFromClass(classes[classIdx]) hasPrefix:@"PN"] ||
+                [NSStringFromClass(classes[classIdx]) isEqualToString:@"PubNub"]) {
 
-[classesList addObject:classes[classIdx]];
-}
-}
-free(classes);
-});
+                [classesList addObject:classes[classIdx]];
+            }
+        }
+        free(classes);
+    });
 
-return ([classesList count] ? [classesList copy] : nil);
+    return ([classesList count] ? [classesList copy] : nil);
 }
 
 #pragma mark -

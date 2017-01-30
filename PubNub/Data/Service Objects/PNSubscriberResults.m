@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNSubscriberResults.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -16,23 +16,23 @@
 #pragma mark - Infogmration
 
 - (NSNumber *)timetoken {
-
-return self.serviceData[@"timetoken"];
+    
+    return self.serviceData[@"timetoken"];
 }
 
-- ( NSString *)uuid {
-
-return self.serviceData[@"uuid"];
+- (nullable NSString *)uuid {
+    
+    return self.serviceData[@"uuid"];
 }
 
 - (NSNumber *)occupancy {
-
-return self.serviceData[@"occupancy"];
+    
+    return self.serviceData[@"occupancy"];
 }
 
-- ( NSDictionary *)state {
-
-return self.serviceData[@"state"];
+- (nullable NSDictionary<NSString *, id> *)state {
+    
+    return self.serviceData[@"state"];
 }
 
 #pragma mark -
@@ -49,13 +49,13 @@ return self.serviceData[@"state"];
 #pragma mark - Information
 
 - (NSString *)presenceEvent {
-
-return self.serviceData[@"presenceEvent"];
+    
+    return self.serviceData[@"presenceEvent"];
 }
 
 - (PNPresenceDetailsData *)presence {
-
-return [PNPresenceDetailsData dataWithServiceResponse:self.serviceData[@"presence"]];
+    
+    return [PNPresenceDetailsData dataWithServiceResponse:self.serviceData[@"presence"]];
 }
 
 #pragma mark -
@@ -71,9 +71,9 @@ return [PNPresenceDetailsData dataWithServiceResponse:self.serviceData[@"presenc
 
 #pragma mark - Information
 
-- ( id)message {
-
-return self.serviceData[@"message"];
+- (nullable id)message {
+    
+    return self.serviceData[@"message"];
 }
 
 #pragma mark -
@@ -105,9 +105,9 @@ return self.serviceData[@"message"];
 #pragma mark - Information
 
 - (PNMessageData *)data {
-
-if (!_data) { _data = [PNMessageData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNMessageData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -
@@ -139,9 +139,9 @@ return _data;
 #pragma mark - Information
 
 - (PNPresenceEventData *)data {
-
-if (!_data) { _data = [PNPresenceEventData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNPresenceEventData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

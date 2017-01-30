@@ -1,8 +1,8 @@
 /**
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 #import "PNHistoryResult.h"
 #import "PNServiceData+Private.h"
 #import "PNResult+Private.h"
@@ -16,18 +16,18 @@
 #pragma mark - Information
 
 - (NSArray *)messages {
-
-return (self.serviceData[@"messages"]?: @[]);
+    
+    return (self.serviceData[@"messages"]?: @[]);
 }
 
 - (NSNumber *)start {
-
-return (self.serviceData[@"start"]?: @0);
+    
+    return (self.serviceData[@"start"]?: @0);
 }
 
 - (NSNumber *)end {
-
-return (self.serviceData[@"end"]?: @0);
+    
+    return (self.serviceData[@"end"]?: @0);
 }
 
 #pragma mark -
@@ -43,7 +43,7 @@ return (self.serviceData[@"end"]?: @0);
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNHistoryData *data;
+@property (nonatomic, nonnull, strong) PNHistoryData *data;
 
 #pragma mark -
 
@@ -59,9 +59,9 @@ return (self.serviceData[@"end"]?: @0);
 #pragma mark - Information
 
 - (PNHistoryData *)data {
-
-if (!_data) { _data = [PNHistoryData dataWithServiceResponse:self.serviceData]; }
-return _data;
+    
+    if (!_data) { _data = [PNHistoryData dataWithServiceResponse:self.serviceData]; }
+    return _data;
 }
 
 #pragma mark -

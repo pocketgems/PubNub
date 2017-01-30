@@ -2,15 +2,15 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
-@brief  Class which allow to get access to channel groups list audit processed result.
-
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @brief  Class which allow to get access to channel groups list audit processed result.
+ 
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 @interface PNChannelGroupsData : PNServiceData
 
 
@@ -19,11 +19,11 @@
 ///------------------------------------------------
 
 /**
-@brief  Registered and active channel groups.
-
-@since 4.0
-*/
-@property (nonatomic, readonly, strong) NSArray *groups;
+ @brief  Registered and active channel groups.
+ 
+ @since 4.0
+ */
+@property (nonatomic, readonly, strong) NSArray<NSString *> *groups;
 
 #pragma mark -
 
@@ -32,12 +32,12 @@
 
 
 /**
-@brief  Class which is used to provide access to request processing results.
-
-@author Sergey Mamontov
-@since 4.0
-@copyright © 2009-2016 PubNub, Inc.
-*/
+ @brief  Class which is used to provide access to request processing results.
+ 
+ @author Sergey Mamontov
+ @since 4.0
+ @copyright © 2009-2016 PubNub, Inc.
+ */
 @interface PNChannelGroupsResult : PNResult
 
 
@@ -46,14 +46,15 @@
 ///------------------------------------------------
 
 /**
-@brief  Stores reference on channel groups list audit request processing information.
-
-@since 4.0
-*/
-@property (nonatomic, readonly, strong) PNChannelGroupsData *data;
+ @brief  Stores reference on channel groups list audit request processing information.
+ 
+ @since 4.0
+ */
+@property (nonatomic, nonnull, readonly, strong) PNChannelGroupsData *data;
 
 #pragma mark -
 
 
 @end
 
+NS_ASSUME_NONNULL_END
