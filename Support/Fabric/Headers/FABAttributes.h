@@ -39,14 +39,6 @@
     #define __fab_null_unspecified
 #endif
 
-#ifndef 
-    #define 
-#endif
-
-#ifndef 
-    #define 
-#endif
-
 
 /**
  * The following macros are defined here to provide

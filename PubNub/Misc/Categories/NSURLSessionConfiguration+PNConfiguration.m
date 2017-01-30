@@ -6,7 +6,7 @@
 #import "NSURLSessionConfiguration+PNConfigurationPrivate.h"
 #if TARGET_OS_WATCH
     #import <WatchKit/WatchKit.h>
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || PGDROID
     #import <UIKit/UIKit.h>
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED
 
@@ -40,7 +40,7 @@
  @return Filtered list of protocol classes or same list if there was no potentially dangerous protocol 
         classes.
  */
-+ ( NSArray<Class> *)pn_filteredProtocolClasses:(NSArray<Class> *)protocolClasses;
++ ( NSArray *)pn_filteredProtocolClasses:(NSArray *)protocolClasses;
 
 /**
  @brief  Allow to construct set of headers which should be used for network requests.
@@ -137,16 +137,16 @@
     }
 }
 
-+ (NSArray<Class> *)pn_protocolClasses {
++ (NSArray *)pn_protocolClasses {
     
     NSURLSessionConfiguration *configuration = [[[self pn_configurations] allValues] firstObject];
     
     return [self pn_filteredProtocolClasses:configuration.protocolClasses];
 }
 
-+ (void)pn_setProtocolClasses:(NSArray<Class> *)protocolClasses {
++ (void)pn_setProtocolClasses:(NSArray *)protocolClasses {
     
-    NSArray<Class> *classes = [[[[self pn_configurations] allValues] firstObject] protocolClasses];
+    NSArray *classes = [[[[self pn_configurations] allValues] firstObject] protocolClasses];
     
     // Append user-provided protocol classes to system-provided.
     NSMutableArray *currentProtocolClasses = [NSMutableArray arrayWithArray:classes];
@@ -187,9 +187,9 @@
     return _sharedSessionConfigurations;
 }
 
-+ (NSArray<Class> *)pn_filteredProtocolClasses:(NSArray<Class> *)protocolClasses {
++ (NSArray *)pn_filteredProtocolClasses:(NSArray *)protocolClasses {
     
-    NSArray<Class> *protocols = (protocolClasses.count ? protocolClasses : nil);
+    NSArray *protocols = (protocolClasses.count ? protocolClasses : nil);
     if (protocols.count) {
         
         NSMutableArray *filteredProtocols = [protocols mutableCopy];
@@ -212,7 +212,7 @@
     NSString *device = @"iPhone";
 #if TARGET_OS_WATCH
     NSString *osVersion = [[WKInterfaceDevice currentDevice] systemVersion];
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || PGDROID
     NSString *osVersion = [[UIDevice currentDevice] systemVersion];
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo]operatingSystemVersion];

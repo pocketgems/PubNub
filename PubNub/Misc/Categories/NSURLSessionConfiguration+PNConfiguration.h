@@ -89,7 +89,7 @@
  
  @return Previusly configured requests handling protocol classes.
  */
-+ ( NSArray<Class> *)pn_protocolClasses;
++ ( NSArray *)pn_protocolClasses;
 
 /**
  @brief   Configure extra set of protocols which will handle requests which is sent to \b PubNub service.
@@ -100,7 +100,7 @@
  @param protocolClasses Reference on requests handling protocol classes which should be used with requests to
                         \b PubNub service.
  */
-+ (void)pn_setProtocolClasses:( NSArray<Class> *)protocolClasses;
++ (void)pn_setProtocolClasses:( NSArray *)protocolClasses;
 
 /**
  @brief  Retrieve reference on previously configured connection proxy information.
