@@ -15,7 +15,7 @@
 
 #pragma mark - Information
 
-- (NSArray<NSString *> *)channels {
+- (NSArray *)channels {
     
     return (self.serviceData[@"channels"]?: @[]);
 }
@@ -33,7 +33,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNChannelGroupChannelsData *data;
+@property (nonatomic, strong) PNChannelGroupChannelsData *data;
 
 #pragma mark -
 

@@ -2,7 +2,7 @@
 #import "PNStructures.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      Class which is used to describe server response.
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, copy) NSString *authKey;
+@property (nonatomic, readonly, copy) NSString *authKey;
 
 /**
  @brief Stores reference on \b PubNub service host name or IP address against which \c request has been 
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, copy) NSURLRequest *clientRequest;
+@property (nonatomic, readonly, copy) NSURLRequest *clientRequest;
 
 /**
  @brief  Stringified \c operation value.
@@ -86,4 +86,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

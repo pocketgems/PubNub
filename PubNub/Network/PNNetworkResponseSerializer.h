@@ -8,10 +8,10 @@
  
  @since 4.0.2
  */
-extern NSString * _Nonnull const kPNNetworkErrorResponseDataKey;
+extern NSString *  const kPNNetworkErrorResponseDataKey;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      Class which is used by network manager to serialize responses from \b PubNub Network.
@@ -45,4 +45,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

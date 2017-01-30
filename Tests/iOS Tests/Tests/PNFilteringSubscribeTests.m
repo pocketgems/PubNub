@@ -158,7 +158,7 @@ static NSString * const kPNChannelTestName = @"PNFilterSubscribeTests";
         [secondPublishExpectation fulfill];
 //        secondPublishExpectation = nil;
     }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
     self.publishExpectation = nil;
@@ -255,7 +255,7 @@ static NSString * const kPNChannelTestName = @"PNFilterSubscribeTests";
         [secondPublishExpectation fulfill];
 //        secondPublishExpectation = nil;
     }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
     self.publishExpectation = nil;
@@ -344,7 +344,7 @@ static NSString * const kPNChannelTestName = @"PNFilterSubscribeTests";
                   
                   [self.publishExpectation fulfill];
               }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
     __block XCTestExpectation *secondPublishExpectation = [self expectationWithDescription:@"secondPublishExpectation"];
@@ -360,7 +360,7 @@ static NSString * const kPNChannelTestName = @"PNFilterSubscribeTests";
                   secondPublishTimeToken = status.data.timetoken;
                   [secondPublishExpectation fulfill];
               }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
 }

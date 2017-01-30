@@ -6,7 +6,7 @@
 @class PubNub;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      \b PubNub network reachability / ping utility.
@@ -67,4 +67,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

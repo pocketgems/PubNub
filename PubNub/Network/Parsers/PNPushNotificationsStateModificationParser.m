@@ -13,7 +13,7 @@
 
 #pragma mark - Identification
 
-+ (NSArray<NSNumber *> *)operations {
++ (NSArray *)operations {
     
     return @[@(PNAddPushNotificationsOnChannelsOperation),
              @(PNRemovePushNotificationsFromChannelsOperation),
@@ -28,11 +28,11 @@
 
 #pragma mark - Parsing
 
-+ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response {
++ ( NSDictionary *)parsedServiceResponse:(id)response {
     
     // To handle case when response is unexpected for this type of operation processed value sent through 
     // 'nil' initialized local variable.
-    NSDictionary<NSString *, id> *processedResponse = nil;
+    NSDictionary *processedResponse = nil;
     
     // Array is valid response type for device removal from APNS request.
     if ([response isKindOfClass:[NSArray class]] && ((NSArray *)response).count == 2) {

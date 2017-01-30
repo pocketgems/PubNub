@@ -217,7 +217,7 @@
 - (void)testHereNowForNilChannel {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannel:nil
                     withCompletion:^(PNPresenceChannelHereNowResult *result, PNErrorStatus *status) {
                         XCTAssertNotNil(status);
@@ -265,7 +265,7 @@
 - (void)testHereNowForNilChannelWithVerbosityOccupancy {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannel:nil
                      withVerbosity:PNHereNowOccupancy
                         completion:^(PNPresenceChannelHereNowResult *result, PNErrorStatus *status) {
@@ -319,7 +319,7 @@
 - (void)testHereNowForNilChannelWithVerbosityState {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannel:nil
                      withVerbosity:PNHereNowState
                         completion:^(PNPresenceChannelHereNowResult *result, PNErrorStatus *status) {
@@ -368,7 +368,7 @@
 - (void)testHereNowForNilChannelWithVerbosityUUID {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannel:nil
                      withVerbosity:PNHereNowUUID
                         completion:^(PNPresenceChannelHereNowResult *result, PNErrorStatus *status) {
@@ -417,7 +417,7 @@
 - (void)testWhereNowNilUDID {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client whereNowUUID:nil
                withCompletion:^(PNPresenceWhereNowResult *result, PNErrorStatus *status) {
                    XCTAssertNotNil(status);

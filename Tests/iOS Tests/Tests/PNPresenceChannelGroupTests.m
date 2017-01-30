@@ -86,7 +86,7 @@
 - (void)testHereNowForNilChannelGroup {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannelGroup:nil
                          withCompletion:^(PNPresenceChannelGroupHereNowResult *result, PNErrorStatus *status) {
                              XCTAssertNotNil(status);
@@ -143,7 +143,7 @@
 - (void)testHereNowForNilChannelGroupWithVerbosityOccupancy {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannelGroup:nil
                           withVerbosity:PNHereNowOccupancy
                              completion:^(PNPresenceChannelGroupHereNowResult *result, PNErrorStatus *status) {
@@ -212,7 +212,7 @@
 - (void)testHereNowForNilChannelGroupWithVerbosityState {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannelGroup:nil
                           withVerbosity:PNHereNowState
                              completion:^(PNPresenceChannelGroupHereNowResult *result, PNErrorStatus *status) {
@@ -277,7 +277,7 @@
 - (void)testHereNowForNilChannelGroupWithVerbosityUUID {
     self.presenceExpectation = [self expectationWithDescription:@"network"];
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wnonnull"
+    #pragma clang diagnostic ignored "-W"
     [self.client hereNowForChannelGroup:nil
                           withVerbosity:PNHereNowUUID
                              completion:^(PNPresenceChannelGroupHereNowResult *result, PNErrorStatus *status) {

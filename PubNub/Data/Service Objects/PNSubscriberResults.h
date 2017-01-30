@@ -3,7 +3,7 @@
 #import "PNSubscribeStatus.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which allow to get access to detailed presence information which has been received on remote
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) NSString *uuid;
+@property (nonatomic, readonly, strong) NSString *uuid;
 
 /**
  @brief  Channel presence information.
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) NSDictionary<NSString *, id> *state;
+@property (nonatomic, readonly, strong) NSDictionary *state;
 
 #pragma mark -
 
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) id message;
+@property (nonatomic, readonly, strong) id message;
 
 #pragma mark - 
 
@@ -183,4 +183,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

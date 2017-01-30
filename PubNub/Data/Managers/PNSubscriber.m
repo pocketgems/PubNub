@@ -88,7 +88,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 };
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Protected interface declaration
 
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet<NSString *> *channelsSet;
+@property (nonatomic, strong) NSMutableSet *channelsSet;
 
 /**
  @brief  Actual storage for list of channel groups on which client subscribed at this moment and 
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet<NSString *> *channelGroupsSet;
+@property (nonatomic, strong) NSMutableSet *channelGroupsSet;
 
 /**
  @brief  Actual storage for list of presence channels on which client subscribed at this moment and
@@ -142,14 +142,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet<NSString *> *presenceChannelsSet;
+@property (nonatomic, strong) NSMutableSet *presenceChannelsSet;
 
 /**
  @brief  Stores reference on percent-escaped message filtering expression.
  
  @since 4.3.0
  */
-@property (nonatomic, nullable, copy) NSString *escapedFilterExpression;
+@property (nonatomic, copy) NSString *escapedFilterExpression;
 
 /**
  @brief      Reference on time token which is used for current subscribe loop iteration.
@@ -168,7 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.2.0
  */
-@property (nonatomic, nullable, strong) NSNumber *overrideTimeToken;
+@property (nonatomic, strong) NSNumber *overrideTimeToken;
 
 /**
  @brief      Reference on time token which has been used for previous subscribe loop iteration.
@@ -212,7 +212,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, strong) dispatch_source_t retryTimer;
+@property (nonatomic, strong) dispatch_source_t retryTimer;
 
 
 #pragma mark - Initialization and Configuration
@@ -259,9 +259,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.3.0
  */
-- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:(nullable NSNumber *)timeToken 
-        withState:(nullable NSDictionary<NSString *, id> *)state 
-       completion:(nullable PNSubscriberCompletionBlock)block;
+- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:( NSNumber *)timeToken 
+        withState:( NSDictionary *)state 
+       completion:( PNSubscriberCompletionBlock)block;
 
 /**
  @brief      Launch subscription retry timer.
@@ -299,9 +299,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.2.0
  */
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
       informingListener:(BOOL)shouldInformListener subscribeOnRest:(BOOL)subscribeOnRestChannels
-             completion:(nullable PNSubscriberCompletionBlock)block;
+             completion:( PNSubscriberCompletionBlock)block;
 
 
 #pragma mark - Handlers
@@ -349,8 +349,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleSubscription:(BOOL)initialSubscription timeToken:(nullable NSNumber *)timeToken 
-                    region:(nullable NSNumber *)region;
+- (void)handleSubscription:(BOOL)initialSubscription timeToken:( NSNumber *)timeToken 
+                    region:( NSNumber *)region;
 
 /**
  @brief  Handle long-poll service response and deliver events to listeners if required.
@@ -395,7 +395,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (PNRequestParameters *)subscribeRequestParametersWithState:(nullable NSDictionary<NSString *, id> *)state;
+- (PNRequestParameters *)subscribeRequestParametersWithState:( NSDictionary *)state;
 
 /**
  @brief  Append subscriber information to status object.
@@ -411,7 +411,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -458,13 +458,13 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - State Information and Manipulation
 
-- (NSArray<NSString *> *)allObjects {
+- (NSArray *)allObjects {
     
     return [[[self channels] arrayByAddingObjectsFromArray:[self presenceChannels]]
             arrayByAddingObjectsFromArray:[self channelGroups]];
 }
 
-- (NSArray<NSString *> *)channels {
+- (NSArray *)channels {
     
     __block NSArray *channels = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ channels = self.channelsSet.allObjects; });
@@ -472,7 +472,7 @@ NS_ASSUME_NONNULL_END
     return channels;
 }
 
-- (void)addChannels:(NSArray<NSString *> *)channels {
+- (void)addChannels:(NSArray *)channels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -488,7 +488,7 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (void)removeChannels:(NSArray<NSString *> *)channels {
+- (void)removeChannels:(NSArray *)channels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -498,7 +498,7 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (NSArray<NSString *> *)channelGroups {
+- (NSArray *)channelGroups {
     
     __block NSArray *channelGroups = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ channelGroups = self.channelGroupsSet.allObjects; });
@@ -506,7 +506,7 @@ NS_ASSUME_NONNULL_END
     return channelGroups;
 }
 
-- (void)addChannelGroups:(NSArray<NSString *> *)groups {
+- (void)addChannelGroups:(NSArray *)groups {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{ 
         
@@ -514,7 +514,7 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (void)removeChannelGroups:(NSArray<NSString *> *)groups {
+- (void)removeChannelGroups:(NSArray *)groups {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -522,7 +522,7 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (NSArray<NSString *> *)presenceChannels {
+- (NSArray *)presenceChannels {
     
     __block NSArray *presenceChannels = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{
@@ -533,7 +533,7 @@ NS_ASSUME_NONNULL_END
     return presenceChannels;
 }
 
-- (void)addPresenceChannels:(NSArray<NSString *> *)presenceChannels {
+- (void)addPresenceChannels:(NSArray *)presenceChannels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -541,7 +541,7 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (void)removePresenceChannels:(NSArray<NSString *> *)presenceChannels {
+- (void)removePresenceChannels:(NSArray *)presenceChannels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -575,7 +575,7 @@ NS_ASSUME_NONNULL_END
     pn_safe_property_write(self.resourceAccessQueue, ^{ self->_lastTimeToken = lastTimeToken; });
 }
 
-- (nullable NSNumber *)overrideTimeToken {
+- ( NSNumber *)overrideTimeToken {
     
     __block NSNumber *overrideTimeToken = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ overrideTimeToken = self->_overrideTimeToken; });
@@ -583,7 +583,7 @@ NS_ASSUME_NONNULL_END
     return overrideTimeToken;
 }
 
-- (void)setOverrideTimeToken:(nullable NSNumber *)overrideTimeToken {
+- (void)setOverrideTimeToken:( NSNumber *)overrideTimeToken {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -776,7 +776,7 @@ NS_ASSUME_NONNULL_END
     return expression;
 }
 
-- (void)setFilterExpression:(nullable NSString *)filterExpression {
+- (void)setFilterExpression:( NSString *)filterExpression {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -796,16 +796,16 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Subscription
 
-- (void)subscribeUsingTimeToken:(nullable NSNumber *)timeToken
-                      withState:(nullable NSDictionary<NSString *, id> *)state 
-                     completion:(nullable PNSubscriberCompletionBlock)block {
+- (void)subscribeUsingTimeToken:( NSNumber *)timeToken
+                      withState:( NSDictionary *)state 
+                     completion:( PNSubscriberCompletionBlock)block {
     
     [self subscribe:YES usingTimeToken:timeToken withState:state completion:block];
 }
 
-- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:(nullable NSNumber *)timeToken 
-        withState:(nullable NSDictionary<NSString *, id> *)state 
-       completion:(nullable PNSubscriberCompletionBlock)block {
+- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:( NSNumber *)timeToken 
+        withState:( NSDictionary *)state 
+       completion:( PNSubscriberCompletionBlock)block {
     
     [self stopRetryTimer];
 
@@ -816,7 +816,7 @@ NS_ASSUME_NONNULL_END
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wreceiver-is-weak"
     #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
-    if ([self allObjects].count) {
+    if ([[self allObjects] count]) {
 
         // Storing time token override
         self.overrideTimeToken = timeToken;
@@ -886,7 +886,7 @@ NS_ASSUME_NONNULL_END
     #pragma clang diagnostic pop
 }
 
-- (void)restoreSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block {
+- (void)restoreSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block {
     
     __block BOOL shouldRestore;
     __block BOOL ableToRestore;
@@ -905,7 +905,7 @@ NS_ASSUME_NONNULL_END
     else if (block) { block(nil); }
 }
 
-- (void)continueSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block {
+- (void)continueSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block {
 
     [self subscribe:NO usingTimeToken:nil withState:nil completion:block];
 }
@@ -914,7 +914,7 @@ NS_ASSUME_NONNULL_END
     
     __weak __typeof(self) weakSelf = self;
     NSArray *channelGroups = [self.channelGroups copy];
-    PNSubscriberCompletionBlock channelUnsubscribeBlock = ^(__unused PNSubscribeStatus * _Nullable status) {
+    PNSubscriberCompletionBlock channelUnsubscribeBlock = ^(__unused PNSubscribeStatus *  status) {
         
         __strong __typeof(self) strongSelf = weakSelf;
         [strongSelf removeChannelGroups:channelGroups];
@@ -934,16 +934,16 @@ NS_ASSUME_NONNULL_END
     else if (channelGroups.count > 0) { channelUnsubscribeBlock(nil); }
 }
 
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
-             completion:(nullable PNSubscriberCompletionBlock)block {
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
+             completion:( PNSubscriberCompletionBlock)block {
     
     [self unsubscribeFrom:channels objects:objects informingListener:YES subscribeOnRest:YES
                completion:block];
 }
 
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
       informingListener:(BOOL)shouldInformListener subscribeOnRest:(BOOL)subscribeOnRestChannels
-             completion:(nullable PNSubscriberCompletionBlock)block {
+             completion:( PNSubscriberCompletionBlock)block {
     
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
@@ -1222,8 +1222,8 @@ NS_ASSUME_NONNULL_END
     #pragma clang diagnostic pop
 }
 
-- (void)handleSubscription:(BOOL)initialSubscription timeToken:(nullable NSNumber *)timeToken 
-                    region:(nullable NSNumber *)region {
+- (void)handleSubscription:(BOOL)initialSubscription timeToken:( NSNumber *)timeToken 
+                    region:( NSNumber *)region {
 
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -1312,7 +1312,7 @@ NS_ASSUME_NONNULL_END
             
             // Iterate through array with notifications and report back using callback blocks to the
             // user.
-            for (NSMutableDictionary<NSString *, id> *event in events) {
+            for (NSMutableDictionary *event in events) {
                 
                 // Check whether event has been triggered on presence channel or channel group.
                 // In case if check will return YES this is presence event.
@@ -1434,7 +1434,7 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Misc
 
-- (PNRequestParameters *)subscribeRequestParametersWithState:(nullable NSDictionary<NSString *, id> *)state {
+- (PNRequestParameters *)subscribeRequestParametersWithState:( NSDictionary *)state {
     
     // Compose full list of channels and groups stored in active subscription list.
     NSArray *channels = [[self channels] arrayByAddingObjectsFromArray:[self presenceChannels]];
@@ -1491,7 +1491,7 @@ NS_ASSUME_NONNULL_END
     status.lastTimeToken = _lastTimeToken;
     status.currentTimeTokenRegion = _currentTimeTokenRegion;
     status.lastTimeTokenRegion = _lastTimeTokenRegion;
-    status.subscribedChannels = [_channelsSet setByAddingObjectsFromSet:_presenceChannelsSet].allObjects;
+    status.subscribedChannels = [[_channelsSet setByAddingObjectsFromSet:_presenceChannelsSet] allObjects];
     status.subscribedChannelGroups = _channelGroupsSet.allObjects;
 }
 

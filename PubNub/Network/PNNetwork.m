@@ -46,8 +46,8 @@ static DDLogLevel ddLogLevel;
  
  @since 4.0.2
  */
-typedef void(^NSURLSessionDataTaskCompletion)(NSData * _Nullable data, NSURLResponse * _Nullable response, 
-                                              NSError * _Nullable error);
+typedef void(^NSURLSessionDataTaskCompletion)(NSData *  data, NSURLResponse *  response, 
+                                              NSError *  error);
 
 /**
  @brief  Definition for block which is used by \b PubNub SDK to process successfully completed request with
@@ -58,7 +58,7 @@ typedef void(^NSURLSessionDataTaskCompletion)(NSData * _Nullable data, NSURLResp
  
  @since 4.0.2
  */
-typedef void(^NSURLSessionDataTaskSuccess)(NSURLSessionDataTask * _Nullable task, id _Nullable responseObject);
+typedef void(^NSURLSessionDataTaskSuccess)(NSURLSessionDataTask *  task, id  responseObject);
 
 /**
  @brief  Definition for block which is used by \b PubNub SDK to process failed request.
@@ -68,10 +68,10 @@ typedef void(^NSURLSessionDataTaskSuccess)(NSURLSessionDataTask * _Nullable task
  
  @since 4.0.2
  */
-typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask * _Nullable task, NSError * _Nullable error);
+typedef void(^NSURLSessionDataTaskFailure)(NSURLSessionDataTask *  task, NSError *  error);
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Protected interface declaration
 
@@ -258,7 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (nullable Class <PNParser>)parserForOperation:(PNOperationType)operation;
+- ( Class <PNParser>)parserForOperation:(PNOperationType)operation;
 
 /**
  @brief  Retrieve reference on class which can be used to represent request processing results.
@@ -291,8 +291,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)parseData:(nullable id)data withParser:(Class <PNParser>)parser
-       completion:(void(^)(NSDictionary * _Nullable parsedData, BOOL parseError))block;
+- (void)parseData:( id)data withParser:(Class <PNParser>)parser
+       completion:(void(^)(NSDictionary *  parsedData, BOOL parseError))block;
 
 
 #pragma mark - Session constructor
@@ -370,8 +370,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleData:(nullable NSData *)data loadedWithTask:(nullable NSURLSessionDataTask *)task
-             error:(nullable NSError *)requestError usingSuccess:(NSURLSessionDataTaskSuccess)success
+- (void)handleData:( NSData *)data loadedWithTask:( NSURLSessionDataTask *)task
+             error:( NSError *)requestError usingSuccess:(NSURLSessionDataTaskSuccess)success
            failure:(NSURLSessionDataTaskFailure)failure;
 
 /**
@@ -387,8 +387,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleOperation:(PNOperationType)operation taskDidComplete:(nullable NSURLSessionDataTask *)task
-               withData:(nullable id)responseObject completionBlock:(id)block;
+- (void)handleOperation:(PNOperationType)operation taskDidComplete:( NSURLSessionDataTask *)task
+               withData:( id)responseObject completionBlock:(id)block;
 
 /**
  @brief      Handle operation failure.
@@ -404,8 +404,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleOperation:(PNOperationType)operation taskDidFail:(nullable NSURLSessionDataTask *)task
-              withError:(nullable NSError *)error completionBlock:(id)block;
+- (void)handleOperation:(PNOperationType)operation taskDidFail:( NSURLSessionDataTask *)task
+              withError:( NSError *)error completionBlock:(id)block;
 
 /**
  @brief      Pre-processed service response handler.
@@ -421,9 +421,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleParsedData:(nullable NSDictionary *)data loadedWithTask:(nullable NSURLSessionDataTask *)task
+- (void)handleParsedData:( NSDictionary *)data loadedWithTask:( NSURLSessionDataTask *)task
             forOperation:(PNOperationType)operation parsedAsError:(BOOL)isError
-         processingError:(nullable NSError *)error completionBlock:(id)block;
+         processingError:( NSError *)error completionBlock:(id)block;
 
 /**
  @brief  Used to handle prepared objects and pass them to the code.
@@ -436,8 +436,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleOperation:(PNOperationType)operation processingCompletedWithResult:(nullable PNResult *)result
-                 status:(nullable PNStatus *)status completionBlock:(id)block;
+- (void)handleOperation:(PNOperationType)operation processingCompletedWithResult:( PNResult *)result
+                 status:( PNStatus *)status completionBlock:(id)block;
 
 
 #pragma mark - Misc
@@ -454,7 +454,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -550,8 +550,8 @@ NS_ASSUME_NONNULL_END
     
     __block NSURLSessionDataTask *task = nil;
     __weak __typeof(self) weakSelf = self;
-    NSURLSessionDataTaskCompletion handler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response,
-                                               NSError * _Nullable error) {
+    NSURLSessionDataTaskCompletion handler = ^(NSData *  data, NSURLResponse *  response,
+                                               NSError *  error) {
         
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object method.
@@ -590,7 +590,7 @@ NS_ASSUME_NONNULL_END
     return [_resultExpectingOperations containsObject:@(operation)];
 }
 
-- (nullable Class <PNParser>)parserForOperation:(PNOperationType)operation {
+- ( Class <PNParser>)parserForOperation:(PNOperationType)operation {
     
     static NSDictionary *_parsers;
     static dispatch_once_t onceToken;
@@ -599,7 +599,7 @@ NS_ASSUME_NONNULL_END
         NSMutableDictionary *parsers = [NSMutableDictionary new];
         for (Class class in [PNClass classesConformingToProtocol:@protocol(PNParser)]) {
             
-            NSArray<NSNumber *> *operations = [(Class<PNParser>)class operations];
+            NSArray *operations = [(Class<PNParser>)class operations];
             for (NSNumber *operationType in operations) { parsers[operationType] = class; }
         }
         _parsers = [parsers copy];
@@ -631,8 +631,8 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)processOperation:(PNOperationType)operationType
-          withParameters:(nullable PNRequestParameters *)parameters data:(nullable NSData *)data
-         completionBlock:(nullable id)block {
+          withParameters:( PNRequestParameters *)parameters data:( NSData *)data
+         completionBlock:( id)block {
 
     if (operationType == PNSubscribeOperation || operationType == PNUnsubscribeOperation) {
         
@@ -683,8 +683,8 @@ NS_ASSUME_NONNULL_END
     #pragma clang diagnostic pop
 }
 
-- (void)parseData:(nullable id)data withParser:(Class <PNParser>)parser
-       completion:(void(^)(NSDictionary * _Nullable parsedData, BOOL parseError))block {
+- (void)parseData:( id)data withParser:(Class <PNParser>)parser
+       completion:(void(^)(NSDictionary *  parsedData, BOOL parseError))block {
 
     __weak __typeof(self) weakSelf = self;
     void(^parseCompletion)(NSDictionary *) = ^(NSDictionary *processedData){
@@ -839,8 +839,8 @@ NS_ASSUME_NONNULL_END
     }
 }
 
-- (void)handleData:(nullable NSData *)data loadedWithTask:(nullable NSURLSessionDataTask *)task
-             error:(nullable NSError *)requestError usingSuccess:(NSURLSessionDataTaskSuccess)success
+- (void)handleData:( NSData *)data loadedWithTask:( NSURLSessionDataTask *)task
+             error:( NSError *)requestError usingSuccess:(NSURLSessionDataTaskSuccess)success
            failure:(NSURLSessionDataTaskFailure)failure {
     
     dispatch_async(self.processingQueue, ^{
@@ -853,8 +853,8 @@ NS_ASSUME_NONNULL_END
     });
 }
 
-- (void)handleOperation:(PNOperationType)operation taskDidComplete:(nullable NSURLSessionDataTask *)task
-               withData:(nullable id)responseObject completionBlock:(id)block {
+- (void)handleOperation:(PNOperationType)operation taskDidComplete:( NSURLSessionDataTask *)task
+               withData:( id)responseObject completionBlock:(id)block {
     
     __weak __typeof(self) weakSelf = self;
     [self parseData:responseObject withParser:[self parserForOperation:operation]
@@ -873,8 +873,8 @@ NS_ASSUME_NONNULL_END
          }];
 }
 
-- (void)handleOperation:(PNOperationType)operation taskDidFail:(nullable NSURLSessionDataTask *)task
-              withError:(nullable NSError *)error completionBlock:(id)block {
+- (void)handleOperation:(PNOperationType)operation taskDidFail:( NSURLSessionDataTask *)task
+              withError:( NSError *)error completionBlock:(id)block {
     
     if (error.code == NSURLErrorCancelled) {
         
@@ -900,9 +900,9 @@ NS_ASSUME_NONNULL_END
     }
 }
 
-- (void)handleParsedData:(nullable NSDictionary *)data loadedWithTask:(nullable NSURLSessionDataTask *)task
+- (void)handleParsedData:( NSDictionary *)data loadedWithTask:( NSURLSessionDataTask *)task
             forOperation:(PNOperationType)operation parsedAsError:(BOOL)isError
-         processingError:(nullable NSError *)error completionBlock:(id)block {
+         processingError:( NSError *)error completionBlock:(id)block {
     
     PNResult *result = nil;
     PNStatus *status = nil;
@@ -938,8 +938,8 @@ NS_ASSUME_NONNULL_END
     }
 }
 
-- (void)handleOperation:(PNOperationType)operation processingCompletedWithResult:(nullable PNResult *)result
-                 status:(nullable PNStatus *)status completionBlock:(id)block {
+- (void)handleOperation:(PNOperationType)operation processingCompletedWithResult:( PNResult *)result
+                 status:( PNStatus *)status completionBlock:(id)block {
     
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
@@ -969,7 +969,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)printIfRequiredSessionCustomizationInformation {
     
-    if ([NSURLSessionConfiguration pn_HTTPAdditionalHeaders].count) {
+    if ([[NSURLSessionConfiguration pn_HTTPAdditionalHeaders] count]) {
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub::Network> Custom HTTP headers is set by user: "
                         "%@", [NSURLSessionConfiguration pn_HTTPAdditionalHeaders]);
@@ -987,13 +987,13 @@ NS_ASSUME_NONNULL_END
                         "and only WiFi connection can be used.");
     }
     
-    if ([NSURLSessionConfiguration pn_protocolClasses].count) {
+    if ([[NSURLSessionConfiguration pn_protocolClasses] count]) {
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub::Network> Extra requests handling protocols "
                         "defined by user: %@", [NSURLSessionConfiguration pn_protocolClasses]);
     }
     
-    if ([NSURLSessionConfiguration pn_connectionProxyDictionary].count) {
+    if ([[NSURLSessionConfiguration pn_connectionProxyDictionary] count]) {
         
         DDLogClientInfo([[self class] ddLogLevel], @"<PubNub::Network> Connection proxy has been set by user:"
                         " %@", [NSURLSessionConfiguration pn_connectionProxyDictionary]);

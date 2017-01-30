@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which allow to get access to APNS enabled channels processed result.
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSArray<NSString *> *channels;
+@property (nonatomic, readonly, strong) NSArray *channels;
 
 #pragma mark -
 
@@ -57,4 +57,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

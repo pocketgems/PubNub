@@ -36,7 +36,7 @@
  
  @since 4.0
  */
-@property (nonatomic, nonnull, readonly, strong) PNPresenceChannelGroupHereNowData *data;
+@property (nonatomic, readonly, strong) PNPresenceChannelGroupHereNowData *data;
 
 
 #pragma mark -

@@ -85,4 +85,3 @@ FOUNDATION_EXPORT double CocoaLumberjackVersionNumber;
 
 //! Project version string for CocoaLumberjack.
 FOUNDATION_EXPORT const unsigned char CocoaLumberjackVersionString[];
-

@@ -15,7 +15,7 @@
 
 #pragma mark - Information
 
-- (NSDictionary<NSString *, NSDictionary *> *)channels {
+- (NSDictionary *)channels {
     
     return (self.serviceData[@"channels"]?: @{});
 }
@@ -43,7 +43,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNPresenceGlobalHereNowData *data;
+@property (nonatomic, strong) PNPresenceGlobalHereNowData *data;
 
 #pragma mark -
 

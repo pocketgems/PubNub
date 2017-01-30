@@ -6,7 +6,7 @@
 #import "PNServiceData+Private.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark Private interface declaration
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Information
 
-@property (nonatomic, copy) NSDictionary<NSString *, id> *serviceData;
+@property (nonatomic, copy) NSDictionary *serviceData;
 
 
 #pragma mark - Initialization and Configuration
@@ -30,14 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (instancetype)initWithServiceResponse:(NSDictionary<NSString *, id> *)response;
+- (instancetype)initWithServiceResponse:(NSDictionary *)response;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_END
     return self;
 }
 
-- (nullable id)objectForKeyedSubscript:(id)key {
+- ( id)objectForKeyedSubscript:(id)key {
     
     return [self.serviceData objectForKeyedSubscript:key];
 }

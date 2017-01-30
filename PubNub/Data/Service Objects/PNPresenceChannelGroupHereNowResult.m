@@ -26,7 +26,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNPresenceChannelGroupHereNowData *data;
+@property (nonatomic, strong) PNPresenceChannelGroupHereNowData *data;
 
 #pragma mark -
 

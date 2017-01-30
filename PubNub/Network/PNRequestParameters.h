@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      Wrapper class around parameters which should be applied on resource path and query 
@@ -25,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly) NSDictionary<NSString *, NSString *> *pathComponents;
+@property (nonatomic, readonly) NSDictionary *pathComponents;
 
 /**
  @brief  Stores reference on key/value pairs which should be expanded in query string.
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly) NSDictionary<NSString *, NSString *> *query;
+@property (nonatomic, readonly) NSDictionary *query;
 
 
 ///------------------------------------------------
@@ -126,4 +126,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

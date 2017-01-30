@@ -22,7 +22,7 @@
  */
 static NSString * const kPNAPNSDevicePushTokenStoreKey = @"PNAPNSDevicePushToken";
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Protected interface declaration
 
@@ -45,9 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)enablePushNotification:(BOOL)shouldEnabled onChannels:(nullable NSArray<NSString *> *)channels
+- (void)enablePushNotification:(BOOL)shouldEnabled onChannels:( NSArray *)channels
            withDevicePushToken:(NSData *)pushToken
-                 andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block;
+                 andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block;
 
 
 #pragma mark - Misc
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -76,35 +76,35 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Push notifications state manipulation
 
-- (void)addPushNotificationsOnChannels:(NSArray<NSString *> *)channels withDevicePushToken:(NSData *)pushToken
-                         andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block {
+- (void)addPushNotificationsOnChannels:(NSArray *)channels withDevicePushToken:(NSData *)pushToken
+                         andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block {
     
     [self enablePushNotification:YES onChannels:channels withDevicePushToken:pushToken andCompletion:block];
 }
 
-- (void)removePushNotificationsFromChannels:(NSArray<NSString *> *)channels
+- (void)removePushNotificationsFromChannels:(NSArray *)channels
                         withDevicePushToken:(NSData *)pushToken
-                              andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block {
+                              andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block {
     
     [self enablePushNotification:NO onChannels:channels withDevicePushToken:pushToken andCompletion:block];
 }
 
 - (void)removeAllPushNotificationsFromDeviceWithPushToken:(NSData *)pushToken
-                          andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block {
+                          andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block {
     
     [self enablePushNotification:NO onChannels:nil withDevicePushToken:pushToken andCompletion:block];
 }
 
-- (void)enablePushNotification:(BOOL)shouldEnabled onChannels:(nullable NSArray<NSString *> *)channels
+- (void)enablePushNotification:(BOOL)shouldEnabled onChannels:( NSArray *)channels
            withDevicePushToken:(NSData *)pushToken
-                 andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block {
+                 andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block {
 
     BOOL removeAllChannels = (!shouldEnabled && channels == nil);
     PNOperationType operationType = PNRemoveAllPushNotificationsOperation;
     PNRequestParameters *parameters = [PNRequestParameters new];
     if (pushToken.length) {
 
-        [parameters addPathComponent:[PNData HEXFromDevicePushToken:pushToken].lowercaseString
+        [parameters addPathComponent:[[PNData HEXFromDevicePushToken:pushToken] lowercaseString]
                       forPlaceholder:@"{token}"];
     }
 
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_END
 
         DDLogAPICall([[self class] ddLogLevel], @"<PubNub::API> %@ push notifications for device '%@': %@.",
                 (shouldEnabled ? @"Enable" : @"Disable"),
-                [PNData HEXFromDevicePushToken:pushToken].lowercaseString,
+                [[PNData HEXFromDevicePushToken:pushToken] lowercaseString],
                 [PNChannel namesForRequest:channels]);
     }
     else {
@@ -178,16 +178,16 @@ NS_ASSUME_NONNULL_END
     PNRequestParameters *parameters = [PNRequestParameters new];
     if (pushToken.length) {
 
-        [parameters addPathComponent:[PNData HEXFromDevicePushToken:pushToken].lowercaseString
+        [parameters addPathComponent:[[PNData HEXFromDevicePushToken:pushToken] lowercaseString]
                       forPlaceholder:@"{token}"];
     }
 
     DDLogAPICall([[self class] ddLogLevel], @"<PubNub::API> Push notification enabled channels for device '%@'.",
-                 [PNData HEXFromDevicePushToken:pushToken].lowercaseString);
+                 [[PNData HEXFromDevicePushToken:pushToken] lowercaseString]);
 
     __weak __typeof(self) weakSelf = self;
     [self processOperation:PNPushNotificationEnabledChannelsOperation withParameters:parameters
-           completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status){
+           completionBlock:^(PNResult *  result, PNStatus *  status){
 
                // Silence static analyzer warnings.
                // Code is aware about this case and at the end will simply call on 'nil' object

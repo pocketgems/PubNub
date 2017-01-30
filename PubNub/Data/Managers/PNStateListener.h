@@ -7,7 +7,7 @@
 @class PNPresenceEventResult, PNMessageResult, PNErrorStatus, PubNub;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      Subscriber state listeners manager.
@@ -148,4 +148,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

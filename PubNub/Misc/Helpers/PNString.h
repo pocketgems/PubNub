@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Useful NSString additions collection.
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (nullable NSData *)UTF8DataFrom:(NSString *)string;
++ ( NSData *)UTF8DataFrom:(NSString *)string;
 
 /**
  @brief      Convert provided base64-encoded \c string to \a NSData.
@@ -80,4 +80,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

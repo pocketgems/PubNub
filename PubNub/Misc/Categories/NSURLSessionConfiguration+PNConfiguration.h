@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief \c NSURLSessionConfiguration extension to provide limited \c NSURLSession configuration abilities for 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return Previously configured custom set of HTTP headers which should be sent along with every request to 
          \b PubNub service.
  */
-+ (nullable NSDictionary<NSString *, id> *)pn_HTTPAdditionalHeaders;
++ ( NSDictionary *)pn_HTTPAdditionalHeaders;
 
 /**
  @brief      Extend additional headers with custom values.
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param HTTPAdditionalHeaders Reference on custom set of HTTP headers which should be sent along with every 
                               request to \b PubNub service.
  */
-+ (void)pn_setHTTPAdditionalHeaders:(nullable NSDictionary<NSString *, id> *)HTTPAdditionalHeaders;
++ (void)pn_setHTTPAdditionalHeaders:( NSDictionary *)HTTPAdditionalHeaders;
 
 /**
  @brief  Retrieve previously configured configured network service type.
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return Previusly configured requests handling protocol classes.
  */
-+ (nullable NSArray<Class> *)pn_protocolClasses;
++ ( NSArray<Class> *)pn_protocolClasses;
 
 /**
  @brief   Configure extra set of protocols which will handle requests which is sent to \b PubNub service.
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param protocolClasses Reference on requests handling protocol classes which should be used with requests to
                         \b PubNub service.
  */
-+ (void)pn_setProtocolClasses:(nullable NSArray<Class> *)protocolClasses;
++ (void)pn_setProtocolClasses:( NSArray<Class> *)protocolClasses;
 
 /**
  @brief  Retrieve reference on previously configured connection proxy information.
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return Previously configured connection proxy information which will be used by \c NSURLSession to open and 
          send requests to \b PubNub service.
  */
-+ (nullable NSDictionary<NSString *, id> *)pn_connectionProxyDictionary;
++ ( NSDictionary *)pn_connectionProxyDictionary;
 
 /**
  @brief      Configure connection proxy.
@@ -121,11 +121,10 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param connectionProxyDictionary Dictionary which contain information to setup proxy-based connectino.
  */
-+ (void)pn_setConnectionProxyDictionary:(nullable NSDictionary<NSString *, id> *)connectionProxyDictionary;
++ (void)pn_setConnectionProxyDictionary:( NSDictionary *)connectionProxyDictionary;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

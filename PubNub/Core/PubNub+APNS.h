@@ -7,7 +7,7 @@
 @class PNAPNSEnabledChannelsResult, PNAcknowledgmentStatus, PNErrorStatus;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Types
 
@@ -27,8 +27,8 @@ typedef void(^PNPushNotificationsStateModificationCompletionBlock)(PNAcknowledgm
  
  @since 4.0
  */
-typedef void(^PNPushNotificationsStateAuditCompletionBlock)(PNAPNSEnabledChannelsResult * _Nullable result,
-                                                            PNErrorStatus * _Nullable status);
+typedef void(^PNPushNotificationsStateAuditCompletionBlock)(PNAPNSEnabledChannelsResult *  result,
+                                                            PNErrorStatus *  status);
 
 
 #pragma mark - API group interface
@@ -87,8 +87,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)addPushNotificationsOnChannels:(NSArray<NSString *> *)channels withDevicePushToken:(NSData *)pushToken
-                         andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block;
+- (void)addPushNotificationsOnChannels:(NSArray *)channels withDevicePushToken:(NSData *)pushToken
+                         andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block;
 
 /**
  @brief      Disable push notifications on provided set of \c channels.
@@ -127,9 +127,9 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)removePushNotificationsFromChannels:(NSArray<NSString *> *)channels
+- (void)removePushNotificationsFromChannels:(NSArray *)channels
                         withDevicePushToken:(NSData *)pushToken
-                              andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block;
+                              andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block;
 
 /**
  @brief      Disable push notifications from all channels which is registered with specified \c pushToken.
@@ -168,7 +168,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */
 - (void)removeAllPushNotificationsFromDeviceWithPushToken:(NSData *)pushToken
-                           andCompletion:(nullable PNPushNotificationsStateModificationCompletionBlock)block;
+                           andCompletion:( PNPushNotificationsStateModificationCompletionBlock)block;
 
 
 ///------------------------------------------------
@@ -186,8 +186,8 @@ PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
 [self.client pushNotificationEnabledChannelsForDeviceWithPushToken:self.devicePushToken
-                             andCompletion:^(PNAPNSEnabledChannelsResult * _Nullable result,
-                                             PNErrorStatus * _Nullable status) {
+                             andCompletion:^(PNAPNSEnabledChannelsResult *  result,
+                                             PNErrorStatus *  status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -221,4 +221,3 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
 @end
 
-NS_ASSUME_NONNULL_END

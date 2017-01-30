@@ -2,7 +2,7 @@
 #import "PNStructures.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      Interface delcaration for all classes which should be suitable for \b PubNub service response
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (NSArray<NSNumber *> *)operations;
++ (NSArray *)operations;
 
 /**
  @brief  Allow to check whether corresponding parser require additional data from caller to process service
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response;
++ ( NSDictionary *)parsedServiceResponse:(id)response;
 
 /**
  @brief  Process data which has been received from \b PubNub service for \c operation with additional data 
@@ -72,12 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response 
-   withData:(nullable NSDictionary<NSString *, id> *)additionalData;
++ ( NSDictionary *)parsedServiceResponse:(id)response 
+   withData:( NSDictionary *)additionalData;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

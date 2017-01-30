@@ -26,7 +26,7 @@
 static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID";
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Protected interface declaration
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0.2
  */
-- (nullable NSString *)uniqueDeviceIdentifier;
+- ( NSString *)uniqueDeviceIdentifier;
 
 /**
  @brief  Extract unique identifier for current platform.
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.1.1
  */
-- (nullable NSString *)generateUniqueDeviceIdentifier;
+- ( NSString *)generateUniqueDeviceIdentifier;
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
 /**
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0.2
  */
-- (nullable NSString *)serialNumber;
+- ( NSString *)serialNumber;
 
 /**
  @brief  Try to receive MAC address for any current interfaces.
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0.2
  */
-- (nullable NSString *)macAddress;
+- ( NSString *)macAddress;
 #endif
 
 #pragma mark -
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -169,7 +169,7 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Misc
 
-- (nullable NSString *)uniqueDeviceIdentifier {
+- ( NSString *)uniqueDeviceIdentifier {
     
     __block NSString *identifier = nil;
     [PNKeychain valueForKey:kPNConfigurationDeviceIDKey withCompletionBlock:^(id value) {
@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_END
     return identifier;
 }
 
-- (nullable NSString *)generateUniqueDeviceIdentifier {
+- ( NSString *)generateUniqueDeviceIdentifier {
     
     NSString *identifier = nil;
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)) && !TARGET_OS_WATCH
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_END
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
-- (nullable NSString *)serialNumber {
+- ( NSString *)serialNumber {
     
     NSString *serialNumber = nil;
     io_service_t service = IOServiceGetMatchingService(kIOMasterPortDefault,
@@ -219,7 +219,7 @@ NS_ASSUME_NONNULL_END
     return serialNumber;
 }
 
-- (nullable NSString *)macAddress {
+- ( NSString *)macAddress {
     
     NSString *macAddress = nil;
     size_t length = 0;

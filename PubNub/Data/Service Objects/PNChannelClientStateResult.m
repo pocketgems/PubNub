@@ -15,7 +15,7 @@
 
 #pragma mark - Information
 
-- (NSDictionary<NSString *, id> *)state {
+- (NSDictionary *)state {
     
     return (self.serviceData[@"state"]?: @{});
 }
@@ -33,7 +33,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNChannelClientStateData *data;
+@property (nonatomic, strong) PNChannelClientStateData *data;
 
 #pragma mark -
 

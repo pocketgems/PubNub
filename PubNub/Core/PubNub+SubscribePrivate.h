@@ -6,7 +6,7 @@
 #import "PubNub+Subscribe.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark Private interface declaration
 
@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)unsubscribeFromChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence
-                     completion:(nullable PNSubscriberCompletionBlock)block;
+- (void)unsubscribeFromChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence
+                     completion:( PNSubscriberCompletionBlock)block;
 
 /**
  @brief      Unsubscribe/leave from specified set of channel groups.
@@ -48,12 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)unsubscribeFromChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence
-                     completion:(nullable PNSubscriberCompletionBlock)block;
+- (void)unsubscribeFromChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence
+                     completion:( PNSubscriberCompletionBlock)block;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

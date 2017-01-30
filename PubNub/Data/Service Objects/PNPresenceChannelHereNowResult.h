@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which allow to get access to channel presence processed result.
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) id uuids;
+@property (nonatomic, readonly, strong) id uuids;
 
 /**
  @brief  Active subscribers count.
@@ -67,4 +67,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

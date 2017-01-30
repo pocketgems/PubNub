@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Base class which allow to get access to general information about subscribe loop.
@@ -23,14 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) NSString *subscribedChannel;
+@property (nonatomic, readonly, strong) NSString *subscribedChannel;
 
 /**
  @brief  Name of channel in case if \c -subscribedChannel represent channel group.
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) NSString *actualChannel;
+@property (nonatomic, readonly, strong) NSString *actualChannel;
 
 /**
  @brief  Time at which event arrived.
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.3.0
  */
-@property (nonatomic, nullable, readonly, strong) NSDictionary<NSString *, id> *userMetadata;
+@property (nonatomic, readonly, strong) NSDictionary *userMetadata;
 
 #pragma mark -
 
@@ -86,14 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, readonly, copy) NSArray<NSString *> *subscribedChannels;
+@property (nonatomic, readonly, copy) NSArray *subscribedChannels;
 
 /**
  @brief  List of channel group names on which client currently subscribed.
  
  @since 4.0
  */
-@property (nonatomic, readonly, copy) NSArray<NSString *> *subscribedChannelGroups;
+@property (nonatomic, readonly, copy) NSArray *subscribedChannelGroups;
 
 /**
  @brief  Structured \b PNResult \c data field information.
@@ -107,4 +107,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

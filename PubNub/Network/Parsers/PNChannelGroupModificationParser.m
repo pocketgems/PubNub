@@ -13,7 +13,7 @@
 
 #pragma mark - Identification
 
-+ (NSArray<NSNumber *> *)operations {
++ (NSArray *)operations {
     
     return @[@(PNAddChannelsToGroupOperation), @(PNRemoveChannelsFromGroupOperation),
              @(PNRemoveGroupOperation)];
@@ -27,11 +27,11 @@
 
 #pragma mark - Parsing
 
-+ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response {
++ ( NSDictionary *)parsedServiceResponse:(id)response {
     
     // To handle case when response is unexpected for this type of operation processed value sent through 
     // 'nil' initialized local variable.
-    NSDictionary<NSString *, id> *processedResponse = nil;
+    NSDictionary *processedResponse = nil;
     
     // Dictionary is valid response type for channel group modification response.
     if ([response isKindOfClass:[NSDictionary class]] && response[@"message"] && response[@"error"]) {

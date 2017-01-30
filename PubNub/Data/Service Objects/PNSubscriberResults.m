@@ -20,7 +20,7 @@
     return self.serviceData[@"timetoken"];
 }
 
-- (nullable NSString *)uuid {
+- ( NSString *)uuid {
     
     return self.serviceData[@"uuid"];
 }
@@ -30,7 +30,7 @@
     return self.serviceData[@"occupancy"];
 }
 
-- (nullable NSDictionary<NSString *, id> *)state {
+- ( NSDictionary *)state {
     
     return self.serviceData[@"state"];
 }
@@ -71,7 +71,7 @@
 
 #pragma mark - Information
 
-- (nullable id)message {
+- ( id)message {
     
     return self.serviceData[@"message"];
 }

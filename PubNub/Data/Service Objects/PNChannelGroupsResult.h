@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which allow to get access to channel groups list audit processed result.
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSArray<NSString *> *groups;
+@property (nonatomic, readonly, strong) NSArray *groups;
 
 #pragma mark -
 
@@ -50,11 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nonnull, readonly, strong) PNChannelGroupsData *data;
+@property (nonatomic, readonly, strong) PNChannelGroupsData *data;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

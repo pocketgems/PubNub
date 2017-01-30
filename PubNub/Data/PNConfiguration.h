@@ -2,7 +2,7 @@
 #import "PNStructures.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      \b PubNub client configuration wrapper.
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, copy) NSString *authKey;
+@property (nonatomic, copy) NSString *authKey;
 
 /**
  @brief      Reference on unique client identifier used to identify concrete client user from another which 
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, copy) NSString *cipherKey;
+@property (nonatomic, copy) NSString *cipherKey;
 
 /**
  @brief      Stores reference on maximum number of seconds which client should wait for events from live feed.
@@ -209,4 +209,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

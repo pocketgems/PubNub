@@ -62,7 +62,7 @@ void pn_safe_property_write(dispatch_queue_t queue, dispatch_block_t block) {
 }
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark - Protected interface declaration
 
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  @since 4.0
 */
 - (instancetype)initWithConfiguration:(PNConfiguration *)configuration
-                        callbackQueue:(nullable dispatch_queue_t)callbackQueue;
+                        callbackQueue:( dispatch_queue_t)callbackQueue;
 
 
 #pragma mark - Reachability
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -291,7 +291,7 @@ NS_ASSUME_NONNULL_END
             if (block) { pn_dispatch_async(client.callbackQueue, ^{ block(client); }); }
         }];
     };
-    if ([self.subscriberManager allObjects].count) {
+    if ([[self.subscriberManager allObjects] count]) {
         
         if (![configuration.uuid isEqualToString:self.configuration.uuid] ||
             ![configuration.authKey isEqualToString:self.configuration.authKey]) {
@@ -361,7 +361,7 @@ NS_ASSUME_NONNULL_END
 
 + (NSString *)kitDisplayVersion {
     
-    return [self information].version;
+    return [[self information] version];
 }
 #endif
 
@@ -409,13 +409,13 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Operation processing
 
 - (void)processOperation:(PNOperationType)operationType withParameters:(PNRequestParameters *)parameters
-         completionBlock:(nullable id)block {
+         completionBlock:( id)block {
 
     [self processOperation:operationType withParameters:parameters data:nil completionBlock:block];
 }
 
 - (void)processOperation:(PNOperationType)operationType withParameters:(PNRequestParameters *)parameters 
-                    data:(nullable NSData *)data completionBlock:(nullable id)block {
+                    data:( NSData *)data completionBlock:( id)block {
     
     if (operationType == PNSubscribeOperation || operationType == PNUnsubscribeOperation) {
 
@@ -466,8 +466,8 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Events notification
 
-- (void)callBlock:(nullable id)block status:(BOOL)callingStatusBlock withResult:(nullable PNResult *)result
-        andStatus:(nullable PNStatus *)status {
+- (void)callBlock:( id)block status:(BOOL)callingStatusBlock withResult:( PNResult *)result
+        andStatus:( PNStatus *)status {
     
     if (result) { DDLogResult([[self class] ddLogLevel], @"<PubNub> %@", [result stringifiedRepresentation]); }
     

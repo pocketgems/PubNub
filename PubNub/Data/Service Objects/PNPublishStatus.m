@@ -33,7 +33,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNPublishData *data;
+@property (nonatomic, strong) PNPublishData *data;
 
 #pragma mark -
 

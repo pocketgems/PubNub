@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Useful collection of methods which make it easrier to work with set of channels, groups and presence
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names;
++ ( NSString *)namesForRequest:(NSArray *)names;
 
 /**
  @brief      Convert provided list of data objects to comma-joined string where evert entry percent-escaped.
@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names 
-                         defaultString:(nullable NSString *)defaultString;
++ ( NSString *)namesForRequest:(NSArray *)names 
+                         defaultString:( NSString *)defaultString;
 
 
 ///------------------------------------------------
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @since 4.0
  */
-+ (NSArray<NSString *> *)namesFromRequest:(NSString *)response;
++ (NSArray *)namesFromRequest:(NSString *)response;
 
 
 ///------------------------------------------------
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (NSArray<NSString *> *)presenceChannelsFrom:(NSArray<NSString *> *)names;
++ (NSArray *)presenceChannelsFrom:(NSArray *)names;
 
 /**
  @brief  Filter provided mixed list of channels/groups and presence channels/groups to list w/o presence 
@@ -112,11 +112,10 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-+ (NSArray<NSString *> *)objectsWithOutPresenceFrom:(NSArray<NSString *> *)names;
++ (NSArray *)objectsWithOutPresenceFrom:(NSArray *)names;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

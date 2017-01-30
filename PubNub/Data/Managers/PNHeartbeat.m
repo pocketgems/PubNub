@@ -12,7 +12,7 @@
 #import "PNStatus.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark Protected interface declaration
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, strong) dispatch_source_t heartbeatTimer;
+@property (nonatomic, strong) dispatch_source_t heartbeatTimer;
 
 /**
  @brief  Stores reference on queue which is used to serialize access to shared heartbeat 
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation

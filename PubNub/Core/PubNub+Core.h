@@ -7,7 +7,7 @@
 @class PNClientInformation, PNConfiguration;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      PubNub client core class which is responsible for communication with \b PubNub network and 
@@ -108,7 +108,7 @@ self.client = [PubNub clientWithConfiguration:configuration callbackQueue:queue]
  @since 4.0
 */
 + (instancetype)clientWithConfiguration:(PNConfiguration *)configuration
-                          callbackQueue:(nullable dispatch_queue_t)callbackQueue;
+                          callbackQueue:( dispatch_queue_t)callbackQueue;
 
 /**
  @brief      Make copy of client with it's current state using new configuration.
@@ -179,7 +179,7 @@ configuration.TLSEnabled = NO;
  @since 4.0
  */
 - (void)copyWithConfiguration:(PNConfiguration *)configuration
-                callbackQueue:(nullable dispatch_queue_t)callbackQueue
+                callbackQueue:( dispatch_queue_t)callbackQueue
                    completion:(void(^)(PubNub *client))block;
 
 #pragma mark -
@@ -187,4 +187,3 @@ configuration.TLSEnabled = NO;
 
 @end
 
-NS_ASSUME_NONNULL_END

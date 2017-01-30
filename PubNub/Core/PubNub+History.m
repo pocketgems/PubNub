@@ -16,7 +16,7 @@
 #import "PNHelpers.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 #pragma mark Private interface declaration
 
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-- (void)handleHistoryResult:(nullable PNResult *)result withStatus:(nullable PNStatus *)status
+- (void)handleHistoryResult:( PNResult *)result withStatus:( PNStatus *)status
                  completion:(PNHistoryCompletionBlock)block;
 
 #pragma mark -
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 
 #pragma mark - Interface implementation
@@ -63,14 +63,14 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - History in specified frame
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate
-                      end:(nullable NSNumber *)endDate withCompletion:(PNHistoryCompletionBlock)block {
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate
+                      end:( NSNumber *)endDate withCompletion:(PNHistoryCompletionBlock)block {
     
     [self historyForChannel:channel start:startDate end:endDate limit:100 withCompletion:block];
 }
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
-                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
+                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
            withCompletion:(PNHistoryCompletionBlock)block {
     
     [self historyForChannel:channel start:startDate end:endDate limit:limit includeTimeToken:NO
@@ -80,32 +80,32 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - History in frame with extended response
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate
-                      end:(nullable NSNumber *)endDate includeTimeToken:(BOOL)shouldIncludeTimeToken
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate
+                      end:( NSNumber *)endDate includeTimeToken:(BOOL)shouldIncludeTimeToken
            withCompletion:(PNHistoryCompletionBlock)block {
     
     [self historyForChannel:channel start:startDate end:endDate limit:100
            includeTimeToken:shouldIncludeTimeToken withCompletion:block];
 }
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
-                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
+                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
          includeTimeToken:(BOOL)shouldIncludeTimeToken withCompletion:(PNHistoryCompletionBlock)block {
     
     [self historyForChannel:channel start:startDate end:endDate limit:limit reverse:NO
            includeTimeToken:shouldIncludeTimeToken withCompletion:block];
 }
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
-                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
+                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
                   reverse:(BOOL)shouldReverseOrder withCompletion:(PNHistoryCompletionBlock)block {
     
     [self historyForChannel:channel start:startDate end:endDate limit:limit reverse:shouldReverseOrder 
            includeTimeToken:NO withCompletion:block];
 }
 
-- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate
-                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate
+                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
                   reverse:(BOOL)shouldReverseOrder includeTimeToken:(BOOL)shouldIncludeTimeToken 
            withCompletion:(PNHistoryCompletionBlock)block {
     
@@ -125,12 +125,12 @@ NS_ASSUME_NONNULL_END
                                      @"include_token": (shouldIncludeTimeToken ? @"true" : @"false")}];
     if (startDate) {
         
-        [parameters addQueryParameter:[PNNumber timeTokenFromNumber:startDate].stringValue
+        [parameters addQueryParameter:[[PNNumber timeTokenFromNumber:startDate] stringValue]
                          forFieldName:@"start"];
     }
     if (endDate) {
         
-        [parameters addQueryParameter:[PNNumber timeTokenFromNumber:endDate].stringValue
+        [parameters addQueryParameter:[[PNNumber timeTokenFromNumber:endDate] stringValue]
                          forFieldName:@"end"];
     }
     if (channel.length) {
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_END
 
     __weak __typeof(self) weakSelf = self;
     [self processOperation:PNHistoryOperation withParameters:parameters
-           completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status) {
+           completionBlock:^(PNResult *  result, PNStatus *  status) {
 
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object
@@ -171,7 +171,7 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Handlers
 
-- (void)handleHistoryResult:(nullable PNHistoryResult *)result withStatus:(nullable PNErrorStatus *)status
+- (void)handleHistoryResult:( PNHistoryResult *)result withStatus:( PNErrorStatus *)status
                  completion:(PNHistoryCompletionBlock)block {
 
     if (result && result.serviceData[@"decryptError"]) {

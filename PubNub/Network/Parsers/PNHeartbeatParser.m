@@ -13,7 +13,7 @@
 
 #pragma mark - Identification
 
-+ (NSArray<NSNumber *> *)operations {
++ (NSArray *)operations {
     
     return @[@(PNHeartbeatOperation)];
 }
@@ -26,7 +26,7 @@
 
 #pragma mark - Parsing
 
-+ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response {
++ ( NSDictionary *)parsedServiceResponse:(id)response {
     
     // To handle case when response is unexpected for this type of operation processed value sent through 
     // 'nil' initialized local variable.

@@ -15,7 +15,7 @@
 
 #pragma mark - Information
 
-- (nullable id)uuids {
+- ( id)uuids {
     
     return self.serviceData[@"uuids"];
 }
@@ -38,7 +38,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, nonnull, strong) PNPresenceChannelHereNowData *data;
+@property (nonatomic, strong) PNPresenceChannelHereNowData *data;
 
 #pragma mark -
 

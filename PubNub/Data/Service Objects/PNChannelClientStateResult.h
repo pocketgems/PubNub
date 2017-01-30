@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which allow to get access to client state for channel processed result.
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSDictionary<NSString *, id> *state;
+@property (nonatomic, readonly, strong) NSDictionary *state;
 
 #pragma mark -
 
@@ -57,4 +57,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

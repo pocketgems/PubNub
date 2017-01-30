@@ -211,11 +211,11 @@
     Class testProtocolClass = [SessionConfigurationCategoryTestProtocol class];
     [NSURLSessionConfiguration pn_setProtocolClasses:@[testProtocolClass]];
     
-    XCTAssertEqual([NSURLSessionConfiguration pn_protocolClasses].count, 1, 
+    XCTAssertEqual([[NSURLSessionConfiguration pn_protocolClasses] count], 1, 
                    @"Unexpected number of custom request handlign protocol classes.");
     XCTAssertEqual(self.configuration.protocolClasses.count, (systemProvidedProtocolsCount + 1), 
                    @"Unexpected number of custom request handlign protocol classes.");
-    XCTAssertEqualObjects([NSURLSessionConfiguration pn_protocolClasses].firstObject, testProtocolClass, 
+    XCTAssertEqualObjects([[NSURLSessionConfiguration pn_protocolClasses] firstObject], testProtocolClass, 
                           @"Expected test protocol class.");
     XCTAssertEqualObjects(self.configuration.protocolClasses.lastObject, testProtocolClass, 
                           @"Expected test protocol class.");

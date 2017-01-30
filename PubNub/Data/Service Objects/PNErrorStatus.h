@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief  Class which is used to provide access to additional data available to describe error status
@@ -25,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSArray<NSString *> *channels;
+@property (nonatomic, readonly, strong) NSArray *channels;
 
 /**
  @brief  List of channel groups for which error has been triggered.
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSArray<NSString *> *channelGroups;
+@property (nonatomic, readonly, strong) NSArray *channelGroups;
 
 /**
  @brief  Service-provided information about error.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0
  */
-@property (nonatomic, nullable, readonly, strong) id data;
+@property (nonatomic, readonly, strong) id data;
 
 #pragma mark -
 
@@ -83,11 +83,10 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since 4.0.2
  */
-@property (nonatomic, nullable, readonly, strong) id associatedObject;
+@property (nonatomic, readonly, strong) id associatedObject;
 
 #pragma mark - 
 
 
 @end
 
-NS_ASSUME_NONNULL_END

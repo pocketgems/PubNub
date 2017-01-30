@@ -13,7 +13,7 @@
        PNHeartbeat, PNResult, PNStatus;
 
 
-NS_ASSUME_NONNULL_BEGIN
+
 
 /**
  @brief      \b PubNub client core extension which expose private fields and methods to support other 
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  @since 4.0
  */
 - (void)processOperation:(PNOperationType)operationType withParameters:(PNRequestParameters *)parameters
-         completionBlock:(nullable id)block;
+         completionBlock:( id)block;
 
 /**
  @brief  Compose request to \b PubNub network basing on operation type and passed \c parameters.
@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
  @since 4.0
  */
 - (void)processOperation:(PNOperationType)operationType withParameters:(PNRequestParameters *)parameters 
-                    data:(nullable NSData *)data completionBlock:(nullable id)block;
+                    data:( NSData *)data completionBlock:( id)block;
 
 /**
  @brief  Cancel any active long-polling operations scheduled for processing.
@@ -191,12 +191,11 @@ NS_ASSUME_NONNULL_BEGIN
 
  @since 4.0
  */
-- (void)callBlock:(nullable id)block status:(BOOL)callingStatusBlock withResult:(nullable PNResult *)result
-        andStatus:(nullable PNStatus *)status;
+- (void)callBlock:( id)block status:(BOOL)callingStatusBlock withResult:( PNResult *)result
+        andStatus:( PNStatus *)status;
 
 #pragma mark -
 
 
 @end
 
-NS_ASSUME_NONNULL_END

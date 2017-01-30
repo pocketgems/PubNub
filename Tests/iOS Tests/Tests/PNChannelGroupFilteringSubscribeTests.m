@@ -222,7 +222,7 @@ static NSString * const kPNChannelGroupTestName = @"PNChannelGroupFilterSubscrib
         [secondPublishExpectation fulfill];
 //        secondPublishExpectation = nil;
     }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
     self.publishExpectation = nil;
@@ -317,7 +317,7 @@ static NSString * const kPNChannelGroupTestName = @"PNChannelGroupFilterSubscrib
         [secondPublishExpectation fulfill];
 //        secondPublishExpectation = nil;
     }];
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError * _Nullable error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *  error) {
         XCTAssertNil(error);
     }];
     self.publishExpectation = nil;
