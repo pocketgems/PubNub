@@ -159,25 +159,23 @@
         completionBlock:(void(^)(id, BOOL))block {
     
     if (shouldFetchData) {
-        
         query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
-        query[(__bridge id)kSecReturnAttributes] = (__bridge id)kCFBooleanTrue;
     }
     
     // Run search query
-    CFDictionaryRef searchedItem = NULL;
+    CFDataRef searchedItem = NULL;
     OSStatus searchStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query,
                                                 (shouldFetchData ? (CFTypeRef *)&searchedItem : NULL));
-    [query removeObjectsForKeys:@[(__bridge id)kSecReturnData, (__bridge id)kSecReturnAttributes]];
-    
+    [query removeObjectsForKeys:@[(__bridge id)kSecReturnData]];
+
     // Processing keychain query results.
     id data = nil;
     [self debugKeychainQueryStatus:searchStatus];
     // Check whether search performed w/o any errors or not.
-    if (searchStatus == errSecSuccess && searchedItem && CFDictionaryContainsKey(searchedItem, kSecValueData)) {
+    if (searchStatus == errSecSuccess && searchedItem) {
         
         // Extract fetched data.
-        data = [self unpackedData:((__bridge NSDictionary *)searchedItem)[(__bridge id)kSecValueData]];
+        data = [self unpackedData:(__bridge NSData *)(searchedItem)];
     }
     
     if (searchedItem) {
