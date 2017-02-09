@@ -182,13 +182,14 @@
 
 - (NSDictionary *)dictionaryRepresentation {
     
-    id processedData = (self.serviceData[@"envelope"] ? [self.serviceData mutableCopy] : 
-                        (self.serviceData?: @"no data"));
-    if ([processedData isKindOfClass:[NSMutableDictionary class]]) {
-        
+    id processedData = nil;
+    if (self.serviceData[@"envelope"]) {
+        processedData = [self.serviceData mutableCopy];
         processedData[@"envelope"] = [self.serviceData[@"envelope"] valueForKey:@"dictionaryRepresentation"];
+    } else {
+        processedData = self.serviceData ?: @"no data";
     }
-    
+
     NSMutableDictionary *response = [@{@"Status code": @(self.statusCode),
                                        @"Processed data": processedData} mutableCopy];
     if (_unexpectedServiceData) { response[@"Unexpected"] = @(YES); }
