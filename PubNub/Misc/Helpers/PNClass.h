@@ -26,7 +26,7 @@
  
  @since 4.0
  */
-+ ( NSArray *)classesConformingToProtocol:(Protocol*)protocol;
++ ( NSArray<Class> *)classesConformingToProtocol:(Protocol*)protocol;
 
 /**
  @brief  Gather list of classes who's instance is able to respond to \c selector.
@@ -37,7 +37,7 @@
  
  @since 4.0
  */
-+ ( NSArray *)classesRespondingToSelector:(SEL)selector;
++ ( NSArray<Class> *)classesRespondingToSelector:(SEL)selector;
 
 #pragma mark -
 
