@@ -11,7 +11,7 @@
 @class PubNub;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -22,7 +22,7 @@
  
  @since 4.0
  */
-typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
+typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus * _Nullable status);
 
 
 /**
@@ -47,7 +47,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (NSArray *)allObjects;
+- (NSArray<NSString *> *)allObjects;
 
 /**
  @brief  List of channels.
@@ -56,7 +56,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (NSArray *)channels;
+- (NSArray<NSString *> *)channels;
 
 /**
  @brief  List of channel groups.
@@ -65,7 +65,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (NSArray *)channelGroups;
+- (NSArray<NSString *> *)channelGroups;
 
 /**
  @brief  List of presence channels.
@@ -74,7 +74,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (NSArray *)presenceChannels;
+- (NSArray<NSString *> *)presenceChannels;
 
 
 ///------------------------------------------------
@@ -113,7 +113,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)addChannels:(NSArray *)channels;
+- (void)addChannels:(NSArray<NSString *> *)channels;
 
 /**
  @brief  Remove channels from the list on which client subscribed.
@@ -122,7 +122,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)removeChannels:(NSArray *)channels;
+- (void)removeChannels:(NSArray<NSString *> *)channels;
 
 /**
  @brief  Add new channel groups to the list at which client subscribed.
@@ -131,7 +131,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)addChannelGroups:(NSArray *)groups;
+- (void)addChannelGroups:(NSArray<NSString *> *)groups;
 
 /**
  @brief  Remove channel groups from the list on which client subscribed.
@@ -140,7 +140,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)removeChannelGroups:(NSArray *)groups;
+- (void)removeChannelGroups:(NSArray<NSString *> *)groups;
 
 /**
  @brief  Add new presence channels to the list at which client subscribed.
@@ -149,7 +149,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)addPresenceChannels:(NSArray *)presenceChannels;
+- (void)addPresenceChannels:(NSArray<NSString *> *)presenceChannels;
 
 /**
  @brief  Remove presence channels from the list on which client subscribed.
@@ -158,7 +158,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)removePresenceChannels:(NSArray *)presenceChannels;
+- (void)removePresenceChannels:(NSArray<NSString *> *)presenceChannels;
 
 
 ///------------------------------------------------
@@ -171,7 +171,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  @warning If your filter expression is malformed, \b PNObjectEventListener won't receive any messages and 
           presence events from service (only error status).
  */
-@property (nonatomic, copy) NSString *filterExpression;
+@property (nonatomic, nullable, copy) NSString *filterExpression;
 
 
 ///------------------------------------------------
@@ -190,9 +190,9 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)subscribeUsingTimeToken:( NSNumber *)timeToken 
-                      withState:( NSDictionary *)state 
-                     completion:( PNSubscriberCompletionBlock)block;
+- (void)subscribeUsingTimeToken:(nullable NSNumber *)timeToken 
+                      withState:(nullable NSDictionary<NSString *, id> *)state 
+                     completion:(nullable PNSubscriberCompletionBlock)block;
 
 /**
  @brief  Try restore subscription cycle by using \b 0 time token and if required try to catch up on
@@ -202,7 +202,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)restoreSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block;
+- (void)restoreSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block;
 
 /**
  @brief  Continue subscription cycle using \c currentTimeToken value and channels, stored in cache.
@@ -211,7 +211,7 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)continueSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block;
+- (void)continueSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block;
 
 /**
  @brief      Perform unsubscription operation.
@@ -233,11 +233,12 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus *  status);
  
  @since 4.0
  */
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
-             completion:( PNSubscriberCompletionBlock)block;
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
+             completion:(nullable PNSubscriberCompletionBlock)block;
 
 #pragma mark -
 
 
 @end
 
+NS_ASSUME_NONNULL_END

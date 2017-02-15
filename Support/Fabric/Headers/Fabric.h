@@ -20,7 +20,7 @@
 #import <Foundation/Foundation.h>
 #import "FABAttributes.h"
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Fabric Base. Coordinates configuration and starts all provided kits.
@@ -63,4 +63,5 @@
 
 @end
 
+NS_ASSUME_NONNULL_END
 

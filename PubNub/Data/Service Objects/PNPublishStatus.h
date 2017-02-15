@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Class which is used to provide access to additional data available to describe publish 
@@ -65,3 +65,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

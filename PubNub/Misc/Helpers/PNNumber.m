@@ -14,7 +14,7 @@
 static NSUInteger const kPNRequiredTimeTokenPrecision = 17;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private interface declaration
 
@@ -61,7 +61,7 @@ static NSUInteger const kPNRequiredTimeTokenPrecision = 17;
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation

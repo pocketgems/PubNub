@@ -7,7 +7,7 @@
 #import "PubNub+CorePrivate.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -29,7 +29,7 @@
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableDictionary *stateCache;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, id> *stateCache;
 
 /**
  @brief  Stores reference on queue which is used to serialize access to shared client state
@@ -58,7 +58,7 @@
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -106,8 +106,8 @@
     return state;
 }
 
-- (NSDictionary *)stateMergedWith:( NSDictionary *)state 
-                       forObjects:(NSArray *)objects {
+- (NSDictionary *)stateMergedWith:(nullable NSDictionary<NSString *, id> *)state 
+                       forObjects:(NSArray<NSString *> *)objects {
     
     NSMutableDictionary *mutableState = [([self state]?: @{}) mutableCopy];
     [state enumerateKeysAndObjectsUsingBlock:^(NSString *objectName, NSDictionary *stateForObject,
@@ -126,7 +126,7 @@
     return [(mutableState.count ? mutableState : nil) copy];
 }
 
-- (void)mergeWithState:( NSDictionary *)state {
+- (void)mergeWithState:(nullable NSDictionary<NSString *, id> *)state {
 
     if (state.count) {
 
@@ -153,7 +153,7 @@
     }
 }
 
-- (void)setState:( NSDictionary *)state forObject:(NSString *)object {
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forObject:(NSString *)object {
 
     dispatch_barrier_async(self.resourceAccessQueue, ^{
         
@@ -162,7 +162,7 @@
     });
 }
 
-- (void)removeStateForObjects:(NSArray *)objects {
+- (void)removeStateForObjects:(NSArray<NSString *> *)objects {
     
     dispatch_barrier_async(self.resourceAccessQueue, ^{
         

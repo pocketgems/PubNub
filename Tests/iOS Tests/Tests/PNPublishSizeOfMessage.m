@@ -64,7 +64,7 @@
     XCTestExpectation *completionBlockExpectation = [self expectationWithDescription:@"Completion"];
     
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-W"
+    #pragma clang diagnostic ignored "-Wnonnull"
     [self.client sizeOfMessage:message
                      toChannel:nil
                 withCompletion:^(NSInteger size) {
@@ -91,7 +91,7 @@
     XCTestExpectation *completionBlockExpectation = [self expectationWithDescription:@"Completion"];
     
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-W"
+    #pragma clang diagnostic ignored "-Wnonnull"
     [self.client sizeOfMessage:message
                      toChannel:nil
                 storeInHistory:YES

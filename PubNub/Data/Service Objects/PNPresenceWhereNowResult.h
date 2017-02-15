@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Class which allow to get access to client presence processed result.
@@ -23,7 +23,7 @@
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSArray *channels;
+@property (nonatomic, readonly, strong) NSArray<NSString *> *channels;
 
 #pragma mark -
 
@@ -57,3 +57,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

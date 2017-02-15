@@ -37,7 +37,7 @@
 
 #pragma mark - Convertion
 
-+ ( NSData *)UTF8DataFrom:(NSString *)string {
++ (nullable NSData *)UTF8DataFrom:(NSString *)string {
     
     return [string dataUsingEncoding:NSUTF8StringEncoding];
 }

@@ -13,7 +13,7 @@
 #import "PNHelpers.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -35,9 +35,9 @@
  
  @since 4.0
  */
-- (void)setState:( NSDictionary *)state forUUID:(NSString *)uuid 
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forUUID:(NSString *)uuid 
        onChannel:(BOOL)onChannel withName:(NSString *)object 
-  withCompletion:( PNSetStateCompletionBlock)block;
+  withCompletion:(nullable PNSetStateCompletionBlock)block;
 
 /**
  @brief  Retrieve state information for \c uuid on specified remote data object.
@@ -70,7 +70,7 @@
  @since 4.0
  */
 - (void)handleSetStateStatus:(PNClientStateUpdateStatus *)status forUUID:(NSString *)uuid
-                    atObject:(NSString *)object withCompletion:( PNSetStateCompletionBlock)block;
+                    atObject:(NSString *)object withCompletion:(nullable PNSetStateCompletionBlock)block;
 
 /**
  @brief  Process client state audition request completion and notify observers about results.
@@ -87,7 +87,7 @@
 
  @since 4.0
  */
-- (void)handleStateResult:( PNChannelClientStateResult *)result withStatus:( PNStatus *)status
+- (void)handleStateResult:(nullable PNChannelClientStateResult *)result withStatus:(nullable PNStatus *)status
                   forUUID:(NSString *)uuid atChannel:(BOOL)isChannel object:(NSString *)object
            withCompletion:(id)block;
 
@@ -96,7 +96,7 @@
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark Interface implementation
@@ -106,21 +106,21 @@
 
 #pragma mark - Client state information manipulation
 
-- (void)setState:( NSDictionary *)state forUUID:(NSString *)uuid 
-       onChannel:(NSString *)channel withCompletion:( PNSetStateCompletionBlock)block {
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forUUID:(NSString *)uuid 
+       onChannel:(NSString *)channel withCompletion:(nullable PNSetStateCompletionBlock)block {
     
     [self setState:state forUUID:uuid onChannel:YES withName:channel withCompletion:block];
 }
 
-- (void)setState:( NSDictionary *)state forUUID:(NSString *)uuid 
-  onChannelGroup:(NSString *)group withCompletion:( PNSetStateCompletionBlock)block {
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forUUID:(NSString *)uuid 
+  onChannelGroup:(NSString *)group withCompletion:(nullable PNSetStateCompletionBlock)block {
     
     [self setState:state forUUID:uuid onChannel:NO withName:group withCompletion:block];
 }
 
-- (void)setState:( NSDictionary *)state forUUID:(NSString *)uuid 
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forUUID:(NSString *)uuid 
        onChannel:(BOOL)onChannel withName:(NSString *)object
-  withCompletion:( PNSetStateCompletionBlock)block {
+  withCompletion:(nullable PNSetStateCompletionBlock)block {
     
     __weak __typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -205,7 +205,7 @@
     __weak __typeof(self) weakSelf = self;
     [self processOperation:(onChannel ? PNStateForChannelOperation : PNStateForChannelGroupOperation)
             withParameters:parameters 
-           completionBlock:^(PNResult *  result, PNStatus *  status) {
+           completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status) {
                
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object method.
@@ -230,7 +230,7 @@
 #pragma mark - Handlers
 
 - (void)handleSetStateStatus:(PNClientStateUpdateStatus *)status forUUID:(NSString *)uuid
-                    atObject:(NSString *)object withCompletion:( PNSetStateCompletionBlock)block {
+                    atObject:(NSString *)object withCompletion:(nullable PNSetStateCompletionBlock)block {
     
     // Check whether state modification to the client has been successful or not.
     if (status && !status.isError && [uuid isEqualToString:self.configuration.uuid]) {
@@ -241,7 +241,7 @@
     [self callBlock:block status:YES withResult:nil andStatus:(PNStatus *)status];
 }
 
-- (void)handleStateResult:( PNChannelClientStateResult *)result withStatus:( PNStatus *)status
+- (void)handleStateResult:(nullable PNChannelClientStateResult *)result withStatus:(nullable PNStatus *)status
                   forUUID:(NSString *)uuid atChannel:(BOOL)isChannel object:(NSString *)object
            withCompletion:(id)block {
     

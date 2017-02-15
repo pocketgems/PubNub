@@ -26,7 +26,7 @@
 static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID";
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protected interface declaration
 
@@ -59,7 +59,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
  
  @since 4.0.2
  */
-- ( NSString *)uniqueDeviceIdentifier;
+- (nullable NSString *)uniqueDeviceIdentifier;
 
 /**
  @brief  Extract unique identifier for current platform.
@@ -68,7 +68,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
  
  @since 4.1.1
  */
-- ( NSString *)generateUniqueDeviceIdentifier;
+- (nullable NSString *)generateUniqueDeviceIdentifier;
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
 /**
@@ -78,7 +78,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
  
  @since 4.0.2
  */
-- ( NSString *)serialNumber;
+- (nullable NSString *)serialNumber;
 
 /**
  @brief  Try to receive MAC address for any current interfaces.
@@ -87,7 +87,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
  
  @since 4.0.2
  */
-- ( NSString *)macAddress;
+- (nullable NSString *)macAddress;
 #endif
 
 #pragma mark -
@@ -95,7 +95,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -169,7 +169,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
 
 #pragma mark - Misc
 
-- ( NSString *)uniqueDeviceIdentifier {
+- (nullable NSString *)uniqueDeviceIdentifier {
     
     __block NSString *identifier = nil;
     [PNKeychain valueForKey:kPNConfigurationDeviceIDKey withCompletionBlock:^(id value) {
@@ -186,7 +186,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
     return identifier;
 }
 
-- ( NSString *)generateUniqueDeviceIdentifier {
+- (nullable NSString *)generateUniqueDeviceIdentifier {
     
     NSString *identifier = nil;
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED || defined(PGDROID)) && !TARGET_OS_WATCH
@@ -199,7 +199,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
 }
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
-- ( NSString *)serialNumber {
+- (nullable NSString *)serialNumber {
     
     NSString *serialNumber = nil;
     io_service_t service = IOServiceGetMatchingService(kIOMasterPortDefault,
@@ -219,7 +219,7 @@ static NSString * const kPNConfigurationDeviceIDKey = @"PNConfigurationDeviceID"
     return serialNumber;
 }
 
-- ( NSString *)macAddress {
+- (nullable NSString *)macAddress {
     
     NSString *macAddress = nil;
     size_t length = 0;

@@ -9,7 +9,7 @@
 #import "PNJSON.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -23,10 +23,10 @@
 @property (nonatomic, assign, getter = isTLSEnabled) BOOL TLSEnabled;
 @property (nonatomic, assign, getter = isUnexpectedServiceData) BOOL unexpectedServiceData;
 @property (nonatomic, copy) NSString *uuid;
-@property (nonatomic, copy) NSString *authKey;
+@property (nonatomic, nullable, copy) NSString *authKey;
 @property (nonatomic, copy) NSString *origin;
-@property (nonatomic, copy) NSURLRequest *clientRequest;
-@property (nonatomic, copy) NSDictionary *serviceData;
+@property (nonatomic, nullable, copy) NSURLRequest *clientRequest;
+@property (nonatomic, nullable, copy) NSDictionary<NSString *, id> *serviceData;
 
 
 #pragma mark - Misc
@@ -51,14 +51,14 @@
  
  @return \c Normalized service data dictionary.
  */
-- (NSDictionary *)normalizedServiceData:( id)serviceData;
+- (NSDictionary *)normalizedServiceData:(nullable id)serviceData;
 
 #pragma mark -
 
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark Interface implementation
@@ -77,18 +77,18 @@
 #pragma mark - Initialization and Configuration
 
 + (instancetype)objectForOperation:(PNOperationType)operation
-                 completedWithTask:( NSURLSessionDataTask *)task
-                     processedData:( NSDictionary *)processedData 
-                   processingError:( NSError *)error {
+                 completedWithTask:(nullable NSURLSessionDataTask *)task
+                     processedData:(nullable NSDictionary<NSString *, id> *)processedData 
+                   processingError:(nullable NSError *)error {
     
     return [[self alloc] initForOperation:operation completedWithTask:task
                             processedData:processedData processingError:error];
 }
 
 - (instancetype)initForOperation:(PNOperationType)operation
-               completedWithTask:( NSURLSessionDataTask *)task
-                   processedData:( NSDictionary *)processedData 
-                 processingError:( NSError *)__unused error {
+               completedWithTask:(nullable NSURLSessionDataTask *)task
+                   processedData:(nullable NSDictionary<NSString *, id> *)processedData 
+                 processingError:(nullable NSError *)__unused error {
     
     // Check whether initialization was successful or not.
     if ((self = [super init])) {
@@ -121,7 +121,7 @@
     return [self copyWithServiceData:YES];
 }
 
-- (instancetype)copyWithMutatedData:( id)data {
+- (instancetype)copyWithMutatedData:(nullable id)data {
     
     PNResult *result = [self copyWithServiceData:NO];
     [result updateData:data];
@@ -129,7 +129,7 @@
     return result;
 }
 
-- (void)updateData:( id)data {
+- (void)updateData:(nullable id)data {
     
     _serviceData = [[self normalizedServiceData:data] copy];
     _unexpectedServiceData = ![_serviceData isEqual:data];
@@ -156,7 +156,7 @@
     return result;
 }
 
-- (NSDictionary *)normalizedServiceData:( id)serviceData {
+- (NSDictionary *)normalizedServiceData:(nullable id)serviceData {
     
     NSDictionary *normalizedServiceData = serviceData;
     if (serviceData && ![serviceData isKindOfClass:[NSDictionary class]]) {

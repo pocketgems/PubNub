@@ -20,7 +20,7 @@
 static DDLogLevel ddLogLevel = DDLogLevelInfo;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protected interface declaration
 
@@ -87,7 +87,7 @@ static DDLogLevel ddLogLevel = DDLogLevelInfo;
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation

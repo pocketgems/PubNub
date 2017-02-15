@@ -295,7 +295,7 @@
         XCTAssertEqualObjects(status.data.state, expectedState);
         [stateExpectation fulfill];
     }];
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:10 handler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
     }];
 }

@@ -7,7 +7,7 @@
 @class PNPresenceEventResult, PNSubscribeStatus, PNMessageResult, PNErrorStatus;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Interface description for classes which would like to be registered for events from data
@@ -71,3 +71,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

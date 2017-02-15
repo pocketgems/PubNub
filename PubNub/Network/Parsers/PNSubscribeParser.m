@@ -157,7 +157,7 @@ struct PNEventEnvelopeStructure {
 };
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protected interface
 
@@ -176,8 +176,8 @@ struct PNEventEnvelopeStructure {
  
  @since 4.3.0
  */
-+ (NSMutableDictionary *)eventFromData:(NSDictionary *)data
-              withAdditionalParserData:( NSDictionary *)additionalData;
++ (NSMutableDictionary *)eventFromData:(NSDictionary<NSString *, id> *)data
+              withAdditionalParserData:(nullable NSDictionary<NSString *, id> *)additionalData;
 
 /**
  @brief  Parse provided data as new message event.
@@ -190,7 +190,7 @@ struct PNEventEnvelopeStructure {
  @since 4.0
  */
 + (NSMutableDictionary *)messageFromData:(id)data
-                withAdditionalParserData:( NSDictionary *)additionalData;
+                withAdditionalParserData:(nullable NSDictionary<NSString *, id> *)additionalData;
 
 /**
  @brief  Parse provded data as presence event.
@@ -201,14 +201,14 @@ struct PNEventEnvelopeStructure {
  
  @since 4.0
  */
-+ (NSMutableDictionary *)presenceFromData:(NSDictionary *)data;
++ (NSMutableDictionary *)presenceFromData:(NSDictionary<NSString *, id> *)data;
 
 #pragma mark -
 
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -231,7 +231,7 @@ struct PNEventEnvelopeStructure {
 
 #pragma mark - Identification
 
-+ (NSArray *)operations {
++ (NSArray<NSNumber *> *)operations {
     
     return @[@(PNSubscribeOperation)];
 }
@@ -244,8 +244,8 @@ struct PNEventEnvelopeStructure {
 
 #pragma mark - Parsing
 
-+ ( NSDictionary *)parsedServiceResponse:(id)response 
-   withData:( NSDictionary *)additionalData {
++ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response 
+   withData:(nullable NSDictionary<NSString *, id> *)additionalData {
     
     // To handle case when response is unexpected for this type of operation processed value sent
     // through 'nil' initialized local variable.
@@ -254,15 +254,15 @@ struct PNEventEnvelopeStructure {
     // Array will arrive in case of subscription event
     if ([response isKindOfClass:[NSDictionary class]]) {
         
-        NSDictionary *timeTokenDictionary = response[kPNResponseEventTimeKey];
-        NSNumber *timeToken = @([timeTokenDictionary[PNEventTimeToken.timeToken] longLongValue]);
-        NSNumber *region = @([timeTokenDictionary[PNEventTimeToken.region] longLongValue]);
+        NSDictionary<NSString *, NSString *> *timeTokenDictionary = response[kPNResponseEventTimeKey];
+        NSNumber *timeToken = @(timeTokenDictionary[PNEventTimeToken.timeToken].longLongValue);
+        NSNumber *region = @(timeTokenDictionary[PNEventTimeToken.region].longLongValue);
         
         // Checking whether at least one event arrived or not.
-        NSArray *feedEvents = response[kPNResponseEventsListKey];
+        NSArray<NSDictionary *> *feedEvents = response[kPNResponseEventsListKey];
         if (feedEvents.count) {
             
-            NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:feedEvents.count];
+            NSMutableArray<NSDictionary *> *events = [[NSMutableArray alloc] initWithCapacity:feedEvents.count];
             for (NSUInteger eventIdx = 0; eventIdx < [feedEvents count]; eventIdx++) {
                 
                 // Fetching remote data object name on which event fired.
@@ -282,8 +282,8 @@ struct PNEventEnvelopeStructure {
 
 #pragma mark - Events processing
 
-+ (NSMutableDictionary *)eventFromData:(NSDictionary *)data
-              withAdditionalParserData:( NSDictionary *)additionalData {
++ (NSMutableDictionary *)eventFromData:(NSDictionary<NSString *, id> *)data
+              withAdditionalParserData:(nullable NSDictionary<NSString *, id> *)additionalData {
     
     NSMutableDictionary *event = [NSMutableDictionary new];
     NSString *channel = data[PNEventEnvelope.actualChannel];
@@ -297,9 +297,9 @@ struct PNEventEnvelopeStructure {
                         data[PNEventEnvelope.publishTimeToken.key]);
     if ([timeTokenData isKindOfClass:[NSDictionary class]]) {
         
-        NSDictionary *timeToken = timeTokenData;
-        event[@"timetoken"] = @([timeToken[PNEventTimeToken.timeToken] longLongValue]);
-        event[@"region"] = @([timeToken[PNEventTimeToken.region] longLongValue]);
+        NSDictionary<NSString *, NSString *> *timeToken = timeTokenData;
+        event[@"timetoken"] = @(timeToken[PNEventTimeToken.timeToken].longLongValue);
+        event[@"region"] = @(timeToken[PNEventTimeToken.region].longLongValue);
     }
     
     if ([PNChannel isPresenceObject:event[@"subscribedChannel"]]) {
@@ -316,11 +316,11 @@ struct PNEventEnvelopeStructure {
 }
 
 + (NSMutableDictionary *)messageFromData:(id)data
-                withAdditionalParserData:( NSDictionary *)additionalData {
+                withAdditionalParserData:(nullable NSDictionary<NSString *, id> *)additionalData {
     
     NSMutableDictionary *message = nil;
     // Try decrypt message body if possible.
-    if ([((NSString *)additionalData[@"cipherKey"]) length]){
+    if (((NSString *)additionalData[@"cipherKey"]).length){
         
         NSError *decryptionError;
         id decryptedEvent = nil;
@@ -373,7 +373,7 @@ struct PNEventEnvelopeStructure {
     return message;
 }
 
-+ (NSMutableDictionary *)presenceFromData:(NSDictionary *)data {
++ (NSMutableDictionary *)presenceFromData:(NSDictionary<NSString *, id> *)data {
     
     NSMutableDictionary *presence = [NSMutableDictionary new];
     

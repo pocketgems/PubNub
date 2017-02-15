@@ -2,7 +2,7 @@
 #import "PNStructures.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      Class which allow to perform AES based encryption/decryption on provided data.
@@ -33,7 +33,7 @@
  
  @since 4.0
  */
-+ ( NSString *)encrypt:(NSData *)data withKey:(NSString *)key;
++ (nullable NSString *)encrypt:(NSData *)data withKey:(NSString *)key;
 
 /**
  @brief      Encrypt \c data content and encode into Base64 string.
@@ -53,7 +53,7 @@
  
  @since 4.0
  */
-+ ( NSString *)encrypt:(NSData *)data withKey:(NSString *)key 
++ (nullable NSString *)encrypt:(NSData *)data withKey:(NSString *)key 
                       andError:(NSError *__autoreleasing *)error;
 
 
@@ -74,7 +74,7 @@
  
  @since 4.0
  */
-+ ( NSData *)decrypt:(NSString *)object withKey:(NSString *)key;
++ (nullable NSData *)decrypt:(NSString *)object withKey:(NSString *)key;
 
 /**
  @brief      Transform encrypted Base64 encoded string to \a NSData instance.
@@ -94,7 +94,7 @@
  
  @since 4.0
  */
-+ ( NSData *)decrypt:(NSString *)object withKey:(NSString *)key 
++ (nullable NSData *)decrypt:(NSString *)object withKey:(NSString *)key 
                     andError:(NSError *__autoreleasing *)error;
 
 #pragma mark -
@@ -102,3 +102,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

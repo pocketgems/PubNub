@@ -6,7 +6,7 @@
 @class PubNub;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      Presence heartbeat manager used by client to ping \b PubNub network.
@@ -60,3 +60,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

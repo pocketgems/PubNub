@@ -7,7 +7,7 @@
 @class PNRequestParameters;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      \b PubNub API URL builder.
@@ -32,7 +32,7 @@
                    endpoint).
  @param parameters Object which represent set of parameters which should be used during path composition.
  */
-+ ( NSURL *)URLForOperation:(PNOperationType)operation
++ (nullable NSURL *)URLForOperation:(PNOperationType)operation
                      withParameters:(PNRequestParameters *)parameters;
 
 #pragma mark -
@@ -40,3 +40,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

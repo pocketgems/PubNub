@@ -8,7 +8,7 @@
        PNPresenceGlobalHereNowResult, PNPresenceWhereNowResult, PNErrorStatus;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -20,8 +20,8 @@
  
  @since 4.0
  */
-typedef void(^PNHereNowCompletionBlock)(PNPresenceChannelHereNowResult *  result,
-                                        PNErrorStatus *  status);
+typedef void(^PNHereNowCompletionBlock)(PNPresenceChannelHereNowResult * _Nullable result,
+                                        PNErrorStatus * _Nullable status);
 
 /**
  @brief  Global here now completion block.
@@ -31,8 +31,8 @@ typedef void(^PNHereNowCompletionBlock)(PNPresenceChannelHereNowResult *  result
  
  @since 4.0
  */
-typedef void(^PNGlobalHereNowCompletionBlock)(PNPresenceGlobalHereNowResult *  result,
-                                              PNErrorStatus *  status);
+typedef void(^PNGlobalHereNowCompletionBlock)(PNPresenceGlobalHereNowResult * _Nullable result,
+                                              PNErrorStatus * _Nullable status);
 
 /**
  @brief  Channel group here now completion block.
@@ -42,8 +42,8 @@ typedef void(^PNGlobalHereNowCompletionBlock)(PNPresenceGlobalHereNowResult *  r
  
  @since 4.0
  */
-typedef void(^PNChannelGroupHereNowCompletionBlock)(PNPresenceChannelGroupHereNowResult *  result,
-                                                    PNErrorStatus *  status);
+typedef void(^PNChannelGroupHereNowCompletionBlock)(PNPresenceChannelGroupHereNowResult * _Nullable result,
+                                                    PNErrorStatus * _Nullable status);
 
 /**
  @brief  UUID where now completion block.
@@ -53,8 +53,8 @@ typedef void(^PNChannelGroupHereNowCompletionBlock)(PNPresenceChannelGroupHereNo
  
  @since 4.0
  */
-typedef void(^PNWhereNowCompletionBlock)(PNPresenceWhereNowResult *  result, 
-                                         PNErrorStatus *  status);
+typedef void(^PNWhereNowCompletionBlock)(PNPresenceWhereNowResult * _Nullable result, 
+                                         PNErrorStatus * _Nullable status);
 
 
 #pragma mark - API group interface
@@ -88,8 +88,8 @@ typedef void(^PNWhereNowCompletionBlock)(PNPresenceWhereNowResult *  result,
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client hereNowWithCompletion:^(PNPresenceGlobalHereNowResult *  result, 
-                                     PNErrorStatus *  status) {
+[self.client hereNowWithCompletion:^(PNPresenceGlobalHereNowResult * _Nullable result, 
+                                     PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -136,8 +136,8 @@ PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
 [self.client hereNowWithVerbosity:PNHereNowState
-                       completion:^(PNPresenceGlobalHereNowResult *  result, 
-                                    PNErrorStatus *  status) {
+                       completion:^(PNPresenceGlobalHereNowResult * _Nullable result, 
+                                    PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -188,8 +188,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client hereNowForChannel:@"pubnub" withCompletion:^(PNPresenceChannelHereNowResult *  result,
-                                                          PNErrorStatus *  status) {
+[self.client hereNowForChannel:@"pubnub" withCompletion:^(PNPresenceChannelHereNowResult * _Nullable result,
+                                                          PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -232,8 +232,8 @@ PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
 [self.client hereNowForChannel:@"pubnub"  withVerbosity:PNHereNowState
-                    completion:^(PNPresenceChannelHereNowResult *  result,
-                                 PNErrorStatus *  status) {
+                    completion:^(PNPresenceChannelHereNowResult * _Nullable result,
+                                 PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -284,8 +284,8 @@ PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
 [self.client hereNowForChannelGroup:@"developers" 
-                     withCompletion:^(PNPresenceChannelGroupHereNowResult *  result, 
-                                      PNErrorStatus *  status) {
+                     withCompletion:^(PNPresenceChannelGroupHereNowResult * _Nullable result, 
+                                      PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -332,8 +332,8 @@ PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
 [self.client hereNowForChannelGroup:@"developers" withVerbosity:PNHereNowState
-                         completion:^(PNPresenceChannelGroupHereNowResult *  result,
-                                      PNErrorStatus *  status) {
+                         completion:^(PNPresenceChannelGroupHereNowResult * _Nullable result,
+                                      PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -386,8 +386,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client whereNowUUID:@"Steve" withCompletion:^(PNPresenceWhereNowResult *  result, 
-                                                    PNErrorStatus *  status) {
+[self.client whereNowUUID:@"Steve" withCompletion:^(PNPresenceWhereNowResult * _Nullable result, 
+                                                    PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -419,3 +419,4 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
 @end
 
+NS_ASSUME_NONNULL_END

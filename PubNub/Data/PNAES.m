@@ -33,7 +33,7 @@ static DDLogLevel ddLogLevel = (NSUInteger)PNAESErrorLogLevel;
 static const void * kPNAESInitializationVector = "0123456789012345";
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private interface declaration
 
@@ -62,7 +62,7 @@ static const void * kPNAESInitializationVector = "0123456789012345";
  
  @since 4.0
  */
-+ ( NSData *)processedDataFrom:(NSData *)data withKey:(NSString *)cipherKey
++ (nullable NSData *)processedDataFrom:(NSData *)data withKey:(NSString *)cipherKey
                           forOperation:(CCOperation)operation andStatus:(CCCryptorStatus *)status;
 
 
@@ -85,7 +85,7 @@ static const void * kPNAESInitializationVector = "0123456789012345";
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -122,12 +122,12 @@ static const void * kPNAESInitializationVector = "0123456789012345";
 
 #pragma mark - Data encryption
 
-+ ( NSString *)encrypt:(NSData *)data withKey:(NSString *)key {
++ (nullable NSString *)encrypt:(NSData *)data withKey:(NSString *)key {
     
     return [self encrypt:data withKey:key andError:NULL];
 }
 
-+ ( NSString *)encrypt:(NSData *)data withKey:(NSString *)key
++ (nullable NSString *)encrypt:(NSData *)data withKey:(NSString *)key
                       andError:(NSError *__autoreleasing *)error {
     
     NSData *processedData = nil;
@@ -168,12 +168,12 @@ static const void * kPNAESInitializationVector = "0123456789012345";
 
 #pragma mark - Data decryption
 
-+ ( NSData *)decrypt:(NSString *)object withKey:(NSString *)key {
++ (nullable NSData *)decrypt:(NSString *)object withKey:(NSString *)key {
     
     return [self decrypt:object withKey:key andError:NULL];
 }
 
-+ ( NSData *)decrypt:(NSString *)object withKey:(NSString *)key
++ (nullable NSData *)decrypt:(NSString *)object withKey:(NSString *)key
                     andError:(NSError *__autoreleasing *)error {
     
     NSError *decryptionError = nil;
@@ -263,7 +263,7 @@ static const void * kPNAESInitializationVector = "0123456789012345";
     return key;
 }
 
-+ (  NSData *)processedDataFrom:(NSData *)data withKey:(NSString *)cipherKey
++ (nullable  NSData *)processedDataFrom:(NSData *)data withKey:(NSString *)cipherKey
                            forOperation:(CCOperation)operation andStatus:(CCCryptorStatus *)status {
     
     NSData *cryptorKeyData = [self SHA256HexFromKey:cipherKey];

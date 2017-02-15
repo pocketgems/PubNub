@@ -20,33 +20,33 @@
 /**
  @brief  Stores reference on shard identifier on which event has been stored.
  */
-@property (nonatomic, readonly, copy) NSString *shardIdentifier;
+@property (nonatomic, nullable, readonly, copy) NSString *shardIdentifier;
 
 /**
  @brief  Stores reference on numeric representation of enabled debug flags.
  */
-@property (nonatomic, readonly, copy) NSNumber *debugFlags;
+@property (nonatomic, nullable, readonly, copy) NSNumber *debugFlags;
 
 /**
  @brief  Stores reference on identifier of client which sent message (set only for publish).
  */
-@property (nonatomic, readonly, copy) NSString *senderIdentifier;
+@property (nonatomic, nullable, readonly, copy) NSString *senderIdentifier;
 
 /**
  @brief  Stores reference on sequence nubmer of published messages (clients keep track of their own value 
          locally).
  */
-@property (nonatomic, readonly, copy) NSNumber *sequenceNumber;
+@property (nonatomic, nullable, readonly, copy) NSNumber *sequenceNumber;
 
 /**
  @brief  Stores reference on key under which stored application's subscribe key.
  */
-@property (nonatomic, readonly, copy) NSString *subscribeKey;
+@property (nonatomic, nullable, readonly, copy) NSString *subscribeKey;
 
 /**
  @brief  Stores reference on representation of event replication map (region based).
  */
-@property (nonatomic, readonly, copy) NSNumber *replicationMap;
+@property (nonatomic, nullable, readonly, copy) NSNumber *replicationMap;
 
 /**
  @brief  Stores reference on boolean flag which tell whether message should be stored in memory or removed 
@@ -58,12 +58,12 @@
  @brief  Stores reference on user-provided (during publish) metadata which will be taken into account by
          filtering algorithms.
  */
-@property (nonatomic, readonly, copy) NSDictionary *metadata;
+@property (nonatomic, nullable, readonly, copy) NSDictionary *metadata;
 
 /**
  @brief  Stores reference information about waypoints.
  */
-@property (nonatomic, readonly, copy) NSArray *waypoints;
+@property (nonatomic, nullable, readonly, copy) NSArray *waypoints;
 
 
 ///------------------------------------------------
@@ -79,7 +79,7 @@
 
  @since 4.3.0
  */
-+ ( instancetype)envelopeInformationWithPayload:( NSDictionary *)payload;
++ (nonnull instancetype)envelopeInformationWithPayload:(nonnull NSDictionary *)payload;
 
 #pragma mark -
 

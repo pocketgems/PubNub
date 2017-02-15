@@ -11,7 +11,7 @@
 #import "PNHelpers.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -31,15 +31,15 @@
  
  @since 4.0
  */
-- (void)     add:(BOOL)shouldAdd channels:(NSArray *)channels toGroup:(NSString *)group
-  withCompletion:( PNChannelGroupChangeCompletionBlock)block;
+- (void)     add:(BOOL)shouldAdd channels:(NSArray<NSString *> *)channels toGroup:(NSString *)group
+  withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block;
 
 #pragma mark -
 
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -52,7 +52,7 @@
 - (void)channelGroupsWithCompletion:(PNGroupAuditCompletionBlock)block {
     
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-W"
+    #pragma clang diagnostic ignored "-Wnonnull"
     [self channelsForGroup:nil withCompletion:(id)block];
     #pragma clang diagnostic pop
 }
@@ -71,7 +71,7 @@
 
     __weak __typeof(self) weakSelf = self;
     [self processOperation:operationType withParameters:parameters
-           completionBlock:^(PNResult *  result, PNStatus *  status) {
+           completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status) {
                
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object
@@ -91,26 +91,26 @@
 
 #pragma mark - Channel group content manipulation
 
-- (void)addChannels:(NSArray *)channels toGroup:(NSString *)group
-     withCompletion:( PNChannelGroupChangeCompletionBlock)block {
+- (void)addChannels:(NSArray<NSString *> *)channels toGroup:(NSString *)group
+     withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block {
     
     [self add:YES channels:channels toGroup:group withCompletion:block];
 }
 
-- (void)removeChannels:(NSArray *)channels fromGroup:(NSString *)group
-        withCompletion:( PNChannelGroupChangeCompletionBlock)block {
+- (void)removeChannels:(NSArray<NSString *> *)channels fromGroup:(NSString *)group
+        withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block {
     
     [self add:NO channels:(channels.count ? channels : nil) toGroup:group withCompletion:block];
 }
 
 - (void)removeChannelsFromGroup:(NSString *)group
-                 withCompletion:( PNChannelGroupChangeCompletionBlock)block {
+                 withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block {
     
     [self removeChannels:@[] fromGroup:group withCompletion:block];
 }
 
-- (void)     add:(BOOL)shouldAdd channels:(NSArray *)channels toGroup:(NSString *)group
-  withCompletion:( PNChannelGroupChangeCompletionBlock)block {
+- (void)     add:(BOOL)shouldAdd channels:(NSArray<NSString *> *)channels toGroup:(NSString *)group
+  withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block {
 
     BOOL removeAllObjects = (!shouldAdd && channels == nil);
     PNOperationType operationType = PNRemoveGroupOperation;

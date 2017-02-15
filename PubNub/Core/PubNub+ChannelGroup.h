@@ -7,7 +7,7 @@
 @class PNChannelGroupChannelsResult, PNAcknowledgmentStatus, PNChannelGroupsResult, PNErrorStatus;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -19,8 +19,8 @@
  
  @since 4.0
  */
-typedef void(^PNGroupAuditCompletionBlock)(PNChannelGroupsResult *  result, 
-                                           PNErrorStatus *  status);
+typedef void(^PNGroupAuditCompletionBlock)(PNChannelGroupsResult * _Nullable result, 
+                                           PNErrorStatus * _Nullable status);
 
 /**
  @brief  Channel group channels list audition completion block.
@@ -30,8 +30,8 @@ typedef void(^PNGroupAuditCompletionBlock)(PNChannelGroupsResult *  result,
  
  @since 4.0
  */
-typedef void(^PNGroupChannelsAuditCompletionBlock)(PNChannelGroupChannelsResult *  result,
-                                                   PNErrorStatus *  status);
+typedef void(^PNGroupChannelsAuditCompletionBlock)(PNChannelGroupChannelsResult * _Nullable result,
+                                                   PNErrorStatus * _Nullable status);
 
 /**
  @brief  Channel group content modification completion block.
@@ -70,8 +70,8 @@ typedef void(^PNChannelGroupChangeCompletionBlock)(PNAcknowledgmentStatus *statu
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client channelGroupsWithCompletion:^(PNChannelGroupsResult *  result, 
-                                           PNErrorStatus *  status) {
+[self.client channelGroupsWithCompletion:^(PNChannelGroupsResult * _Nullable result, 
+                                           PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -108,8 +108,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client channelsForGroup:@"pubnub" withCompletion:^(PNChannelGroupChannelsResult *  result,
-                                                         PNErrorStatus *  status) {
+[self.client channelsForGroup:@"pubnub" withCompletion:^(PNChannelGroupChannelsResult * _Nullable result,
+                                                         PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -178,8 +178,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)addChannels:(NSArray *)channels toGroup:(NSString *)group
-     withCompletion:( PNChannelGroupChangeCompletionBlock)block;
+- (void)addChannels:(NSArray<NSString *> *)channels toGroup:(NSString *)group
+     withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block;
 
 /**
  @brief      Remove specified \c channels from \c group.
@@ -218,8 +218,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)removeChannels:(NSArray *)channels fromGroup:(NSString *)group
-        withCompletion:( PNChannelGroupChangeCompletionBlock)block;
+- (void)removeChannels:(NSArray<NSString *> *)channels fromGroup:(NSString *)group
+        withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block;
 
 /**
  @brief      Remove all channels from \c group.
@@ -257,10 +257,11 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */ 
 - (void)removeChannelsFromGroup:(NSString *)group
-                 withCompletion:( PNChannelGroupChangeCompletionBlock)block;
+                 withCompletion:(nullable PNChannelGroupChangeCompletionBlock)block;
 
 #pragma mark -
 
 
 @end
 
+NS_ASSUME_NONNULL_END

@@ -105,7 +105,7 @@ struct PNEventDebugEnvelopeStructure {
  
  @since 4.3.0
  */
-- ( instancetype)initWithPayload:( NSDictionary *)payload;
+- (nonnull instancetype)initWithPayload:(nonnull NSDictionary *)payload;
 
 #pragma mark -
 
@@ -120,12 +120,12 @@ struct PNEventDebugEnvelopeStructure {
 
 #pragma mark - Initialization and Configuration
 
-+ ( instancetype)envelopeInformationWithPayload:( NSDictionary *)payload {
++ (nonnull instancetype)envelopeInformationWithPayload:(nonnull NSDictionary *)payload {
     
     return [[self alloc] initWithPayload:payload];
 }
 
-- ( instancetype)initWithPayload:( NSDictionary *)payload {
+- (nonnull instancetype)initWithPayload:(nonnull NSDictionary *)payload {
     
     // Check whether initialization was successful or not.
     if ((self = [super init])) {

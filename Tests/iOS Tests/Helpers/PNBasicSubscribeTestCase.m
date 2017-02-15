@@ -58,7 +58,7 @@
 - (void)PNTest_subscribeToChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence withClientState:(NSDictionary *)clientState {
     self.subscribeExpectation = [self expectationWithDescription:@"subscribe"];
     [self.client subscribeToChannels:channels withPresence:shouldObservePresence clientState:clientState];
-    [self waitForExpectationsWithTimeout:20 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:20 handler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
     }];
 }
@@ -112,7 +112,7 @@
 - (void)PNTest_subscribeToChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence usingTimeToken:(NSNumber *)timeToken {
     self.channelGroupSubscribeExpectation = [self expectationWithDescription:@"channelGroupSubscribe"];
     [self.client subscribeToChannelGroups:groups withPresence:shouldObservePresence usingTimeToken:timeToken];
-    [self waitForExpectationsWithTimeout:15 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:15 handler:^(NSError * _Nullable error) {
         XCTAssertNil(error);
     }];
 }
@@ -190,7 +190,7 @@
         self.channelGroupSubscribeExpectation = [self expectationWithDescription:@"channelGroupSubscribe"];
         [self.client subscribeToChannelGroups:testData.subscribedChannelGroups withPresence:NO];
     }
-    [self waitForExpectationsWithTimeout:15 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:15 handler:^(NSError * _Nullable error) {
         XCTAssertNil(error, @"error is %@", error.localizedDescription);
     }];
 }
