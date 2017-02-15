@@ -41,7 +41,7 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNAESErrorLogLevel;
 
 #pragma mark - Identification
 
-+ (NSArray *)operations {
++ (NSArray<NSNumber *> *)operations {
     
     return @[@(PNHistoryOperation)];
 }
@@ -54,8 +54,8 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNAESErrorLogLevel;
 
 #pragma mark - Parsing
 
-+ ( NSDictionary *)parsedServiceResponse:(id)response 
-   withData:( NSDictionary *)additionalData {
++ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response 
+   withData:(nullable NSDictionary<NSString *, id> *)additionalData {
     
     // To handle case when response is unexpected for this type of operation processed value sent through 
     // 'nil' initialized local variable.
@@ -83,7 +83,7 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNAESErrorLogLevel;
             }
             
             // Try decrypt message if possible.
-            if ([((NSString *)additionalData[@"cipherKey"]) length]){
+            if (((NSString *)additionalData[@"cipherKey"]).length){
                 
                 NSError *decryptionError;
                 id decryptedMessage = nil;

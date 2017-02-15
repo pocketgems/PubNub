@@ -12,7 +12,7 @@
 @protocol PNObjectEventListener;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      \b PubNub client core class extension to provide access to 'publish' API group.
@@ -37,7 +37,7 @@
  
  @since 4.0
  */
-- (NSArray *)channels;
+- (NSArray<NSString *> *)channels;
 
 /**
  @brief  List of channels group on which client subscribed now.
@@ -46,7 +46,7 @@
  
  @since 4.0
  */
-- (NSArray *)channelGroups;
+- (NSArray<NSString *> *)channelGroups;
 
 /**
  @brief  List of channels for which presence events observation has been enabled.
@@ -55,7 +55,7 @@
  
  @since 4.0
  */
-- (NSArray *)presenceChannels;
+- (NSArray<NSString *> *)presenceChannels;
 
 /**
  @brief  Check whether \b PubNub client currently subscribed on specified data object or not.
@@ -107,7 +107,7 @@
  @warning If your filter expression is malformed, \b PNObjectEventListener won't receive any messages and 
           presence events from service (only error status).
  */
-@property (nonatomic, copy) NSString *filterExpression;
+@property (nonatomic, nullable, copy) NSString *filterExpression;
 
 
 ///------------------------------------------------
@@ -132,7 +132,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)subscribeToChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence;
+- (void)subscribeToChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence;
 
 /**
  @brief      Try subscribe on specified set of channels.
@@ -156,8 +156,8 @@ NSNumber *timeToken = @([[NSDate dateWithTimeIntervalSinceNow:-2.0] timeInterval
  
  @since 4.2.0
  */
-- (void)subscribeToChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence
-             usingTimeToken:( NSNumber *)timeToken;
+- (void)subscribeToChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence
+             usingTimeToken:(nullable NSNumber *)timeToken;
 
 /**
  @brief      Try subscribe on specified set of channels.
@@ -182,8 +182,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)subscribeToChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence
-                clientState:( NSDictionary *)state;
+- (void)subscribeToChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence
+                clientState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief      Try subscribe on specified set of channels.
@@ -210,9 +210,9 @@ NSNumber *timeToken = @([[NSDate dateWithTimeIntervalSinceNow:-2.0] timeInterval
  
  @since 4.2.0
  */
-- (void)subscribeToChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence
-             usingTimeToken:( NSNumber *)timeToken 
-                clientState:( NSDictionary *)state;
+- (void)subscribeToChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence
+             usingTimeToken:(nullable NSNumber *)timeToken 
+                clientState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief      Try subscribe on specified set of channel groups.
@@ -232,7 +232,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)subscribeToChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence;
+- (void)subscribeToChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence;
 
 /**
  @brief      Try subscribe on specified set of channel groups.
@@ -256,8 +256,8 @@ NSNumber *timeToken = @([[NSDate dateWithTimeIntervalSinceNow:-2.0] timeInterval
  
  @since 4.2.0
  */
-- (void)subscribeToChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence
-                  usingTimeToken:( NSNumber *)timeToken;
+- (void)subscribeToChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence
+                  usingTimeToken:(nullable NSNumber *)timeToken;
 
 /**
  @brief      Try subscribe on specified set of channel groups.
@@ -282,8 +282,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)subscribeToChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence
-                     clientState:( NSDictionary *)state;
+- (void)subscribeToChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence
+                     clientState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief      Try subscribe on specified set of channel groups.
@@ -310,9 +310,9 @@ NSNumber *timeToken = @([[NSDate dateWithTimeIntervalSinceNow:-2.0] timeInterval
  
  @since 4.2.0
  */
-- (void)subscribeToChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence
-                  usingTimeToken:( NSNumber *)timeToken 
-                     clientState:( NSDictionary *)state;
+- (void)subscribeToChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence
+                  usingTimeToken:(nullable NSNumber *)timeToken 
+                     clientState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief      Enable presence observation on specified \c channels.
@@ -332,7 +332,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)subscribeToPresenceChannels:(NSArray *)channels;
+- (void)subscribeToPresenceChannels:(NSArray<NSString *> *)channels;
 
 
 ///------------------------------------------------
@@ -358,7 +358,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)unsubscribeFromChannels:(NSArray *)channels withPresence:(BOOL)shouldObservePresence;
+- (void)unsubscribeFromChannels:(NSArray<NSString *> *)channels withPresence:(BOOL)shouldObservePresence;
 
 /**
  @brief      Unsubscribe/leave from specified set of channel groups.
@@ -380,7 +380,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)unsubscribeFromChannelGroups:(NSArray *)groups withPresence:(BOOL)shouldObservePresence;
+- (void)unsubscribeFromChannelGroups:(NSArray<NSString *> *)groups withPresence:(BOOL)shouldObservePresence;
 
 /**
  @brief      Disable presence events observation on specified channels.
@@ -399,7 +399,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)unsubscribeFromPresenceChannels:(NSArray *)channels;
+- (void)unsubscribeFromPresenceChannels:(NSArray<NSString *> *)channels;
 
 /**
  @brief      Unsubscribe from all channels and groups on which client has been subscrbed so far.
@@ -423,3 +423,4 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
 @end
 
+NS_ASSUME_NONNULL_END

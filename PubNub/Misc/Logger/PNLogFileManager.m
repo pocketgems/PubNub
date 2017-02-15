@@ -17,7 +17,7 @@
 
 - (instancetype)init {
     // Configure file manager with default storage in application's Documents folder.
-    NSArray *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray<NSString *> *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 #if __MAC_OS_X_VERSION_MIN_REQUIRED
     NSString *documentsPath = documents.lastObject;
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];

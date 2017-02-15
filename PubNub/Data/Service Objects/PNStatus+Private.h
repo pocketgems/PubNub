@@ -6,7 +6,7 @@
 #import "PNStatus.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Private interface declaration
 
@@ -74,14 +74,14 @@
  
  @since 4.0
  */
-@property (nonatomic, copy) NSArray *subscribedChannels;
+@property (nonatomic, copy) NSArray<NSString *> *subscribedChannels;
 
 /**
  @brief  Stores reference on channel group names list on which client currently subscribed.
  
  @since 4.0
  */
-@property (nonatomic, copy) NSArray *subscribedChannelGroups;
+@property (nonatomic, copy) NSArray<NSString *> *subscribedChannelGroups;
 
 /**
  @brief      Stores reference on block which can be used to retry request processing.
@@ -89,7 +89,7 @@
 
  @since 4.0
  */
-@property (nonatomic, copy) dispatch_block_t retryBlock;
+@property (nonatomic, nullable, copy) dispatch_block_t retryBlock;
 
 /**
  @brief      Stores reference on block which can be used to cancel automatic retry on requests.
@@ -98,7 +98,7 @@
 
  @since 4.0
  */
-@property (nonatomic, copy) dispatch_block_t retryCancelBlock;
+@property (nonatomic, nullable, copy) dispatch_block_t retryCancelBlock;
 
 
 #pragma mark - Initialization and configuration
@@ -114,7 +114,7 @@
  @since 4.0
  */
 + (instancetype)statusForOperation:(PNOperationType)operation category:(PNStatusCategory)category
-               withProcessingError:( NSError *)error;
+               withProcessingError:(nullable NSError *)error;
 
 /**
  @brief  Alter status category.
@@ -131,3 +131,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

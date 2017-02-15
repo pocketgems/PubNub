@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Useful Class additions collection.
@@ -26,7 +26,7 @@
  
  @since 4.0
  */
-+ ( NSArray<Class> *)classesConformingToProtocol:(Protocol*)protocol;
++ (nullable NSArray<Class> *)classesConformingToProtocol:(Protocol*)protocol;
 
 /**
  @brief  Gather list of classes who's instance is able to respond to \c selector.
@@ -37,10 +37,11 @@
  
  @since 4.0
  */
-+ ( NSArray<Class> *)classesRespondingToSelector:(SEL)selector;
++ (nullable NSArray<Class> *)classesRespondingToSelector:(SEL)selector;
 
 #pragma mark -
 
 
 @end
 
+NS_ASSUME_NONNULL_END

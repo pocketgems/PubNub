@@ -13,7 +13,7 @@
 #import "PNHelpers.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -38,7 +38,7 @@
  
  @since 4.0
  */
-- (void)hereNowWithVerbosity:(PNHereNowVerbosityLevel)level forObject:( NSString *)object 
+- (void)hereNowWithVerbosity:(PNHereNowVerbosityLevel)level forObject:(nullable NSString *)object 
            withOperationType:(PNOperationType)operation completionBlock:(id)block;
 
 #pragma mark -
@@ -46,7 +46,7 @@
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -99,7 +99,7 @@
                completionBlock:block];
 }
 
-- (void)hereNowWithVerbosity:(PNHereNowVerbosityLevel)level forObject:( NSString *)object 
+- (void)hereNowWithVerbosity:(PNHereNowVerbosityLevel)level forObject:(nullable NSString *)object 
            withOperationType:(PNOperationType)operation completionBlock:(id)block {
 
     PNRequestParameters *parameters = [PNRequestParameters new];
@@ -135,8 +135,8 @@
     }
     
     __weak __typeof(self) weakSelf = self;
-    [self processOperation:operation withParameters:parameters completionBlock:^(PNResult *  result,
-                                                                                 PNStatus *  status) {
+    [self processOperation:operation withParameters:parameters completionBlock:^(PNResult * _Nullable result,
+                                                                                 PNStatus * _Nullable status) {
                
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object
@@ -172,7 +172,7 @@
 
     __weak __typeof(self) weakSelf = self;
     [self processOperation:PNWhereNowOperation withParameters:parameters
-           completionBlock:^(PNResult *  result, PNStatus *  status) {
+           completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status) {
                
         // Silence static analyzer warnings.
         // Code is aware about this case and at the end will simply call on 'nil' object

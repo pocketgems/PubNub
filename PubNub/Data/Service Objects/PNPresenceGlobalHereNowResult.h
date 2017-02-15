@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Class which allow to get access to global presence processed result.
@@ -24,7 +24,7 @@
  
  @since 4.0
  */
-@property (nonatomic, readonly, strong) NSDictionary *channels;
+@property (nonatomic, readonly, strong) NSDictionary<NSString *, NSDictionary *> *channels;
 
 /**
  @brief  Total number of active channels.
@@ -72,3 +72,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

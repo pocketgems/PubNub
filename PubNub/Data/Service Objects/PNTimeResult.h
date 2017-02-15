@@ -2,7 +2,7 @@
 #import "PNServiceData.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Class which allow to get access to time API processed result.
@@ -57,3 +57,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

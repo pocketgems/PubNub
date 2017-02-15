@@ -3,7 +3,7 @@
 
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      Class which is used to describe error response from server or any non-request related client
@@ -87,3 +87,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

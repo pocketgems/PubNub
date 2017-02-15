@@ -7,7 +7,7 @@
 @class PNHistoryResult, PNErrorStatus;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -19,7 +19,7 @@
  
  @since 4.0
  */
-typedef void(^PNHistoryCompletionBlock)(PNHistoryResult *  result, PNErrorStatus *  status);
+typedef void(^PNHistoryCompletionBlock)(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status);
 
 
 #pragma mark - API group interface
@@ -49,8 +49,8 @@ typedef void(^PNHistoryCompletionBlock)(PNHistoryResult *  result, PNErrorStatus
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                  subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client historyForChannel:@"storage" withCompletion:^(PNHistoryResult *  result,
-                                                           PNErrorStatus *  status) {
+[self.client historyForChannel:@"storage" withCompletion:^(PNHistoryResult * _Nullable result,
+                                                           PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -100,7 +100,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
 NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeIntervalSince1970]);
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -132,8 +132,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
-                      end:( NSNumber *)endDate withCompletion:(PNHistoryCompletionBlock)block;
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
+                      end:(nullable NSNumber *)endDate withCompletion:(PNHistoryCompletionBlock)block;
 
 /**
  @brief      Allow to fetch events from specified \c channel's history within specified time frame.
@@ -152,7 +152,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
 NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeIntervalSince1970]);
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate limit:50
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -185,8 +185,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
-                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
+                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
            withCompletion:(PNHistoryCompletionBlock)block;
 
 
@@ -211,7 +211,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
 NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeIntervalSince1970]);
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate includeTimeToken:YES
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -247,8 +247,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
-                      end:( NSNumber *)endDate includeTimeToken:(BOOL)shouldIncludeTimeToken 
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
+                      end:(nullable NSNumber *)endDate includeTimeToken:(BOOL)shouldIncludeTimeToken 
            withCompletion:(PNHistoryCompletionBlock)block;
 
 /**
@@ -269,7 +269,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
 NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeIntervalSince1970]);
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate limit:35 includeTimeToken:YES
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -307,8 +307,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate 
-                      end:( NSNumber *)endDate limit:(NSUInteger)limit
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate 
+                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit
          includeTimeToken:(BOOL)shouldIncludeTimeToken withCompletion:(PNHistoryCompletionBlock)block;
 
 /**
@@ -328,7 +328,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
 NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeIntervalSince1970]);
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate limit:35 reverse:YES
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -363,8 +363,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate
-                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate
+                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
                   reverse:(BOOL)shouldReverseOrder withCompletion:(PNHistoryCompletionBlock)block;
 
 /**
@@ -385,7 +385,7 @@ NSNumber *startDate = @([[NSDate dateWithTimeIntervalSinceNow:-(60*60)] timeInte
 NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 [self.client historyForChannel:@"storage" start:startDate end:endDate limit:35 reverse:YES 
               includeTimeToken:YES 
-                withCompletion:^(PNHistoryResult *  result, PNErrorStatus *  status) {
+                withCompletion:^(PNHistoryResult * _Nullable result, PNErrorStatus * _Nullable status) {
 
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -424,8 +424,8 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
  
  @since 4.0
  */
-- (void)historyForChannel:(NSString *)channel start:( NSNumber *)startDate
-                      end:( NSNumber *)endDate limit:(NSUInteger)limit 
+- (void)historyForChannel:(NSString *)channel start:(nullable NSNumber *)startDate
+                      end:(nullable NSNumber *)endDate limit:(NSUInteger)limit 
                   reverse:(BOOL)shouldReverseOrder includeTimeToken:(BOOL)shouldIncludeTimeToken 
            withCompletion:(PNHistoryCompletionBlock)block;
 
@@ -434,3 +434,4 @@ NSNumber *endDate = @([[NSDate date] timeIntervalSince1970]);
 
 @end
 
+NS_ASSUME_NONNULL_END

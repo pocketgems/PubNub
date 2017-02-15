@@ -20,7 +20,7 @@
 static DDLogLevel ddLogLevel = (DDLogLevel)PNReachabilityLogLevel;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protected interface declaration
 
@@ -100,7 +100,7 @@ static DDLogLevel ddLogLevel = (DDLogLevel)PNReachabilityLogLevel;
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation

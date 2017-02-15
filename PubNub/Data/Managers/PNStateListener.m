@@ -10,7 +10,7 @@
 #import "PNHelpers.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Protected interface declaration
 
@@ -34,7 +34,7 @@
  
  @since 4.0
  */
-@property (nonatomic, strong) NSHashTable *messageListeners;
+@property (nonatomic, strong) NSHashTable<id <PNObjectEventListener>> *messageListeners;
 
 /**
  @brief  Stores list of listeners which would like to be notified when new presence event arrive from remote 
@@ -44,7 +44,7 @@
  
  @since 4.0
  */
-@property (nonatomic, strong) NSHashTable *presenceEventListeners;
+@property (nonatomic, strong) NSHashTable<id <PNObjectEventListener>> *presenceEventListeners;
 
 
 /**
@@ -53,7 +53,7 @@
  
  @since 4.0
  */
-@property (nonatomic, strong) NSHashTable *stateListeners;
+@property (nonatomic, strong) NSHashTable<id <PNObjectEventListener>> *stateListeners;
 
 /**
  @brief  Stores reference on queue which is used to serialize access to shared listener information.
@@ -91,7 +91,7 @@
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -181,7 +181,7 @@
 
 - (void)notifyMessage:(PNMessageResult *)message {
     
-    NSArray *listeners = self.messageListeners.allObjects;
+    NSArray<id <PNObjectEventListener>> *listeners = self.messageListeners.allObjects;
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
     // In most cases if referenced object become 'nil' it mean what there is no more need in
@@ -201,7 +201,7 @@
 
 - (void)notifyPresenceEvent:(PNPresenceEventResult *)event {
     
-    NSArray *listeners = self.presenceEventListeners.allObjects;
+    NSArray<id <PNObjectEventListener>> *listeners = self.presenceEventListeners.allObjects;
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
     // In most cases if referenced object become 'nil' it mean what there is no more need in
@@ -234,7 +234,7 @@
 
 - (void)notifyStatusObservers:(PNStatus *)status {
     
-    NSArray *listeners = self.stateListeners.allObjects;
+    NSArray<id <PNObjectEventListener>> *listeners = self.stateListeners.allObjects;
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
     // In most cases if referenced object become 'nil' it mean what there is no more need in

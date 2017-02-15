@@ -7,7 +7,7 @@
 #import "PNDictionary.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Private interface
 
@@ -23,14 +23,14 @@
  
  @return Parsed UUIDs data.
  */
-+ (NSArray *)uuidsData:(NSArray *)serviceData;
++ (NSArray<NSObject *> *)uuidsData:(NSArray<NSObject *> *)serviceData;
 
 #pragma mark -
 
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -40,7 +40,7 @@
 
 #pragma mark - Identification
 
-+ (NSArray *)operations {
++ (NSArray<NSNumber *> *)operations {
     
     return @[@(PNHereNowGlobalOperation), @(PNHereNowForChannelOperation),
              @(PNHereNowForChannelGroupOperation)];
@@ -54,7 +54,7 @@
 
 #pragma mark - Parsing
 
-+ ( NSDictionary *)parsedServiceResponse:(id)response {
++ (nullable NSDictionary<NSString *, id> *)parsedServiceResponse:(id)response {
     
     // To handle case when response is unexpected for this type of operation processed value sent through 
     // 'nil' initialized local variable.
@@ -100,7 +100,7 @@
 
 #pragma mark - Misc
 
-+ (NSArray *)uuidsData:(NSArray *)serviceData {
++ (NSArray<NSObject *> *)uuidsData:(NSArray<NSObject *> *)serviceData {
     
     NSMutableArray *parsedUUIDData = [NSMutableArray new];
     for (id uuidData in serviceData) {

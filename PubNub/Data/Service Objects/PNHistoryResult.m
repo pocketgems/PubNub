@@ -43,7 +43,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, strong) PNHistoryData *data;
+@property (nonatomic, nonnull, strong) PNHistoryData *data;
 
 #pragma mark -
 

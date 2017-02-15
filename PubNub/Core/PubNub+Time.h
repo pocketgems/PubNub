@@ -7,7 +7,7 @@
 @class PNErrorStatus, PNTimeResult;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -19,7 +19,7 @@
  
  @since 4.0
  */
-typedef void(^PNTimeCompletionBlock)(PNTimeResult *  result, PNErrorStatus *  status);
+typedef void(^PNTimeCompletionBlock)(PNTimeResult * _Nullable result, PNErrorStatus * _Nullable status);
 
 
 #pragma mark - API group interface
@@ -46,7 +46,7 @@ typedef void(^PNTimeCompletionBlock)(PNTimeResult *  result, PNErrorStatus *  st
 PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"demo" 
                                                                   subscribeKey:@"demo"];
 self.client = [PubNub clientWithConfiguration:configuration];
-[self.client timeWithCompletion:^(PNTimeResult *  result, PNErrorStatus *  status) {
+[self.client timeWithCompletion:^(PNTimeResult * _Nullable result, PNErrorStatus * _Nullable status) {
      
     // Check whether request successfully completed or not.
     if (!status.isError) {
@@ -77,3 +77,4 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
 @end
 
+NS_ASSUME_NONNULL_END

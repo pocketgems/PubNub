@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief  Useful collection of methods which make it easrier to work with set of channels, groups and presence
@@ -28,7 +28,7 @@
  
  @since 4.0
  */
-+ ( NSString *)namesForRequest:(NSArray *)names;
++ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names;
 
 /**
  @brief      Convert provided list of data objects to comma-joined string where evert entry percent-escaped.
@@ -43,8 +43,8 @@
  
  @since 4.0
  */
-+ ( NSString *)namesForRequest:(NSArray *)names 
-                         defaultString:( NSString *)defaultString;
++ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names 
+                         defaultString:(nullable NSString *)defaultString;
 
 
 ///------------------------------------------------
@@ -62,7 +62,7 @@
 
  @since 4.0
  */
-+ (NSArray *)namesFromRequest:(NSString *)response;
++ (NSArray<NSString *> *)namesFromRequest:(NSString *)response;
 
 
 ///------------------------------------------------
@@ -100,7 +100,7 @@
  
  @since 4.0
  */
-+ (NSArray *)presenceChannelsFrom:(NSArray *)names;
++ (NSArray<NSString *> *)presenceChannelsFrom:(NSArray<NSString *> *)names;
 
 /**
  @brief  Filter provided mixed list of channels/groups and presence channels/groups to list w/o presence 
@@ -112,10 +112,11 @@
  
  @since 4.0
  */
-+ (NSArray *)objectsWithOutPresenceFrom:(NSArray *)names;
++ (NSArray<NSString *> *)objectsWithOutPresenceFrom:(NSArray<NSString *> *)names;
 
 #pragma mark -
 
 
 @end
 
+NS_ASSUME_NONNULL_END

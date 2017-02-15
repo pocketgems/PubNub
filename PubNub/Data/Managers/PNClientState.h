@@ -6,7 +6,7 @@
 @class PubNub;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  @brief      Current client state cache manager.
@@ -61,7 +61,7 @@
  
  @since 4.0
  */
-- ( NSDictionary *)state;
+- (nullable NSDictionary *)state;
 
 /**
  @brief  Provide merged client state using new \c state information which should be bound to remote data 
@@ -75,8 +75,8 @@
  
  @since 4.0
  */
-- ( NSDictionary *)stateMergedWith:( NSDictionary *)state 
-                                forObjects:(NSArray *)objects;
+- (nullable NSDictionary *)stateMergedWith:(nullable NSDictionary<NSString *, id> *)state 
+                                forObjects:(NSArray<NSString *> *)objects;
 
 /**
  @brief  Merge cached client state information with the one which has been passed.
@@ -85,7 +85,7 @@
  
  @since 4.0
  */
-- (void)mergeWithState:( NSDictionary *)state;
+- (void)mergeWithState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief  Overwrite client state information bound to specified \c object.
@@ -95,7 +95,7 @@
 
  @since 4.0
  */
-- (void)setState:( NSDictionary *)state forObject:(NSString *)object;
+- (void)setState:(nullable NSDictionary<NSString *, id> *)state forObject:(NSString *)object;
 
 /**
  @brief  Clear client state cache from specified objects data.
@@ -104,10 +104,11 @@
  
  @since 4.0
  */
-- (void)removeStateForObjects:(NSArray *)objects;
+- (void)removeStateForObjects:(NSArray<NSString *> *)objects;
 
 #pragma mark - 
 
 
 @end
 
+NS_ASSUME_NONNULL_END

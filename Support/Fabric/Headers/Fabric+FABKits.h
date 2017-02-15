@@ -33,6 +33,6 @@
  *
  *  @return A dictionary containing kit specific configuration information or nil if none exists.
  */
-+ (fab_ NSDictionary *)configurationDictionaryForKitClass:(fab_ Class)kitClass;
++ (fab_nonnull NSDictionary *)configurationDictionaryForKitClass:(fab_nonnull Class)kitClass;
 
 @end

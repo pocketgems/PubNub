@@ -44,7 +44,7 @@
 - (void)setUpChannelSubscription {
     self.setUpExpectation = [self expectationWithDescription:@"setUp"];
     [self.otherClient subscribeToChannels:@[[self otherClientChannelName]] withPresence:YES clientState:@{@"foo" : @"bar"}];
-    [self waitForExpectationsWithTimeout:60 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         if (error) {
             XCTFail(@"failed to set up");
         }
@@ -54,7 +54,7 @@
 - (void)setUpChannelGroupSubscription {
     self.setUpExpectation = [self expectationWithDescription:@"setUp"];
     [self.otherClient subscribeToChannelGroups:@[[self channelGroupName]] withPresence:YES];
-    [self waitForExpectationsWithTimeout:20 handler:^(NSError *  error) {
+    [self waitForExpectationsWithTimeout:20 handler:^(NSError * _Nullable error) {
         if (error) {
             XCTFail(@"failed to set up channel group subscription");
         }

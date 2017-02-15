@@ -48,7 +48,7 @@ static NSString * const PNOperationRequestTemplate[22] = {
 
 #pragma mark - API URL constructor
 
-+ ( NSURL *)URLForOperation:(PNOperationType)operation
++ (nullable NSURL *)URLForOperation:(PNOperationType)operation
                      withParameters:(PNRequestParameters *)parameters {
     
     NSURL *requestURL = nil;

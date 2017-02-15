@@ -7,7 +7,7 @@
 @class PNPublishStatus;
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Types
 
@@ -88,7 +88,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel
-   withCompletion:( PNPublishCompletionBlock)block;
+   withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -133,8 +133,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel 
-     withMetadata:( NSDictionary *)metadata
-       completion:( PNPublishCompletionBlock)block;
+     withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
+       completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -181,7 +181,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel compressed:(BOOL)compressed
-   withCompletion:( PNPublishCompletionBlock)block;
+   withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -229,8 +229,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel compressed:(BOOL)compressed 
-     withMetadata:( NSDictionary *)metadata 
-       completion:( PNPublishCompletionBlock)block;
+     withMetadata:(nullable NSDictionary<NSString *, id> *)metadata 
+       completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -275,7 +275,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel storeInHistory:(BOOL)shouldStore
-   withCompletion:( PNPublishCompletionBlock)block;
+   withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -321,8 +321,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)  publish:(id)message toChannel:(NSString *)channel storeInHistory:(BOOL)shouldStore 
-     withMetadata:( NSDictionary *)metadata
-       completion:( PNPublishCompletionBlock)block;
+     withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
+       completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -369,7 +369,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.0
  */
 - (void)publish:(id)message toChannel:(NSString *)channel storeInHistory:(BOOL)shouldStore
-     compressed:(BOOL)compressed withCompletion:( PNPublishCompletionBlock)block;
+     compressed:(BOOL)compressed withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -418,8 +418,8 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)publish:(id)message toChannel:(NSString *)channel storeInHistory:(BOOL)shouldStore
-     compressed:(BOOL)compressed withMetadata:( NSDictionary *)metadata 
-     completion:( PNPublishCompletionBlock)block;
+     compressed:(BOOL)compressed withMetadata:(nullable NSDictionary<NSString *, id> *)metadata 
+     completion:(nullable PNPublishCompletionBlock)block;
 
 
 ///------------------------------------------------
@@ -469,9 +469,9 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads
-     withCompletion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads
+     withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -516,10 +516,10 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.3.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads
-       withMetadata:( NSDictionary *)metadata 
-         completion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads
+       withMetadata:(nullable NSDictionary<NSString *, id> *)metadata 
+         completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -568,9 +568,9 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
  @since 4.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads compressed:(BOOL)compressed 
-     withCompletion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads compressed:(BOOL)compressed 
+     withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -619,10 +619,10 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
  @since 4.3.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads compressed:(BOOL)compressed 
-       withMetadata:( NSDictionary *)metadata
-         completion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads compressed:(BOOL)compressed 
+       withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
+         completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -669,9 +669,9 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads storeInHistory:(BOOL)shouldStore
-     withCompletion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads storeInHistory:(BOOL)shouldStore
+     withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -719,10 +719,10 @@ self.client = [PubNub clientWithConfiguration:configuration];
  
  @since 4.3.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads storeInHistory:(BOOL)shouldStore
-       withMetadata:( NSDictionary *)metadata
-         completion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads storeInHistory:(BOOL)shouldStore
+       withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
+         completion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -772,9 +772,9 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
  @since 4.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads storeInHistory:(BOOL)shouldStore
-         compressed:(BOOL)compressed withCompletion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads storeInHistory:(BOOL)shouldStore
+         compressed:(BOOL)compressed withCompletion:(nullable PNPublishCompletionBlock)block;
 
 /**
  @brief      Send provided Foundation object to \b PubNub service.
@@ -824,10 +824,10 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
  @since 4.3.0
  */
-- (void)    publish:( id)message toChannel:(NSString *)channel
-  mobilePushPayload:( NSDictionary *)payloads storeInHistory:(BOOL)shouldStore
-         compressed:(BOOL)compressed withMetadata:( NSDictionary *)metadata
-         completion:( PNPublishCompletionBlock)block;
+- (void)    publish:(nullable id)message toChannel:(NSString *)channel
+  mobilePushPayload:(nullable NSDictionary<NSString *, id> *)payloads storeInHistory:(BOOL)shouldStore
+         compressed:(BOOL)compressed withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
+         completion:(nullable PNPublishCompletionBlock)block;
 
 
 ///------------------------------------------------
@@ -889,7 +889,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)sizeOfMessage:(id)message toChannel:(NSString *)channel 
-         withMetadata:( NSDictionary *)metadata
+         withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
            completion:(PNMessageSizeCalculationCompletionBlock)block;
 
 /**
@@ -954,7 +954,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)sizeOfMessage:(id)message toChannel:(NSString *)channel compressed:(BOOL)compressMessage
-         withMetadata:( NSDictionary *)metadata 
+         withMetadata:(nullable NSDictionary<NSString *, id> *)metadata 
            completion:(PNMessageSizeCalculationCompletionBlock)block;
 
 /**
@@ -1016,7 +1016,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)sizeOfMessage:(id)message toChannel:(NSString *)channel storeInHistory:(BOOL)shouldStore
-         withMetadata:( NSDictionary *)metadata 
+         withMetadata:(nullable NSDictionary<NSString *, id> *)metadata 
            completion:(PNMessageSizeCalculationCompletionBlock)block;
 
 /**
@@ -1085,7 +1085,7 @@ self.client = [PubNub clientWithConfiguration:configuration];
  @since 4.3.0
  */
 - (void)sizeOfMessage:(id)message toChannel:(NSString *)channel compressed:(BOOL)compressMessage
-       storeInHistory:(BOOL)shouldStore withMetadata:( NSDictionary *)metadata
+       storeInHistory:(BOOL)shouldStore withMetadata:(nullable NSDictionary<NSString *, id> *)metadata
            completion:(PNMessageSizeCalculationCompletionBlock)block;
 
 #pragma mark -
@@ -1093,3 +1093,4 @@ self.client = [PubNub clientWithConfiguration:configuration];
 
 @end
 
+NS_ASSUME_NONNULL_END

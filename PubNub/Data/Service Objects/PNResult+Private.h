@@ -7,7 +7,7 @@
 #import "PNStructures.h"
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Private interface declaration
 
@@ -27,9 +27,9 @@
  */
 @property (nonatomic, assign, getter = isUnexpectedServiceData) BOOL unexpectedServiceData;
 @property (nonatomic, copy) NSString *uuid;
-@property (nonatomic, copy) NSString *authKey;
+@property (nonatomic, nullable, copy) NSString *authKey;
 @property (nonatomic, copy) NSString *origin;
-@property (nonatomic, copy) NSURLRequest *clientRequest;
+@property (nonatomic, nullable, copy) NSURLRequest *clientRequest;
 
 /**
  @brief      Stores reference on processed \c response which is ready to use by user.
@@ -38,7 +38,7 @@
  
  @since 4.0
  */
-@property (nonatomic, copy) NSDictionary *serviceData;
+@property (nonatomic, nullable, copy) NSDictionary<NSString *, id> *serviceData;
 
 
 ///------------------------------------------------
@@ -59,9 +59,9 @@
  @since 4.0
  */
 + (instancetype)objectForOperation:(PNOperationType)operation
-                 completedWithTask:( NSURLSessionDataTask *)task
-                     processedData:( NSDictionary *)processedData
-                   processingError:( NSError *)error;
+                 completedWithTask:(nullable NSURLSessionDataTask *)task
+                     processedData:(nullable NSDictionary<NSString *, id> *)processedData
+                   processingError:(nullable NSError *)error;
 
 /**
  @brief  Initialize result instance in response to successful task completion.
@@ -77,9 +77,9 @@
  @since 4.0
  */
 - (instancetype)initForOperation:(PNOperationType)operation
-               completedWithTask:( NSURLSessionDataTask *)task
-                   processedData:( NSDictionary *)processedData
-                 processingError:( NSError *)error;
+               completedWithTask:(nullable NSURLSessionDataTask *)task
+                   processedData:(nullable NSDictionary<NSString *, id> *)processedData
+                 processingError:(nullable NSError *)error;
 
 /**
  @brief      Make copy of current result object with mutated data which should be stored in it.
@@ -91,7 +91,7 @@
  
  @since 4.0
  */
-- (instancetype)copyWithMutatedData:( id)data;
+- (instancetype)copyWithMutatedData:(nullable id)data;
 
 /**
  @brief  Update data stored for result object.
@@ -100,7 +100,7 @@
  
  @since 4.0
  */
-- (void)updateData:( id)data;
+- (void)updateData:(nullable id)data;
 
 
 ///------------------------------------------------
@@ -130,3 +130,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

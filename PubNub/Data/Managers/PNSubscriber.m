@@ -88,7 +88,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 };
 
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Protected interface declaration
 
@@ -126,7 +126,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet *channelsSet;
+@property (nonatomic, strong) NSMutableSet<NSString *> *channelsSet;
 
 /**
  @brief  Actual storage for list of channel groups on which client subscribed at this moment and 
@@ -134,7 +134,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet *channelGroupsSet;
+@property (nonatomic, strong) NSMutableSet<NSString *> *channelGroupsSet;
 
 /**
  @brief  Actual storage for list of presence channels on which client subscribed at this moment and
@@ -142,14 +142,14 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-@property (nonatomic, strong) NSMutableSet *presenceChannelsSet;
+@property (nonatomic, strong) NSMutableSet<NSString *> *presenceChannelsSet;
 
 /**
  @brief  Stores reference on percent-escaped message filtering expression.
  
  @since 4.3.0
  */
-@property (nonatomic, copy) NSString *escapedFilterExpression;
+@property (nonatomic, nullable, copy) NSString *escapedFilterExpression;
 
 /**
  @brief      Reference on time token which is used for current subscribe loop iteration.
@@ -168,7 +168,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.2.0
  */
-@property (nonatomic, strong) NSNumber *overrideTimeToken;
+@property (nonatomic, nullable, strong) NSNumber *overrideTimeToken;
 
 /**
  @brief      Reference on time token which has been used for previous subscribe loop iteration.
@@ -212,7 +212,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-@property (nonatomic, strong) dispatch_source_t retryTimer;
+@property (nonatomic, nullable, strong) dispatch_source_t retryTimer;
 
 
 #pragma mark - Initialization and Configuration
@@ -259,9 +259,9 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.3.0
  */
-- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:( NSNumber *)timeToken 
-        withState:( NSDictionary *)state 
-       completion:( PNSubscriberCompletionBlock)block;
+- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:(nullable NSNumber *)timeToken 
+        withState:(nullable NSDictionary<NSString *, id> *)state 
+       completion:(nullable PNSubscriberCompletionBlock)block;
 
 /**
  @brief      Launch subscription retry timer.
@@ -299,9 +299,9 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.2.0
  */
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
       informingListener:(BOOL)shouldInformListener subscribeOnRest:(BOOL)subscribeOnRestChannels
-             completion:( PNSubscriberCompletionBlock)block;
+             completion:(nullable PNSubscriberCompletionBlock)block;
 
 
 #pragma mark - Handlers
@@ -349,8 +349,8 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-- (void)handleSubscription:(BOOL)initialSubscription timeToken:( NSNumber *)timeToken 
-                    region:( NSNumber *)region;
+- (void)handleSubscription:(BOOL)initialSubscription timeToken:(nullable NSNumber *)timeToken 
+                    region:(nullable NSNumber *)region;
 
 /**
  @brief  Handle long-poll service response and deliver events to listeners if required.
@@ -395,7 +395,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
  
  @since 4.0
  */
-- (PNRequestParameters *)subscribeRequestParametersWithState:( NSDictionary *)state;
+- (PNRequestParameters *)subscribeRequestParametersWithState:(nullable NSDictionary<NSString *, id> *)state;
 
 /**
  @brief  Append subscriber information to status object.
@@ -411,7 +411,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 
 #pragma mark - Interface implementation
@@ -458,13 +458,13 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 
 #pragma mark - State Information and Manipulation
 
-- (NSArray *)allObjects {
+- (NSArray<NSString *> *)allObjects {
     
     return [[[self channels] arrayByAddingObjectsFromArray:[self presenceChannels]]
             arrayByAddingObjectsFromArray:[self channelGroups]];
 }
 
-- (NSArray *)channels {
+- (NSArray<NSString *> *)channels {
     
     __block NSArray *channels = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ channels = self.channelsSet.allObjects; });
@@ -472,7 +472,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     return channels;
 }
 
-- (void)addChannels:(NSArray *)channels {
+- (void)addChannels:(NSArray<NSString *> *)channels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -488,7 +488,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     });
 }
 
-- (void)removeChannels:(NSArray *)channels {
+- (void)removeChannels:(NSArray<NSString *> *)channels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -498,7 +498,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     });
 }
 
-- (NSArray *)channelGroups {
+- (NSArray<NSString *> *)channelGroups {
     
     __block NSArray *channelGroups = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ channelGroups = self.channelGroupsSet.allObjects; });
@@ -506,7 +506,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     return channelGroups;
 }
 
-- (void)addChannelGroups:(NSArray *)groups {
+- (void)addChannelGroups:(NSArray<NSString *> *)groups {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{ 
         
@@ -514,7 +514,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     });
 }
 
-- (void)removeChannelGroups:(NSArray *)groups {
+- (void)removeChannelGroups:(NSArray<NSString *> *)groups {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -522,7 +522,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     });
 }
 
-- (NSArray *)presenceChannels {
+- (NSArray<NSString *> *)presenceChannels {
     
     __block NSArray *presenceChannels = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{
@@ -533,7 +533,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     return presenceChannels;
 }
 
-- (void)addPresenceChannels:(NSArray *)presenceChannels {
+- (void)addPresenceChannels:(NSArray<NSString *> *)presenceChannels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -541,7 +541,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     });
 }
 
-- (void)removePresenceChannels:(NSArray *)presenceChannels {
+- (void)removePresenceChannels:(NSArray<NSString *> *)presenceChannels {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -575,7 +575,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     pn_safe_property_write(self.resourceAccessQueue, ^{ self->_lastTimeToken = lastTimeToken; });
 }
 
-- ( NSNumber *)overrideTimeToken {
+- (nullable NSNumber *)overrideTimeToken {
     
     __block NSNumber *overrideTimeToken = nil;
     pn_safe_property_read(self.resourceAccessQueue, ^{ overrideTimeToken = self->_overrideTimeToken; });
@@ -583,7 +583,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     return overrideTimeToken;
 }
 
-- (void)setOverrideTimeToken:( NSNumber *)overrideTimeToken {
+- (void)setOverrideTimeToken:(nullable NSNumber *)overrideTimeToken {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -776,7 +776,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     return expression;
 }
 
-- (void)setFilterExpression:( NSString *)filterExpression {
+- (void)setFilterExpression:(nullable NSString *)filterExpression {
     
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -796,16 +796,16 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 
 #pragma mark - Subscription
 
-- (void)subscribeUsingTimeToken:( NSNumber *)timeToken
-                      withState:( NSDictionary *)state 
-                     completion:( PNSubscriberCompletionBlock)block {
+- (void)subscribeUsingTimeToken:(nullable NSNumber *)timeToken
+                      withState:(nullable NSDictionary<NSString *, id> *)state 
+                     completion:(nullable PNSubscriberCompletionBlock)block {
     
     [self subscribe:YES usingTimeToken:timeToken withState:state completion:block];
 }
 
-- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:( NSNumber *)timeToken 
-        withState:( NSDictionary *)state 
-       completion:( PNSubscriberCompletionBlock)block {
+- (void)subscribe:(BOOL)initialSubscribe usingTimeToken:(nullable NSNumber *)timeToken 
+        withState:(nullable NSDictionary<NSString *, id> *)state 
+       completion:(nullable PNSubscriberCompletionBlock)block {
     
     [self stopRetryTimer];
 
@@ -816,7 +816,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wreceiver-is-weak"
     #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
-    if ([[self allObjects] count]) {
+    if ([self allObjects].count) {
 
         // Storing time token override
         self.overrideTimeToken = timeToken;
@@ -886,7 +886,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     #pragma clang diagnostic pop
 }
 
-- (void)restoreSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block {
+- (void)restoreSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block {
     
     __block BOOL shouldRestore;
     __block BOOL ableToRestore;
@@ -905,7 +905,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     else if (block) { block(nil); }
 }
 
-- (void)continueSubscriptionCycleIfRequiredWithCompletion:( PNSubscriberCompletionBlock)block {
+- (void)continueSubscriptionCycleIfRequiredWithCompletion:(nullable PNSubscriberCompletionBlock)block {
 
     [self subscribe:NO usingTimeToken:nil withState:nil completion:block];
 }
@@ -914,7 +914,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     
     __weak __typeof(self) weakSelf = self;
     NSArray *channelGroups = [self.channelGroups copy];
-    PNSubscriberCompletionBlock channelUnsubscribeBlock = ^(__unused PNSubscribeStatus *  status) {
+    PNSubscriberCompletionBlock channelUnsubscribeBlock = ^(__unused PNSubscribeStatus * _Nullable status) {
         
         __strong __typeof(self) strongSelf = weakSelf;
         [strongSelf removeChannelGroups:channelGroups];
@@ -934,16 +934,16 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     else if (channelGroups.count > 0) { channelUnsubscribeBlock(nil); }
 }
 
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
-             completion:( PNSubscriberCompletionBlock)block {
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
+             completion:(nullable PNSubscriberCompletionBlock)block {
     
     [self unsubscribeFrom:channels objects:objects informingListener:YES subscribeOnRest:YES
                completion:block];
 }
 
-- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray *)objects
+- (void)unsubscribeFrom:(BOOL)channels objects:(NSArray<NSString *> *)objects
       informingListener:(BOOL)shouldInformListener subscribeOnRest:(BOOL)subscribeOnRestChannels
-             completion:( PNSubscriberCompletionBlock)block {
+             completion:(nullable PNSubscriberCompletionBlock)block {
     
     // Silence static analyzer warnings.
     // Code is aware about this case and at the end will simply call on 'nil' object method.
@@ -1222,8 +1222,8 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     #pragma clang diagnostic pop
 }
 
-- (void)handleSubscription:(BOOL)initialSubscription timeToken:( NSNumber *)timeToken 
-                    region:( NSNumber *)region {
+- (void)handleSubscription:(BOOL)initialSubscription timeToken:(nullable NSNumber *)timeToken 
+                    region:(nullable NSNumber *)region {
 
     pn_safe_property_write(self.resourceAccessQueue, ^{
         
@@ -1312,7 +1312,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
             
             // Iterate through array with notifications and report back using callback blocks to the
             // user.
-            for (NSMutableDictionary *event in events) {
+            for (NSMutableDictionary<NSString *, id> *event in events) {
                 
                 // Check whether event has been triggered on presence channel or channel group.
                 // In case if check will return YES this is presence event.
@@ -1434,7 +1434,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
 
 #pragma mark - Misc
 
-- (PNRequestParameters *)subscribeRequestParametersWithState:( NSDictionary *)state {
+- (PNRequestParameters *)subscribeRequestParametersWithState:(nullable NSDictionary<NSString *, id> *)state {
     
     // Compose full list of channels and groups stored in active subscription list.
     NSArray *channels = [[self channels] arrayByAddingObjectsFromArray:[self presenceChannels]];
@@ -1491,7 +1491,7 @@ typedef NS_OPTIONS(NSUInteger, PNSubscriberState) {
     status.lastTimeToken = _lastTimeToken;
     status.currentTimeTokenRegion = _currentTimeTokenRegion;
     status.lastTimeTokenRegion = _lastTimeTokenRegion;
-    status.subscribedChannels = [[_channelsSet setByAddingObjectsFromSet:_presenceChannelsSet] allObjects];
+    status.subscribedChannels = [_channelsSet setByAddingObjectsFromSet:_presenceChannelsSet].allObjects;
     status.subscribedChannelGroups = _channelGroupsSet.allObjects;
 }
 

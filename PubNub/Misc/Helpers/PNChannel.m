@@ -25,13 +25,13 @@ static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
 
 #pragma mark - Lists encoding
 
-+ ( NSString *)namesForRequest:(NSArray *)names {
++ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names {
     
     return [self namesForRequest:names defaultString:nil];
 }
 
-+ ( NSString *)namesForRequest:(NSArray *)names
-                         defaultString:( NSString *)defaultString {
++ (nullable NSString *)namesForRequest:(NSArray<NSString *> *)names
+                         defaultString:(nullable NSString *)defaultString {
     
     NSString *namesForRequest = defaultString;
     if (names.count) {
@@ -49,7 +49,7 @@ static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
 
 #pragma mark - Lists decoding
 
-+ (NSArray *)namesFromRequest:(NSString *)response {
++ (NSArray<NSString *> *)namesFromRequest:(NSString *)response {
 
     return [response componentsSeparatedByString:@","];
 }
@@ -68,7 +68,7 @@ static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
                                                       withString:@""];
 }
 
-+ (NSArray *)presenceChannelsFrom:(NSArray *)names {
++ (NSArray<NSString *> *)presenceChannelsFrom:(NSArray<NSString *> *)names {
     
     NSMutableSet *presenceNames = [[NSMutableSet alloc] initWithCapacity:names.count];
     for (NSString *name in names) {
@@ -84,7 +84,7 @@ static NSString * const kPubNubPresenceChannelNameSuffix = @"-pnpres";
     return [presenceNames.allObjects copy];
 }
 
-+ (NSArray *)objectsWithOutPresenceFrom:(NSArray *)names {
++ (NSArray<NSString *> *)objectsWithOutPresenceFrom:(NSArray<NSString *> *)names {
     
     NSMutableSet *filteredNames = [[NSMutableSet alloc] initWithCapacity:names.count];
     for (NSString *name in names) {
