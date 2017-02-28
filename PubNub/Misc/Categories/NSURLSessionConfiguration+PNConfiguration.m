@@ -6,7 +6,7 @@
 #import "NSURLSessionConfiguration+PNConfigurationPrivate.h"
 #if TARGET_OS_WATCH
     #import <WatchKit/WatchKit.h>
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || PGDROID
     #import <UIKit/UIKit.h>
 #endif // __IPHONE_OS_VERSION_MIN_REQUIRED
 
@@ -212,7 +212,7 @@ NS_ASSUME_NONNULL_END
     NSString *device = @"iPhone";
 #if TARGET_OS_WATCH
     NSString *osVersion = [[WKInterfaceDevice currentDevice] systemVersion];
-#elif __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif __IPHONE_OS_VERSION_MIN_REQUIRED || PGDROID
     NSString *osVersion = [[UIDevice currentDevice] systemVersion];
 #elif __MAC_OS_X_VERSION_MIN_REQUIRED
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo]operatingSystemVersion];
