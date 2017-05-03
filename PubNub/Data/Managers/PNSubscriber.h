@@ -4,7 +4,7 @@
 
 
 #define kPNNotificationBrokenAssumption @"PubNubBrokenAssumption"
-#define kPNNotificationAssumptionMillis 800
+#define kPNNotificationAssumptionDefaultMillis 500
 
 #pragma mark Class forward
 
@@ -237,6 +237,8 @@ typedef void(^PNSubscriberCompletionBlock)(PNSubscribeStatus * _Nullable status)
              completion:(nullable PNSubscriberCompletionBlock)block;
 
 #pragma mark -
+
++ (void)setPGNotificationAssumptionMillis:(NSInteger)assumptionMillis;
 
 
 @end

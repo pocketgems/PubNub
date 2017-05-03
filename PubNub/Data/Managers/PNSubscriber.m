@@ -1341,7 +1341,7 @@ NS_ASSUME_NONNULL_END
                      are fast enough to have publish time tokens close to each other.
                      
                      We assume that for all the messages in this subscribe, there wouldn't be
-                     any messages with a time token that is more than 1 second older than any messages
+                     any messages with a time token that is more than X milliseconds older than any messages
                      in the previous messages received in a previous subscribe request.
                      
                      We throw a notification to catch these problems.
@@ -1356,10 +1356,10 @@ NS_ASSUME_NONNULL_END
 
                     if (self.debugLatestPublishTimeToken) {
                         long long debugLatestPublishTimeToken = [self.debugLatestPublishTimeToken longLongValue];
-                        long long diff = (debugLatestPublishTimeToken - timeTokenLong) / (kPNNotificationAssumptionMillis * 10);
-                        if (diff > 1000) {
+                        long long diffMillis = (debugLatestPublishTimeToken - timeTokenLong) / 10000;
+                        if (diffMillis > [self.class PGNotificationAssumptionMillis]) {
                             [[NSNotificationCenter defaultCenter] postNotificationName:kPNNotificationBrokenAssumption
-                                                                                object:@(diff)];
+                                                                                object:@(diffMillis)];
                         }
                     }
 
@@ -1497,5 +1497,16 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark -
 
+NSInteger PGNotificationAssumptionMillis = kPNNotificationAssumptionDefaultMillis;
+
++ (void)setPGNotificationAssumptionMillis:(NSInteger)assumptionMillis {
+    if (assumptionMillis > 0) {
+        PGNotificationAssumptionMillis = assumptionMillis;
+    }
+}
+
++ (NSInteger)PGNotificationAssumptionMillis {
+    return PGNotificationAssumptionMillis;
+}
 
 @end
