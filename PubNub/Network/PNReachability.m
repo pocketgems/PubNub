@@ -176,7 +176,6 @@ NS_ASSUME_NONNULL_END
         // In most cases if referenced object become 'nil' it mean what there is no more need in
         // it and probably whole client instance has been deallocated.
         #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
         #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
         // Try to request 'time' API to ensure what network really available.
         __weak __typeof(self) weakSelf = self;

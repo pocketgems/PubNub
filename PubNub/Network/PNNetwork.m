@@ -552,16 +552,9 @@ NS_ASSUME_NONNULL_END
     __weak __typeof(self) weakSelf = self;
     NSURLSessionDataTaskCompletion handler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response,
                                                NSError * _Nullable error) {
-        
-        // Silence static analyzer warnings.
-        // Code is aware about this case and at the end will simply call on 'nil' object method.
-        // In most cases if referenced object become 'nil' it mean what there is no more need in
-        // it and probably whole client instance has been deallocated.
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
+
         [weakSelf handleData:data loadedWithTask:task error:(error?: task.error)
                 usingSuccess:success failure:failure];
-        #pragma clang diagnostic pop
     };
     OSSpinLockLock(&_lock);
     task = [self.session dataTaskWithRequest:request completionHandler:[handler copy]];
@@ -640,12 +633,6 @@ NS_ASSUME_NONNULL_END
     }
     
     [self appendRequiredParametersTo:parameters];
-    // Silence static analyzer warnings.
-    // Code is aware about this case and at the end will simply call on 'nil' object method.
-    // In most cases if referenced object become 'nil' it mean what there is no more need in
-    // it and probably whole client instance has been deallocated.
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wreceiver-is-weak"
     NSURL *requestURL = [PNURLBuilder URLForOperation:operationType withParameters:parameters];
     if (requestURL) {
         
@@ -680,7 +667,6 @@ NS_ASSUME_NONNULL_END
             else { ((PNStatusBlock)block)(badRequestStatus); }
         }
     }
-    #pragma clang diagnostic pop
 }
 
 - (void)parseData:(nullable id)data withParser:(Class <PNParser>)parser
@@ -694,15 +680,7 @@ NS_ASSUME_NONNULL_END
             block(processedData, (parser == [PNErrorParser class]));
         }
         else {
-            
-            // Silence static analyzer warnings.
-            // Code is aware about this case and at the end will simply call on 'nil' object method.
-            // In most cases if referenced object become 'nil' it mean what there is no more need in
-            // it and probably whole client instance has been deallocated.
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wreceiver-is-weak"
             [weakSelf parseData:data withParser:[PNErrorParser class] completion:[block copy]];
-            #pragma clang diagnostic pop
         }
     };
     
@@ -859,17 +837,9 @@ NS_ASSUME_NONNULL_END
     __weak __typeof(self) weakSelf = self;
     [self parseData:responseObject withParser:[self parserForOperation:operation]
          completion:^(NSDictionary *parsedData, BOOL parseError) {
-
-             // Silence static analyzer warnings.
-             // Code is aware about this case and at the end will simply call on 'nil' object method.
-             // In most cases if referenced object become 'nil' it mean what there is no more need in
-             // it and probably whole client instance has been deallocated.
-             #pragma clang diagnostic push
-             #pragma clang diagnostic ignored "-Wreceiver-is-weak"
              [weakSelf handleParsedData:parsedData loadedWithTask:task forOperation:operation
                           parsedAsError:parseError processingError:task.error
                         completionBlock:[block copy]];
-             #pragma clang diagnostic pop
          }];
 }
 
@@ -946,7 +916,6 @@ NS_ASSUME_NONNULL_END
     // In most cases if referenced object become 'nil' it mean what there is no more need in
     // it and probably whole client instance has been deallocated.
     #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wreceiver-is-weak"
     #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
     [self.client appendClientInformation:result];
     [self.client appendClientInformation:status];

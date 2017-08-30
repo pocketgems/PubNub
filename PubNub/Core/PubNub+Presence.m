@@ -137,13 +137,6 @@ NS_ASSUME_NONNULL_END
     __weak __typeof(self) weakSelf = self;
     [self processOperation:operation withParameters:parameters completionBlock:^(PNResult * _Nullable result,
                                                                                  PNStatus * _Nullable status) {
-               
-        // Silence static analyzer warnings.
-        // Code is aware about this case and at the end will simply call on 'nil' object
-        // method. In most cases if referenced object become 'nil' it mean what there is no
-        // more need in it and probably whole client instance has been deallocated.
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
         if (status.isError) {
 
             status.retryBlock = ^{
@@ -153,7 +146,6 @@ NS_ASSUME_NONNULL_END
             };
         }
         [weakSelf callBlock:block status:NO withResult:result andStatus:status];
-        #pragma clang diagnostic pop
     }];
 }
 
@@ -173,19 +165,11 @@ NS_ASSUME_NONNULL_END
     __weak __typeof(self) weakSelf = self;
     [self processOperation:PNWhereNowOperation withParameters:parameters
            completionBlock:^(PNResult * _Nullable result, PNStatus * _Nullable status) {
-               
-        // Silence static analyzer warnings.
-        // Code is aware about this case and at the end will simply call on 'nil' object
-        // method. In most cases if referenced object become 'nil' it mean what there is no
-        // more need in it and probably whole client instance has been deallocated.
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wreceiver-is-weak"
         if (status.isError) {
 
             status.retryBlock = ^{ [weakSelf whereNowUUID:uuid withCompletion:block]; };
         }
         [weakSelf callBlock:block status:NO withResult:result andStatus:status];
-        #pragma clang diagnostic pop
     }];
 }
 
@@ -227,15 +211,7 @@ NS_ASSUME_NONNULL_END
             
             [self processOperation:PNHeartbeatOperation withParameters:parameters
                    completionBlock:^(PNStatus *status) {
-                       
-               // Silence static analyzer warnings.
-               // Code is aware about this case and at the end will simply call on 'nil' object
-               // method. In most cases if referenced object become 'nil' it mean what there is no
-               // more need in it and probably whole client instance has been deallocated.
-               #pragma clang diagnostic push
-               #pragma clang diagnostic ignored "-Wreceiver-is-weak"
                [weakSelf callBlock:block status:YES withResult:nil andStatus:status];
-               #pragma clang diagnostic pop
            }];
         }
     });
