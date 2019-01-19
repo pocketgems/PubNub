@@ -171,6 +171,9 @@ NS_ASSUME_NONNULL_END
 
 - (nullable NSString *)uniqueDeviceIdentifier {
     
+#if __MAC_OS_X_VERSION_MIN_REQUIRED
+    return [self generateUniqueDeviceIdentifier];
+#else //__MAC_OS_X_VERSION_MIN_REQUIRED
     __block NSString *identifier = nil;
     [PNKeychain valueForKey:kPNConfigurationDeviceIDKey withCompletionBlock:^(id value) {
         
@@ -184,6 +187,7 @@ NS_ASSUME_NONNULL_END
     }];
     
     return identifier;
+#endif //__MAC_OS_X_VERSION_MIN_REQUIRED
 }
 
 - (nullable NSString *)generateUniqueDeviceIdentifier {
