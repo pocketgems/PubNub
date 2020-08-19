@@ -711,14 +711,23 @@ NS_ASSUME_NONNULL_END
 
 - (void)cancelAllRequests {
 
+// The lock and unlock are done in separate threads, which upsets the deadlock detector on Android
+#ifdef PGDROID
+    OSSpinLockLock_nocheck(&_lock);
+#else
     OSSpinLockLock(&_lock);
+#endif
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks,
                                                   NSArray *downloadTasks) {
         
         [dataTasks makeObjectsPerformSelector:@selector(cancel)];
         [uploadTasks makeObjectsPerformSelector:@selector(cancel)];
         [downloadTasks makeObjectsPerformSelector:@selector(cancel)];
+#ifdef PGDROID
+        OSSpinLockUnlock_nocheck(&self->_lock);
+#else
         OSSpinLockUnlock(&self->_lock);
+#endif
     }];
 }
 
