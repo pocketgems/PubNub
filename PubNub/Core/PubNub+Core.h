@@ -182,6 +182,11 @@ configuration.TLSEnabled = NO;
                 callbackQueue:(nullable dispatch_queue_t)callbackQueue
                    completion:(void(^)(PubNub *client))block;
 
+/* This will update the pubnub authkey that was required after the AccessManager V3 upgrade.
+ In Access Manager v3, adding channels to existing tokens(authKey) is no longer possible. 
+ Instead, we need to obtain a new token each time a user is added to a new channel.*/
+
+- (void)updateAuthKey:(NSString *)authKey;
 #pragma mark -
 
 
