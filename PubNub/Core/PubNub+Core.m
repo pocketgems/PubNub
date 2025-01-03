@@ -343,6 +343,10 @@ NS_ASSUME_NONNULL_END
     }
 }
 
+- (void)updateAuthKey:(NSString *)authKey
+{
+    self.configuration.authKey = authKey;
+}
 
 #pragma mark - Fabric support
 #ifdef FABRIC_SUPPORT
